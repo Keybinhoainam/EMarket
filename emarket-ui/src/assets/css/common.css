@@ -1,0 +1,42 @@
+/* .title{
+    text-align: center;
+    padding: 0px 25px;
+}
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+  }
+  
+  nav {
+    padding: 30px;
+  }
+  
+  nav a {
+    font-weight: bold;
+    color: #2c3e50;
+  }
+  
+  nav a.router-link-exact-active {
+    color: #42b983;
+  }
+  .nnav{
+    padding: 0px 5px;
+  }
+
+.login_form{
+  text-align: justify;
+} */
+:root{
+  --primary-font-family: 'Poppins', sans-serif;
+  --light-white:#f5f8fa;
+  --gray:#5e6278;
+  --gray-1:#e3e3e3;
+
+}
+body{
+  font-family: var(--primary-font-family);
+  front-size:14px
+}
