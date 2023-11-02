@@ -32,8 +32,8 @@ class ProductService {
     }
     async getProduct(url, config) {
         return await axios.get(url, config).then(
-            (product) => {
-                return Promise.resolve(product);
+            (res) => {
+                return Promise.resolve(res.data);
             },
             (error) => {
                 return Promise.reject(error);

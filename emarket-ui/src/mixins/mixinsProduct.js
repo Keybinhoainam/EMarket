@@ -13,44 +13,34 @@ export default {
         getImageURL(filename) {
             return `${this.baseGetImageUrl}${filename}`;
         },
-        getProduct() {
+        async getProduct() {
             const route = useRoute();
             if (route.params.id) {
                 this.isEdit = true;
-                productService
-                    .getProduct(
+                try {
+                    this.product = await productService.getProduct(
                         `${this.editProductUrl}${route.params.id}`,
                         this.config
-                    )
-                    .then(
-                        (res) => {
-                            this.product = res.data;
-                            let length = this.product.product_images.length;
-                            console.log("length product_image: "+length);
-                            for (let i = 0; i < length; i++) {
-                                let fileName =
-                                    this.product.product_images[i].image;
-                                let src = this.getImageURL(fileName);
-                                productService
-                                    .getProductImageFile(
-                                        src,
-                                        fileName,
-                                        "image/*"
-                                    )
-                                    .then((data) => {
-                                        this.product.product_images[i] = data;
-                                        if(i==length-1)this.applyImages();
-                                    });
-                            }
-                        },
-                        () => {
-                            this.alertFail(
-                                "Failed to edit an product !",
-                                "product not exists"
-                            );
-                            this.$router.push({ name: "Product" });
-                        }
                     );
+                    let length = this.product.product_images.length;
+                    for (let i = 0; i < length; i++) {
+                        let fileName = this.product.product_images[i].image;
+                        let src = this.getImageURL(fileName);
+                        this.product.product_images[i] =
+                            await productService.getProductImageFile(
+                                src,
+                                fileName,
+                                "image/*"
+                            );
+                        if(i==length-1)this.applyImages();
+                    }
+                } catch (error) {
+                    this.alertFail(
+                        "Failed to edit an product !",
+                        "product not exists"
+                    );
+                    this.$router.push({ name: "Product" });
+                }
             }
         },
         checkCategoryEmpty() {

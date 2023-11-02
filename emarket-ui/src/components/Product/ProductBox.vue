@@ -1,10 +1,10 @@
 <template>
-    <div class="card h-100 w-100" width = "1000" height = "1000">
+    <div class="card h-100 w-100" width="1000" height="1000">
         <div class="embed-responsive embed-responsive-16by9">
-            
             <img
-                class="card-img-top embed-responsive-item " 
-                width = "300" height = "300"
+                class="card-img-top embed-responsive-item"
+                width="300"
+                height="300"
                 :src="
                     product.product_images.length > 0 &&
                     product.product_images[0].image != null
@@ -43,16 +43,15 @@ import sweetAlert from "@/mixins/sweetAlert";
 import VLazyImage from "v-lazy-image";
 export default {
     name: "ProductBox",
-    props: ["product","baseURL"],
+    props: ["product", "baseURL"],
     mixins: [getFile, sweetAlert, mixinsProduct],
-    components:{VLazyImage},
+    components: { VLazyImage },
     data() {
         return {
             baseGetImageUrl: `${this.baseURL}/data/file/images/`,
-            noImageUrl:
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png",
+            noImageUrl: "@/assets/images/noImage.webp",
         };
-    }
+    },
 };
 </script>
 

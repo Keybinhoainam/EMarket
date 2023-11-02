@@ -150,12 +150,12 @@
                     <div class="form-group">
                         <label>Image</label>
                         <div
-                            v-for="(image, key) in product.product_images"
+                            v-for="(img, key) in product.product_images"
                             :key="key"
                             class="imagePreviewWrapper"
                         >
                             <div class="imagePreviewWrapper">
-                                <img :ref="'image'" src="" alt=""  class="image-holder"/>
+                                <img :ref="'image'" :src="require('@/assets/images/noImage.webp')" alt="" :aria-placeholder="require('@/assets/images/noImage.webp')"  class="image-holder" width = "250" height = "250"/>
                                 <button
                                     type="button"
                                     @click="removeImage(key)"
@@ -190,6 +190,7 @@ import productService from "@/services/product.service";
 import sweetAlert from "@/mixins/sweetAlert";
 import mixinsProduct from "@/mixins/mixinsProduct";
 import Cookies from "js-cookie";
+import { getCurrentInstance } from "vue";
 export default {
     props: ["baseURL", "products", "categories", "config", "schema"],
     data() {
@@ -198,6 +199,7 @@ export default {
             saveProductUrl: `${this.baseURL}/seller/product/save`,
             saveProductImagesUrl: `${this.baseURL}/seller/product/images/save`,
             editProductUrl: `${this.baseURL}/data/product/get/`,
+            noImageUrl: "@/assets/images/noImage.webp",
             previewImage: null,
             isEdit: false,
         };
@@ -208,29 +210,33 @@ export default {
     //   VueMultiImageUpload
     // },
     async created() {
-        this.getProduct();
+        await this.getProduct();
         this.checkCategoryEmpty();
+        
     },
     methods: {
         uploadImages(e) {
             let selectedFiles = e.target.files;
-            // console.log(e.target.files);
             for (let i = 0; i < selectedFiles.length; i++) {
                 this.product.product_images.push(selectedFiles[i]);
-                // console.log(selectedFiles[i]);
             }
             this.applyImages();
         },
-        applyImages() {
-            // console.log('applyImage: length - '+this.product.product_images.length);
-            console.log("* length product_image: "+this.product.product_images.length);
+        async applyImages() {
             for (let i = 0; i < this.product.product_images.length; i++) {
-                // console.log('applyImage: length - '+i);
+                
                 let reader = new FileReader();
+                //#lỗi khi add ảnh mới, this.$refs.image[i].src bị undefine => dữ liệu trên Dom chưa được cập nhật ở hàm uploadImages hoặc removeImage khi vào hàm applyImages 
+                // console.log(this.$refs.image[i].src);
                 reader.onload = (e) => {
-                    this.$refs.image[i].src = reader.result;
+                    if(reader.readyState == FileReader.DONE){
+                        this.$refs.image[i].src = reader.result;
+                        // console.log(this.$refs.image[i].src);
+                    }
+                    
+                    
                 };
-                reader.readAsDataURL(this.product.product_images[i]);
+                await reader.readAsDataURL(this.product.product_images[i]);
                 // console.log(reader.readyState);
             }
         },
@@ -302,8 +308,8 @@ h4 {
 }
 .imagePreviewWrapper {
     background-repeat: no-repeat;
-    width: 250px;
-    height: 250px;
+    width: 300px;
+    height: 300px;
     display: inline-flex;
     cursor: pointer;
     margin: 0;
@@ -312,5 +318,6 @@ h4 {
 }
 .image-holder {
   float: left;
+  object-fit: fill;
 }
 </style>
