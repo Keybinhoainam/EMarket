@@ -53,7 +53,7 @@ Thumbs.db
 
 
 #####EMarket
-EMarket/HELP.md
+#EMarket/HELP.md
 EMarket/target/
 !EMarket/.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
