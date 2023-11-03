@@ -191,6 +191,7 @@ import sweetAlert from "@/mixins/sweetAlert";
 import mixinsProduct from "@/mixins/mixinsProduct";
 import Cookies from "js-cookie";
 import { getCurrentInstance } from "vue";
+import { nextTick } from 'vue'
 export default {
     props: ["baseURL", "products", "categories", "config", "schema"],
     data() {
@@ -198,7 +199,6 @@ export default {
             product: new Product(),
             saveProductUrl: `${this.baseURL}/seller/product/save`,
             saveProductImagesUrl: `${this.baseURL}/seller/product/images/save`,
-            editProductUrl: `${this.baseURL}/data/product/get/`,
             noImageUrl: "@/assets/images/noImage.webp",
             previewImage: null,
             isEdit: false,
@@ -210,7 +210,9 @@ export default {
     //   VueMultiImageUpload
     // },
     async created() {
+        
         await this.getProduct();
+        this.applyImages();
         this.checkCategoryEmpty();
         
     },
@@ -220,9 +222,11 @@ export default {
             for (let i = 0; i < selectedFiles.length; i++) {
                 this.product.product_images.push(selectedFiles[i]);
             }
+            nextTick();
             this.applyImages();
         },
         async applyImages() {
+            await nextTick();
             for (let i = 0; i < this.product.product_images.length; i++) {
                 
                 let reader = new FileReader();
@@ -236,12 +240,13 @@ export default {
                     
                     
                 };
-                await reader.readAsDataURL(this.product.product_images[i]);
+                reader.readAsDataURL(this.product.product_images[i]);
                 // console.log(reader.readyState);
             }
         },
-        removeImage(index) {
+         removeImage(index) {
             this.product.product_images.splice(index, 1);
+            
             this.applyImages();
             //this.$refs.image[index].src = "" // You are hidding the 3rd one that is now in index 1.
         },

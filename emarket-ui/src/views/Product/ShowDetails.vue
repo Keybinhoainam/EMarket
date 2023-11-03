@@ -6,9 +6,9 @@
                 <img
                     class="card-img-top embed-responsive-item"
                     :src="
-                        product.length > 0
-                            ? product.product_images[0].image
-                            : noImageUrl
+                        product.product_images.length > 0
+                            ? getImageURL(product.product_images[0].image)
+                            : require('@/assets/images/noImage.webp')
                     "
                     alt="Product Image"
                 />
@@ -104,12 +104,15 @@
 import Product from '@/models/product';
 import productService from '@/services/product.service';
 import { useRoute } from 'vue-router';
+import mixinsProduct from '@/mixins/mixinsProduct';
+import sweetAlert from '@/mixins/sweetAlert';
+import { nextTick } from 'vue';
 
 export default {
     data() {
         return {
             product:new Product(),
-            noImageUrl:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png",
+            noImageUrl:"@/assets/images/noImage.webp",
             isAddedToWishlist: false,
             wishlistString: "Add to wishlist",
             quantity: 1,
@@ -117,6 +120,7 @@ export default {
         };
     },
     props: ["baseURL", "products", "categories"],
+    mixins:[mixinsProduct,sweetAlert],
     methods: {
         addToWishList(productId) {
             // axios
@@ -179,27 +183,9 @@ export default {
             // );
         },
     },
-    created() {
-      const route = useRoute();
-        if (route.params.id) {
-            productService
-                .getProduct(
-                    `${this.getProductUrl}${route.params.id}`,
-                    this.config
-                )
-                .then(
-                    (res) => {
-                        this.product = res.data;
-                    },
-                    () => {
-                        this.alertFail(
-                            "Failed to Load an product !",
-                            "product not exists"
-                        );
-                        this.$router.push({ name: "Product" });
-                    }
-                );
-        }
+    async created() {
+        await this.getProduct();
+        await nextTick();
     },
     mounted() {
         
