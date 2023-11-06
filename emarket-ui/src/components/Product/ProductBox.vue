@@ -9,7 +9,7 @@
                     product.product_images.length > 0 &&
                     product.product_images[0].image != null
                         ? getImageURL(product.product_images[0].image)
-                        : noImageUrl
+                        : require('@/assets/images/noImage.webp')
                 "
                 alt="Product Image"
             />
@@ -49,7 +49,7 @@ export default {
     data() {
         return {
             baseGetImageUrl: `${this.baseURL}/data/file/images/`,
-            noImageUrl: "@/assets/images/noImage.webp",
+            noImageUrl: '@/assets/images/noImage.webp',
         };
     },
 };

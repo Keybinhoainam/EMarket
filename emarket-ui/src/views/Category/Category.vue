@@ -36,7 +36,7 @@
                             ></router-link>
                             <button
                                 class="btn btn-danger mx-2"
-                                @click="deleteCategory(category.id)"
+                                @click="delete(category.id)"
                             >
                                 <i class="fa fa-recycle"></i>
                             </button>
@@ -55,6 +55,7 @@
 <script>
 import Sidebar from "@/components/Sidebar.vue";
 import sweetAlert from "@/mixins/sweetAlert";
+import mixinsCategory from "@/mixins/mixinsCategory";
 import { getCurrentInstance } from "vue";
 import categoryService from "@/services/category.service";
 import authHeader from "@/services/authHeader";
@@ -68,40 +69,15 @@ export default {
             urlDelete: `${this.baseURL}/seller/category/delete/`,
         };
     },
-    mixins: [sweetAlert],
+    mixins: [sweetAlert,mixinsCategory],
     props: ["baseURL", "products", "categories", "config"],
     methods: {
         forcesUpdate() {
             const instance = getCurrentInstance();
             instance.proxy.forceUpdate();
         },
-        deleteCategory(id) {
-            this.alertWarning(
-                "Are you sure?",
-                "You won't be able to revert this!",
-                "Yes, delete it!"
-            ).then((result) => {
-                if (result.isConfirmed) {
-                    categoryService
-                        .deleteCategory(`${this.urlDelete}${id}`, this.config)
-                        .then(
-                            () => {
-                                this.alertSuccess(
-                                    "Deleted!",
-                                    "Your category has been deleted."
-                                );
-                            },
-                            (error) => {
-                                this.alertFail(
-                                    `Failed to delete category with id = ${id}!`,
-                                    error.message
-                                );
-                            }
-                        );
-                    this.$emit("fetchData");
-                    this.forceUpdate;
-                }
-            });
+        delete(id) {
+            this.deleteCategory(id);
         },
     },
     created() {

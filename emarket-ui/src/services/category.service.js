@@ -13,8 +13,8 @@ class CategoryService {
     }
     getCategory(url,config) {
         return axios.get(url,config).then(
-            (category) => {
-                return Promise.resolve(category);
+            (res) => {
+                return Promise.resolve(res.data);
             },
             (error) => {
                 return Promise.reject(error);
