@@ -6,9 +6,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,14 +33,17 @@ public class ProductService {
 	@Autowired
 	FilesStorageService storageService;
 
-	public Product getProduct(Long id) throws ProductNotFoundException {
+	public ProductDTO getProduct(Long id) throws ProductNotFoundException {
 		Product p = repository.findProduct(id);
+		
 		if (p == null)
 			throw new ProductNotFoundException("Product is not found");
 //		List<Product_image> images= imageRepository.findByProductId(id);
 //		System.out.println(images.get(0).getId());
 //		p.setProduct_images(images);
-		return p;
+		ProductDTO pdto=new ProductDTO();
+		BeanUtils.copyProperties(p, pdto);
+		return pdto;
 	}
 
 	public ApiResponse saveProduct(Product product) {
@@ -72,9 +77,15 @@ public class ProductService {
 		return images;
 	}
 
-	public List<Product> getAllProducts() {
+	public List<ProductDTO> getAllProducts() {
 		// TODO Auto-generated method stub
-		return repository.findAllProduct();
+		List<ProductDTO> products=repository.findAllProduct().stream().map((product)->{
+			ProductDTO pdto=new ProductDTO();
+			BeanUtils.copyProperties(product, pdto);
+			return pdto;
+		}).collect(Collectors.toList());
+		
+		return products;
 	}
 
 	public ApiResponse getDeleteProduct(Long id) {

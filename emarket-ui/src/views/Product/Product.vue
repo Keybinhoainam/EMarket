@@ -23,13 +23,15 @@
 import ProductBox from "@/components/Product/ProductBox";
 import getFile from "@/mixins/getFile";
 import sweetAlert from '@/mixins/sweetAlert';
+import { nextTick } from "vue";
 export default {
     name: "Product",
     components: { ProductBox },
     props: ["baseURL", "products", "config"],
     mixins: [getFile,sweetAlert],
-    created() {
+    async created() {
         this.$emit("fetchData");
+        await nextTick();
     },
 };
 </script>

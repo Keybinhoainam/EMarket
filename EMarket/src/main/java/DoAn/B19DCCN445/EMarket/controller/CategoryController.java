@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import DoAn.B19DCCN445.EMarket.common.ApiResponse;
 import DoAn.B19DCCN445.EMarket.model.Category;
+import DoAn.B19DCCN445.EMarket.model.Product;
 import DoAn.B19DCCN445.EMarket.service.CategoryService;
 
 @RestController
@@ -37,5 +38,10 @@ public class CategoryController {
 	@DeleteMapping("/seller/category/delete/{id}")
 	private ResponseEntity<ApiResponse> getDeleteCategory(@PathVariable Long id) {
 		return ResponseEntity.ok(categoryService.getDeleteCategory(id));
+	}
+	@GetMapping("/data/category/product/get/{categoryId}")
+	private ResponseEntity<Category> getProductsCategory(@PathVariable("categoryId") Long categoryId) {
+		Category category=categoryService.getProductsCategory(categoryId);
+		return ResponseEntity.ok(category);
 	}
 }

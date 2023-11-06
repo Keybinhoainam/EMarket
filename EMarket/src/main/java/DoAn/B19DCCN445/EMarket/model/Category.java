@@ -1,10 +1,12 @@
 package DoAn.B19DCCN445.EMarket.model;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Set;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -17,9 +19,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 @Data
 @Entity
@@ -41,5 +45,6 @@ public class Category {
 	private Timestamp update_at;
 	
 	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Product> products;
+	@JsonManagedReference
+	private Collection<Product> products;
 }

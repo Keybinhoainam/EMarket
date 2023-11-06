@@ -1,0 +1,82 @@
+<template>
+    <div id="home">
+        <hr />
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-left">
+                    <h2 class="pt-3">Products of {{ category.category_name }}</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div
+                    v-for="product of category.products"
+                    :key="product"
+                    class="col-md-6 col-xl-4 col-12 pt-3 justify-content-around d-flex"
+                >
+                    <ProductBox :product="product" :baseURL="baseURL"> </ProductBox>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import ProductBox from "@/components/Product/ProductBox";
+import CategoryBox from "@/components/Category/CategoryBox";
+import Category from "@/models/category";
+import mixinsCategory from '@/mixins/mixinsCategory';
+import { useRoute } from 'vue-router';
+export default {
+    name: "Home",
+    components: { ProductBox, CategoryBox },
+    props: ["baseURL", "products", "categories"],
+    mixins:[mixinsCategory],
+    data() {
+        return {
+            category: new Category(),
+        };
+    },
+    async created() {
+        const route=useRoute();
+        if(route.params.id){
+            this.getProductsCategory(route.params.id);
+        }
+    },
+    mounted() {
+        // this.category_size = this.categories.length;
+        // this.category_size = Math.min(6, this.category_size);
+        // this.product_size = this.products.length;
+        // this.product_size = Math.min(8, this.product_size);
+    },
+};
+</script>
+
+<style>
+.page-holder {
+    min-height: 100vh;
+}
+
+.bg-cover {
+    background-size: cover !important;
+}
+
+#background-div {
+    /* background: url(../assets/home.png) */
+}
+
+#heading {
+    text-decoration: none;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    opacity: 0.8;
+    font-family: "Josefin Sans", sans-serif;
+}
+
+#content {
+    opacity: 0.8;
+}
+
+h2 {
+    font-family: "Josefin Sans", sans-serif;
+}
+</style>

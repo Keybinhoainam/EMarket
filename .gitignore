@@ -56,8 +56,8 @@ Thumbs.db
 #EMarket/HELP.md
 EMarket/target/
 !EMarket/.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+!EMarket/**/src/main/**/target/
+!EMarket/**/src/test/**/target/
 
 ### STS ###
 EMarket/.apt_generated

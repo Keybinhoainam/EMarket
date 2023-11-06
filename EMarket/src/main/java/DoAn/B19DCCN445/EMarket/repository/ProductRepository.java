@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import DoAn.B19DCCN445.EMarket.model.Category;
 import DoAn.B19DCCN445.EMarket.model.Product;
 import DoAn.B19DCCN445.EMarket.model.Product_image;
 
@@ -28,5 +29,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	@Query("select p from Product p " + "left join fetch p.category " + "left join fetch p.store "
 			+ "where p.product_name like ?1")
 	ArrayList<Product> findByLikeName(String name);
+	
+	List<Product> findByCategory(Category category);
 
 }

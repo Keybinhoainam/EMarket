@@ -32,7 +32,7 @@ public class ProductController {
 	private ProductService productService;
 	
 	@GetMapping("/data/product/get/{id}")
-	private ResponseEntity<Product> Product(@PathVariable Long id) throws ProductNotFoundException {
+	private ResponseEntity<ProductDTO> Product(@PathVariable Long id) throws ProductNotFoundException {
 		return ResponseEntity.ok(productService.getProduct(id));
 	}
 	@PostMapping("/seller/product/save")
@@ -47,9 +47,10 @@ public class ProductController {
 	}
 	
 	@GetMapping("/data/product/getallproducts")
-	private ResponseEntity<List<Product>> getAllProducts() {
+	private ResponseEntity<List<ProductDTO>> getAllProducts() {
 		return ResponseEntity.ok(productService.getAllProducts());
 	}
+	
 	@DeleteMapping("/seller/product/delete/{id}")
 	private ResponseEntity<ApiResponse> getDeleteProduct(@PathVariable Long id) {
 		return ResponseEntity.ok(productService.getDeleteProduct(id));

@@ -21,6 +21,16 @@ class CategoryService {
             }
         );
     }
+    getProductsCategory(url,config) {
+        return axios.get(url,config).then(
+            (res) => {
+                return Promise.resolve(res.data);
+            },
+            (error) => {
+                return Promise.reject(error);
+            }
+        );
+    }
     getAllCategories(url,config) {
         return axios.get(url,config).then(
             (categories) => {

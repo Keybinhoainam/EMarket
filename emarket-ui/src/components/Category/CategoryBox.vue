@@ -9,10 +9,10 @@
     </div>
 
     <div class="card-body">
-      <!-- <router-link :to="{ name: 'ListProducts', params: { id: category.id } }"
-        ><h5 class="card-title">{{ category.categoryName }}</h5></router-link
-      > -->
-      <h5 class="card-title">{{ category.category_name }}</h5>
+      <router-link :to="{ name: 'ShowProductsCategory', params: { id: category.id } }"
+        ><h5 class="card-title">{{ category.category_name }}</h5></router-link
+      >
+      <!-- <h5 class="card-title">{{ category.category_name }}</h5> -->
       <p class="card-text font-italic">
         {{ category.description }}...
       </p>

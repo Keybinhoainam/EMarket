@@ -3,15 +3,18 @@
         <div class="row pt-5">
             <div class="col-md-1"></div>
             <div class="col-md-4 col-12">
-                <img
-                    class="card-img-top embed-responsive-item"
-                    :src="
-                        product.product_images.length > 0
-                            ? getImageURL(product.product_images[0].image)
-                            : require('@/assets/images/noImage.webp')
-                    "
-                    alt="Product Image"
-                />
+                <div
+                    v-for="(img, key) in product.product_images"
+                    :key="key"
+                    class="imagePreviewWrapper"
+                >
+                    <img
+                        class="card-img-top embed-responsive-item"
+                        :ref="'image'"
+                        :src="require('@/assets/images/noImage.webp')"
+                        alt="Product Image"
+                    />
+                </div>
             </div>
             <div class="col-md-6 col-12 pt-3 pt-md-0">
                 <h4>{{ product.product_name }}</h4>
@@ -26,15 +29,9 @@
                 <div class="d-flex flex-row justify-content-between">
                     <div class="input-group col-md-3 col-4 p-0">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1"
-                                >Quantity</span
-                            >
+                            <span class="input-group-text" id="basic-addon1">Quantity</span>
                         </div>
-                        <input
-                            class="form-control"
-                            type="number"
-                            v-bind:value="quantity"
-                        />
+                        <input class="form-control" type="number" v-bind:value="quantity" />
                     </div>
 
                     <div class="input-group col-md-3 col-4 p-0">
@@ -53,33 +50,20 @@
                 <div class="features pt-3">
                     <h5><strong>Features</strong></h5>
                     <ul>
-                        <li>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit.
-                        </li>
-                        <li>
-                            Officia quas, officiis eius magni error magnam
-                            voluptatem
-                        </li>
-                        <li>
-                            nesciunt quod! Earum voluptatibus quaerat dolorem
-                            doloribus
-                        </li>
-                        <li>
-                            molestias ipsum ab, ipsa consectetur laboriosam
-                            soluta et
-                        </li>
-                        <li>
-                            ut doloremque dolore corrupti, architecto iusto
-                            beatae.
-                        </li>
+                        <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
+                        <li>Officia quas, officiis eius magni error magnam voluptatem</li>
+                        <li>nesciunt quod! Earum voluptatibus quaerat dolorem doloribus</li>
+                        <li>molestias ipsum ab, ipsa consectetur laboriosam soluta et</li>
+                        <li>ut doloremque dolore corrupti, architecto iusto beatae.</li>
                     </ul>
                 </div>
 
                 <button
                     id="wishlist-button"
                     class="btn mr-3 p-1 py-0"
-                    :class="{ product_added_wishlist: isAddedToWishlist }"
+                    :class="{
+                        product_added_wishlist: isAddedToWishlist,
+                    }"
                     @click="addToWishList(this.id)"
                 >
                     {{ wishlistString }}
@@ -101,26 +85,26 @@
 </template>
 
 <script>
-import Product from '@/models/product';
-import productService from '@/services/product.service';
-import { useRoute } from 'vue-router';
-import mixinsProduct from '@/mixins/mixinsProduct';
-import sweetAlert from '@/mixins/sweetAlert';
-import { nextTick } from 'vue';
+import Product from "@/models/product";
+import productService from "@/services/product.service";
+import { useRoute } from "vue-router";
+import mixinsProduct from "@/mixins/mixinsProduct";
+import sweetAlert from "@/mixins/sweetAlert";
+import { nextTick } from "vue";
 
 export default {
     data() {
         return {
-            product:new Product(),
-            noImageUrl:"@/assets/images/noImage.webp",
+            product: new Product(),
+            noImageUrl: "@/assets/images/noImage.webp",
             isAddedToWishlist: false,
             wishlistString: "Add to wishlist",
             quantity: 1,
-            getProductUrl:`${this.baseURL}/data/product/get/`
+            getProductUrl: `${this.baseURL}/data/product/get/`,
         };
     },
     props: ["baseURL", "products", "categories"],
-    mixins:[mixinsProduct,sweetAlert],
+    mixins: [mixinsProduct, sweetAlert],
     methods: {
         addToWishList(productId) {
             // axios
@@ -184,12 +168,14 @@ export default {
         },
     },
     async created() {
-        await this.getProduct();
+        const route = useRoute();
+        if (route.params.id) {
+            await this.getProduct(route.params.id);
+        }
+        this.applyImages();
         await nextTick();
     },
-    mounted() {
-        
-    },
+    mounted() {},
 };
 </script>
 

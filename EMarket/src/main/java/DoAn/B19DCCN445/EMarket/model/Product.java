@@ -4,8 +4,11 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -54,25 +57,34 @@ public class Product {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "category_id")
+	@JsonBackReference
 	private Category category;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "store_id")
 	private Store store;
 
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@Fetch(FetchMode.SUBSELECT)
 	private Set<Shop_export_detail> shop_export_details;
+	@Fetch(FetchMode.SUBSELECT)
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Order_detail> order_details;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@Fetch(FetchMode.SUBSELECT)
 	private Set<Product_review> product_reviews;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@Fetch(FetchMode.SUBSELECT)
 	private Set<Product_voucher> product_vouchers;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@Fetch(FetchMode.SUBSELECT)
 	private Collection<Product_image> product_images;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@Fetch(FetchMode.SUBSELECT)
 	private Set<Product_discount> product_discounts;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@Fetch(FetchMode.SUBSELECT)
 	private Set<Shop_import_detail> shop_import_details;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@Fetch(FetchMode.SUBSELECT)
 	private Set<Cart_detail> cart_details;
 }

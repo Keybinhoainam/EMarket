@@ -1,5 +1,6 @@
 import Product from "@/models/product";
 import productService from "@/services/product.service";
+import { nextTick } from "vue";
 import { useRoute } from "vue-router";
 export default {
   data() {
@@ -14,13 +15,27 @@ export default {
     getImageURL(filename) {
       return `${this.baseGetImageUrl}${filename}`;
     },
-    async getProduct() {
-      const route = useRoute();
-      if (route.params.id) {
-        this.isEdit = true;
+    async applyImages() {
+      await nextTick();
+      for (let i = 0; i < this.product.product_images.length&&i<this.$refs.image.length; i++) {
+        let reader = new FileReader();
+        //#lỗi khi add ảnh mới, this.$refs.image[i].src bị undefine => dữ liệu trên Dom chưa được cập nhật ở hàm uploadImages hoặc removeImage khi vào hàm applyImages
+        // console.log(this.$refs.image[i].src);
+        reader.onload = (e) => {
+          if (reader.readyState == FileReader.DONE) {
+            this.$refs.image[i].src = reader.result;
+            // console.log(this.$refs.image[i].src);
+          }
+        };
+        reader.readAsDataURL(this.product.product_images[i]);
+        // console.log(reader.readyState);
+      }
+    },
+    async getProduct(id) {
+      if (id) {
         try {
           this.product = await productService.getProduct(
-            `${this.getProductUrl}${route.params.id}`,
+            `${this.getProductUrl}${id}`,
             this.config
           );
           let length = this.product.product_images.length;
@@ -33,7 +48,6 @@ export default {
                 fileName,
                 "image/*"
               );
-              console.log(this.product.product_images[i]);
           }
         } catch (error) {
           this.alertFail("Failed to edit an product !", "product not exists");

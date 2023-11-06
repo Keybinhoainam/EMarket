@@ -32,5 +32,5 @@ public class ProductDTO {
 	private Date update_at;
 	private Category category;
 	private Store store;
-	private MultipartFile[] product_images;
+	private Collection<Product_image> product_images;
 }
