@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -39,7 +40,6 @@ public class Product_image {
 	
 	@ManyToOne(fetch =FetchType.LAZY )
 	@JoinColumn(name = "product_id")
-	@Getter(AccessLevel.NONE)
-//	@Setter(AccessLevel.NONE)
+	@JsonBackReference
 	private Product product;
 }

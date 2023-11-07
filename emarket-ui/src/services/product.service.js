@@ -5,7 +5,7 @@ class ProductService {
     saveProduct(url, product, config) {
         return axios.post(url, product, config).then(
             (res) => {
-                return Promise.resolve(res);
+                return Promise.resolve(res.data);
             },
             (error) => {
                 return Promise.reject(error);
