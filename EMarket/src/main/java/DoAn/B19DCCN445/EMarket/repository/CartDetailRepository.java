@@ -9,10 +9,13 @@ import org.springframework.stereotype.Repository;
 
 import DoAn.B19DCCN445.EMarket.model.Cart_detail;
 import DoAn.B19DCCN445.EMarket.model.User;
+
 @Repository
-public interface CartDetailRepository extends JpaRepository<Cart_detail, Long>{
+public interface CartDetailRepository extends JpaRepository<Cart_detail, Long> {
 //	@Query("select u from User u " + "left join fetch u.store s "
 //			 + "where u.username = ?1 ")
 //	Optional<User> findByUsername(String username);
+	@Query("select cd from Cart_detail cd " + "left join fetch cd.user u " + "left join fetch cd.product "
+			+ "where u = ?1 ")
 	List<Cart_detail> findByUser(User user);
 }

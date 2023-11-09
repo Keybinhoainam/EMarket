@@ -62,31 +62,39 @@ public class Product {
 	private Category category;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "store_id")
+	@JsonBackReference
 	private Store store;
 
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SUBSELECT)
-	private Set<Shop_export_detail> shop_export_details;
+	@JsonManagedReference
+	private Collection<Shop_export_detail> shop_export_details;
 	@Fetch(FetchMode.SUBSELECT)
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Order_detail> order_details;
+	@JsonManagedReference
+	private Collection<Order_detail> order_details;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SUBSELECT)
-	private Set<Product_review> product_reviews;
+	@JsonManagedReference
+	private Collection<Product_review> product_reviews;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SUBSELECT)
-	private Set<Product_voucher> product_vouchers;
+	@JsonManagedReference
+	private Collection<Product_voucher> product_vouchers;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SUBSELECT)
 	@JsonManagedReference
 	private Collection<Product_image> product_images;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SUBSELECT)
-	private Set<Product_discount> product_discounts;
+	@JsonManagedReference
+	private Collection<Product_discount> product_discounts;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SUBSELECT)
-	private Set<Shop_import_detail> shop_import_details;
+	@JsonManagedReference
+	private Collection<Shop_import_detail> shop_import_details;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SUBSELECT)
-	private Set<Cart_detail> cart_details;
+	@JsonManagedReference
+	private Collection<Cart_detail> cart_details;
 }

@@ -2,6 +2,7 @@ package DoAn.B19DCCN445.EMarket.service;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import DoAn.B19DCCN445.EMarket.common.ApiResponse;
 import DoAn.B19DCCN445.EMarket.dto.CartDTO;
+import DoAn.B19DCCN445.EMarket.dto.CartDetailDTO;
 import DoAn.B19DCCN445.EMarket.model.Cart_detail;
 import DoAn.B19DCCN445.EMarket.model.User;
 import DoAn.B19DCCN445.EMarket.repository.AccountRepository;
@@ -39,16 +41,21 @@ public class CartDetailService {
 		}
 		User user= accountRepository.findByUsername(username).get();
 		CartDTO cartDTO=new CartDTO();
-		List<Cart_detail> cart_details=repository.findByUser(user);
-//		System.out.println(cart_details.get(0).getId());
+		List<CartDetailDTO> cart_details=repository.findByUser(user).stream().map(cart_detail->{
+			CartDetailDTO cartDetailDTO=new CartDetailDTO();
+			BeanUtils.copyProperties(cart_detail, cartDetailDTO);
+			return cartDetailDTO;
+		}).toList();
 		cartDTO.setCart_details(cart_details);
 		return cartDTO;
 	}
 
 	public ApiResponse saveCart(CartDTO cartDTO) {
 		// TODO Auto-generated method stub
-		cartDTO.getCart_details().stream().forEach(cartDetail->{
-			repository.save(cartDetail);
+		cartDTO.getCart_details().stream().forEach(cartDetailDTO->{
+			Cart_detail cart_detail=new Cart_detail();
+			BeanUtils.copyProperties(cartDetailDTO, cart_detail);
+			repository.save(cart_detail);
 		});
 		return ApiResponse.builder().message("save Cart successfully!").success(true).build();
 	}

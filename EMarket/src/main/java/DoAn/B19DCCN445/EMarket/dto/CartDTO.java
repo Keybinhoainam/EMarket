@@ -23,5 +23,5 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class CartDTO {
-	List<Cart_detail> cart_details;
+	Collection<CartDetailDTO> cart_details;
 }

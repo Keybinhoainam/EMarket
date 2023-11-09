@@ -11,6 +11,7 @@
             :categories="categories"
             :config="config"
             :schema="schema"
+            :cart="cart"
             @fetchData="fetchData"
         >
         </router-view>
@@ -25,11 +26,13 @@ import categoryService from "./services/category.service";
 import productService from "./services/product.service";
 import * as Yup from "yup";
 import Cookies from "js-cookie";
+import Cart from "./models/cart";
 // import Navbar from './components/Navbar.vue';
 // import Footer from './components/Footer.vue';
 export default {
     data() {
         return {
+            cart:new Cart(),
             baseURL: "http://localhost:8080/api",
             products: null,
             categories: null,
@@ -104,21 +107,24 @@ export default {
         // },
     },
     created() {
-        this.schema = Yup.object().shape({
-            name: Yup.string().required(),
-            email: Yup.string().email().required(),
-            password: Yup.string().min(6).required(),
-            confirm_password: Yup.string()
-                .required()
-                .oneOf([Yup.ref("password")], "Passwords do not match"),
-        });
+        // this.schema = Yup.object().shape({
+        //     name: Yup.string().required(),
+        //     email: Yup.string().email().required(),
+        //     password: Yup.string().min(6).required(),
+        //     confirm_password: Yup.string()
+        //         .required()
+        //         .oneOf([Yup.ref("password")], "Passwords do not match"),
+        // });
         
         // console.log(this.categories);
     },
-    mounted() {
+    async mounted() {
         // this.token = localStorage.getItem("token");
+        if(localStorage.getItem("cart")){
+            this.cart=localStorage.getItem("cart");
+        }
         this.config=authHeader();
-        this.fetchData();
+        await this.fetchData();
     },
 };
 </script>

@@ -5,10 +5,11 @@
                 <h3 class="pt-3">Shopping cart</h3>
             </div>
         </div>
-        <!--    loop over all the cart items and display one by one-->
+        <router-link v-if="cart.cart_details.length==0" :to="{name:'home'}"> <button>Continue shopping</button> </router-link>
+        
         <div
-            v-for="cart_detail in Cart"
-            :key="cart_detail.product.id"
+            v-for="cart_detail in cart.cart_details"
+            :key="cart_detail.id"
             class="row mt-2 pt-3 justify-content-around"
         >
             <div class="col-2"></div>
@@ -80,21 +81,22 @@
 
 <script>
 import mixinsCart from "@/mixins/mixinsCart";
-import Cart from "@/models/Cart";
+import Cart from "@/models/cart";
 import mixinsProduct from '@/mixins/mixinsProduct';
 import sweetAlert from '@/mixins/sweetAlert';
+import { nextTick } from 'vue';
 
 const axios = require("axios");
 export default {
     data() {
         return {
-            cart: new Cart(),
+            
             noImageUrl: '@/assets/images/noImage.webp',
             totalcost: 0,
         };
     },
     name: "Cart",
-    props: ["baseURL", "config"],
+    props: ["baseURL", "config","cart"],
     mixins: [mixinsCart,mixinsProduct,sweetAlert],
     methods: {
         //   isDisabled() {
@@ -145,8 +147,9 @@ export default {
         //     });
         //   },
     },
-    async mounted() {
-        await this.getCart();
+    async created() {
+        
+        // await this.getCart();
     },
 };
 </script>
@@ -180,3 +183,4 @@ h5 {
     font-size: larger;
 }
 </style>
+@/models/cart

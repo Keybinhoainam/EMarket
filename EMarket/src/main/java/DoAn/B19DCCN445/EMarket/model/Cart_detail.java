@@ -7,6 +7,8 @@ import java.util.Set;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
@@ -40,8 +42,10 @@ public class Cart_detail {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_id")
+	@JsonBackReference
 	private User user;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_id")
+	@JsonBackReference
 	private Product product;
 }

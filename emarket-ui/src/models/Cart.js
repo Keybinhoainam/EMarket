@@ -1,5 +1,5 @@
 export default class Cart {
-    constructor(cartDetail=[]){
-        this.cartDetail=cartDetail
+    constructor(cart_details=[]){
+        this.cart_details=cart_details
     }
 }

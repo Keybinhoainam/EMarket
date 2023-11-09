@@ -45,12 +45,14 @@
 <script>
   import ProductBox from "../components/Product/ProductBox";
   import CategoryBox from "../components/Category/CategoryBox";
+import Cart from "@/models/cart";
   export default {
     name: 'Home',
     components : { ProductBox, CategoryBox},
     props : ["baseURL", "products", "categories"],
     data(){
       return{
+        
         category_size:0,
         product_size:0
       }

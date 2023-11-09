@@ -10,7 +10,8 @@ export default {
     methods: {
         async getCart(){
             try {
-                this.cart=await cartService.getCart(this.getCartUrl,this.config)
+                this.cart=await cartService.getCart(this.getCartUrl,this.config);
+                
             } catch (error) {
                 this.alertFail(
                     "Failed to load Cart !"
