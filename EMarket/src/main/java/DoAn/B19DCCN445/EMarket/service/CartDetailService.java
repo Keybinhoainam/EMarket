@@ -40,7 +40,7 @@ public class CartDetailService {
 		User user= accountRepository.findByUsername(username).get();
 		CartDTO cartDTO=new CartDTO();
 		List<Cart_detail> cart_details=repository.findByUser(user);
-		System.out.println(cart_details.get(0).getId());
+//		System.out.println(cart_details.get(0).getId());
 		cartDTO.setCart_details(cart_details);
 		return cartDTO;
 	}
