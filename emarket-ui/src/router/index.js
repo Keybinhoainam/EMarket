@@ -8,6 +8,7 @@ import PageNotFound from '@/views/PageNotFound.vue'
 import Cookies from 'js-cookie';
 import ShowDetailsVue from '@/views/Product/ShowDetails.vue'
 import ProductsCategory from '@/views/Product/ProductsCategory.vue'
+import Cart from '@/views/Cart/Cart.vue'
 const routes = [
   // {
   //   path:'/',
@@ -37,6 +38,14 @@ const routes = [
     path : '/category/products/:id',
     name : 'ShowProductsCategory',
     component: ProductsCategory
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    meta: {
+      requiresAuth: true
+    },
+    component: Cart
   },
   {
     path: '/seller/category/add',

@@ -246,7 +246,7 @@ export default {
 
                 this.config.headers["Accept"] = "application/json";
 
-                productService.saveProduct(this.saveProductUrl, this.product, this.config);
+                await productService.saveProduct(this.saveProductUrl, this.product, this.config);
                 await  this.saveProductImage();
                 this.alertSuccess("create/update an product successfully", "");
                 this.$router.push({ name: "Product" });
