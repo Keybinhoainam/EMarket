@@ -5,8 +5,10 @@
                 <h3 class="pt-3">Shopping cart</h3>
             </div>
         </div>
-        <router-link v-if="cart.cart_details.length==0" :to="{name:'home'}"> <button>Continue shopping</button> </router-link>
-        
+        <router-link v-if="cart.cart_details.length == 0" :to="{ name: 'home' }">
+            <button>Continue shopping</button>
+        </router-link>
+
         <div
             v-for="cart_detail in cart.cart_details"
             :key="cart_detail.id"
@@ -43,8 +45,10 @@
                         Quantity :
                         <input
                             size="1"
+                            type="number"
                             class="p-0 h-25 border-bottom border-top-0 border-left-0 border-right-0"
                             v-model="cart_detail.quantity"
+                            @change="editCartDetail(cart_detail)"
                         />
                     </p>
                     <p id="item-total-price" class="mb-0">
@@ -53,9 +57,7 @@
                             $ {{ cart_detail.product.price * cart_detail.quantity }}</span
                         >
                     </p>
-                    <br /><a href="#" class="text-right" 
-                        >Remove From Cart</a
-                    >
+                    <br /><a href="#" class="text-right">Remove From Cart</a>
                 </div>
             </div>
             <div class="col-2"></div>
@@ -67,14 +69,7 @@
             <h5>Total : $ {{ totalcost.toFixed(2) }}</h5>
             <!-- :disabled="isDisabled()"
             @click="checkout" -->
-            <button
-                
-                type="button"
-                class="btn btn-primary confirm"
-                
-            >
-                Confirm Order
-            </button>
+            <button type="button" class="btn btn-primary confirm">Confirm Order</button>
         </div>
     </div>
 </template>
@@ -82,22 +77,22 @@
 <script>
 import mixinsCart from "@/mixins/mixinsCart";
 import Cart from "@/models/cart";
-import mixinsProduct from '@/mixins/mixinsProduct';
-import sweetAlert from '@/mixins/sweetAlert';
-import { nextTick } from 'vue';
+import mixinsProduct from "@/mixins/mixinsProduct";
+import sweetAlert from "@/mixins/sweetAlert";
+import { nextTick } from "vue";
 
 const axios = require("axios");
 export default {
     data() {
         return {
-            
-            noImageUrl: '@/assets/images/noImage.webp',
+            cart: new Cart(),
+            noImageUrl: "@/assets/images/noImage.webp",
             totalcost: 0,
         };
     },
     name: "Cart",
-    props: ["baseURL", "config","cart"],
-    mixins: [mixinsCart,mixinsProduct,sweetAlert],
+    props: ["baseURL", "config"],
+    mixins: [mixinsCart, mixinsProduct, sweetAlert],
     methods: {
         //   isDisabled() {
         //     if (this.cartItems.length === 0) {
@@ -148,8 +143,8 @@ export default {
         //   },
     },
     async created() {
-        
-        // await this.getCart();
+        await this.getCart();
+        // console.log(this.cart);
     },
 };
 </script>

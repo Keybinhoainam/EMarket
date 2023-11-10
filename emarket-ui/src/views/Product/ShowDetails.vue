@@ -10,8 +10,8 @@
                 >
                     <img
                         class="card-img-top embed-responsive-item"
-                        :ref="'image'"
-                        :src="require('@/assets/images/noImage.webp')"
+                        
+                        :src="getImageURL(img.image)"
                         alt="Product Image"
                     />
                 </div>
@@ -31,7 +31,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">Quantity</span>
                         </div>
-                        <input class="form-control" type="number" v-bind:value="quantity" />
+                        <input class="form-control" type="number" v-model="quantity" />
                     </div>
 
                     <div class="input-group col-md-3 col-4 p-0">
@@ -39,7 +39,7 @@
                             type="button"
                             id="add-to-cart-button"
                             class="btn"
-                            @click="addToCart(this.id)"
+                            @click="addToCart(this.product,this.quantity)"
                         >
                             Add to Cart
                             <ion-icon name="cart-outline" v-pre></ion-icon>
@@ -64,7 +64,7 @@
                     :class="{
                         product_added_wishlist: isAddedToWishlist,
                     }"
-                    @click="addToWishList(this.id)"
+                    @click="addToWishList(this.product.id)"
                 >
                     {{ wishlistString }}
                 </button>
@@ -91,6 +91,7 @@ import { useRoute } from "vue-router";
 import mixinsProduct from "@/mixins/mixinsProduct";
 import sweetAlert from "@/mixins/sweetAlert";
 import { nextTick } from "vue";
+import mixinsCart from '@/mixins/mixinsCart';
 
 export default {
     data() {
@@ -104,7 +105,7 @@ export default {
         };
     },
     props: ["baseURL", "products", "categories"],
-    mixins: [mixinsProduct, sweetAlert],
+    mixins: [mixinsProduct, sweetAlert,mixinsCart],
     methods: {
         addToWishList(productId) {
             // axios
@@ -123,37 +124,6 @@ export default {
             //         }
             //     );
         },
-        addToCart(productId) {
-            // if (!this.token) {
-            //     swal({
-            //         text: "Please log in first!",
-            //         icon: "error",
-            //     });
-            //     return;
-            // }
-            // axios
-            //     .post(`${this.baseURL}cart/add?token=${this.token}`, {
-            //         productId: productId,
-            //         quantity: this.quantity,
-            //     })
-            //     .then(
-            //         (response) => {
-            //             if (response.status == 201) {
-            //                 swal({
-            //                     text: "Product Added to the cart!",
-            //                     icon: "success",
-            //                     closeOnClickOutside: false,
-            //                 });
-            //                 // refresh nav bar
-            //                 this.$emit("fetchData");
-            //             }
-            //         },
-            //         (error) => {
-            //             console.log(error);
-            //         }
-            //     );
-        },
-
         listCartItems() {
             // axios.get(`${this.baseURL}cart/?token=${this.token}`).then(
             //     (response) => {
@@ -170,10 +140,8 @@ export default {
     async created() {
         const route = useRoute();
         if (route.params.id) {
-            await this.getProduct(route.params.id);
+            await this.getProductNoCofig(route.params.id);
         }
-        this.applyImages();
-        await nextTick();
     },
     mounted() {},
 };

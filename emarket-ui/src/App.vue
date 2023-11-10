@@ -11,7 +11,6 @@
             :categories="categories"
             :config="config"
             :schema="schema"
-            :cart="cart"
             @fetchData="fetchData"
         >
         </router-view>
@@ -120,9 +119,7 @@ export default {
     },
     async mounted() {
         // this.token = localStorage.getItem("token");
-        if(localStorage.getItem("cart")){
-            this.cart=localStorage.getItem("cart");
-        }
+        
         this.config=authHeader();
         await this.fetchData();
     },
