@@ -38,6 +38,7 @@ public class ProductController {
 	@PostMapping("/seller/product/save")
 //	@RequestParam("files") String filesJson,@RequestParam("product") String productJson
 	private ResponseEntity<ApiResponse> saveProduct( @RequestBody Product product){
+//		System.out.println(product.getId());
 		return ResponseEntity.ok(productService.saveProduct(product));
 	}
 	

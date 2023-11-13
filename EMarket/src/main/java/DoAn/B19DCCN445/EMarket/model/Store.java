@@ -9,6 +9,10 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,6 +34,7 @@ import lombok.NoArgsConstructor;
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Store {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,14 +52,17 @@ public class Store {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Timestamp update_at;
 	
-	
 	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+//	@JsonManagedReference("store-shop_imports")
 	private Set<Shop_import> shop_imports;
 	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+//	@JsonManagedReference("store-users")
 	private Set<User>users;
 	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+//	@JsonManagedReference("store-shop_exports")
 	private Set<Shop_export>shop_exports;
 	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+//	@JsonManagedReference("store-products")
 	private Set<Product>products;
 	
 }

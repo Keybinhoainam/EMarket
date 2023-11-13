@@ -5,6 +5,8 @@ import java.util.Date;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import DoAn.B19DCCN445.EMarket.model.Category;
 import DoAn.B19DCCN445.EMarket.model.Product_image;
 import DoAn.B19DCCN445.EMarket.model.Store;

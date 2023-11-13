@@ -57,8 +57,7 @@
                             $ {{ cart_detail.product.price * cart_detail.quantity }}</span
                         >
                     </p>
-                    <br />
-                    <a @click="removeItem(cart_detail)" class="text-right">Remove From Cart</a>
+                    <br /><a href="#" class="text-right">Remove From Cart</a>
                 </div>
             </div>
             <div class="col-2"></div>
@@ -95,6 +94,53 @@ export default {
     props: ["baseURL", "config"],
     mixins: [mixinsCart, mixinsProduct, sweetAlert],
     methods: {
+        //   isDisabled() {
+        //     if (this.cartItems.length === 0) {
+        //       return true;
+        //     }
+        //     return false;
+        //   },
+        //   // fetch all the items in cart
+        //   listCartItems() {
+        //     axios.get(`${this.baseURL}cart/?token=${this.token}`).then(
+        //       (response) => {
+        //         if (response.status == 200) {
+        //           const result = response.data;
+        //           // store cartitems and total price in two variables
+        //           this.cartItems = result.cartItems;
+        //           this.totalcost = result.totalCost;
+        //         }
+        //       },
+        //       (error) => {
+        //         console.log(error);
+        //       }
+        //     );
+        //   },
+        //   // go to checkout page
+        //   checkout() {
+        //     this.$router.push({ name: 'Checkout' });
+        //   },
+        //   deleteItem(itemId) {
+        //     axios
+        //       .delete(`${this.baseURL}cart/delete/${itemId}/?token=${this.token} `)
+        //       .then(
+        //         (response) => {
+        //           if (response.status == 200) {
+        //             this.$router.go(0);
+        //           }
+        //           this.$emit('fetchData');
+        //         },
+        //         (error) => {
+        //           console.log(error);
+        //         }
+        //       );
+        //   },
+        //   showDetails(productId) {
+        //     this.$router.push({
+        //       name: 'ShowDetails',
+        //       params: { id: productId },
+        //     });
+        //   },
     },
     async created() {
         await this.getCart();

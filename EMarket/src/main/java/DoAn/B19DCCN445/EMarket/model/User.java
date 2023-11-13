@@ -15,8 +15,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -44,6 +46,7 @@ import lombok.NoArgsConstructor;
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,33 +69,33 @@ public class User implements UserDetails {
 	private Date update_at;
 
 	@Fetch(FetchMode.SUBSELECT)
-	@JsonManagedReference
+//	@JsonManagedReference
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
 	private Set<Shop_import> shop_imports;
 	@Fetch(FetchMode.SUBSELECT)
-	@JsonManagedReference
+//	@JsonManagedReference
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
 	private Set<Shop_export> shop_exports;
 //	@OneToMany(cascade = CascadeType.ALL,mappedBy = "users",fetch = FetchType.LAZY)
 //	private Collection<Acl_user_has_role> acl_user_has_roles;
 	@Fetch(FetchMode.SUBSELECT)
-	@JsonManagedReference
+//	@JsonManagedReference
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Order> orders;
 	@Fetch(FetchMode.SUBSELECT)
-	@JsonManagedReference
+//	@JsonManagedReference
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Product_review> product_reviews;
 	@Fetch(FetchMode.SUBSELECT)
-	@JsonManagedReference
+//	@JsonManagedReference
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Customer_voucher> customer_vouchers;
 	@Fetch(FetchMode.SUBSELECT)
-	@JsonManagedReference
+//	@JsonManagedReference("user-cart_details")
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Cart_detail> cart_details;
+	private Collection<Cart_detail> cart_details;
 	@Fetch(FetchMode.SUBSELECT)
-	@JsonManagedReference
+//	@JsonManagedReference
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<User_address> user_addresses;
 
@@ -102,7 +105,7 @@ public class User implements UserDetails {
 	private Store store;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JsonManagedReference
+//	@JsonManagedReference
 	@Fetch(FetchMode.SUBSELECT)
 	private Collection<Role> roles;
 

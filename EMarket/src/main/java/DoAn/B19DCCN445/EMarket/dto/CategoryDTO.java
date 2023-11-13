@@ -37,5 +37,4 @@ public class CategoryDTO {
 	private String image;
 	private Timestamp create_at;
 	private Timestamp update_at;
-	private Collection<Product> products;
 }

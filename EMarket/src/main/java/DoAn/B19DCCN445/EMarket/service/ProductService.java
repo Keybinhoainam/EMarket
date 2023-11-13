@@ -47,6 +47,8 @@ public class ProductService {
 	}
 
 	public ApiResponse saveProduct(Product product) {
+//		Product product=new Product();
+//		BeanUtils.copyProperties(productDto, product);
 		product.setProduct_images(null);
 		repository.save(product);
 		return ApiResponse.builder().message("save Product successfully!").success(true).build();
@@ -80,6 +82,9 @@ public class ProductService {
 	public List<ProductDTO> getAllProducts() {
 		// TODO Auto-generated method stub
 		List<ProductDTO> products=repository.findAllProduct().stream().map((product)->{
+			List<Product_image> list=new ArrayList<>(product.getProduct_images());
+			System.out.println(list.get(0).getImage());
+//			System.out.println(product.getProduct_images().toArray()[0].getImage());
 			ProductDTO pdto=new ProductDTO();
 			BeanUtils.copyProperties(product, pdto);
 			return pdto;

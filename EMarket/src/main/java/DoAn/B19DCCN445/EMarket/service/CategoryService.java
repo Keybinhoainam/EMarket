@@ -28,10 +28,9 @@ public class CategoryService {
 	}
 
 	public ApiResponse saveCategory(CategoryDTO categoryDto) {
-		// TODO Auto-generated method stub
+//		// TODO Auto-generated method stub
 		Category category=new Category();
 		BeanUtils.copyProperties(categoryDto, category);
-		System.out.println(category.getCategory_name());
 		repository.save(category);
 		return ApiResponse.builder().message("save category successfully!").success(true).build();
 	}

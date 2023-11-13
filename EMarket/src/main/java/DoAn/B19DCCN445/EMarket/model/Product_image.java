@@ -8,7 +8,9 @@ import java.util.Set;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -32,6 +34,7 @@ import lombok.AccessLevel;
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Product_image {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +43,6 @@ public class Product_image {
 	
 	@ManyToOne(fetch =FetchType.LAZY )
 	@JoinColumn(name = "product_id")
-	@JsonBackReference
+	@JsonBackReference("product-product_images")
 	private Product product;
 }

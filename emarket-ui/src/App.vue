@@ -46,10 +46,10 @@ export default {
     // components: { Footer, Navbar },
     mixins: [sweetAlert],
     methods: {
-        fetchData() {
+        async fetchData() {
             // fetch products
             // console.log(this.schema);
-            productService
+            await productService
                 .getAllProducts(
                     `${this.baseURL}/data/product/getallproducts`,
                     this.config
@@ -68,7 +68,7 @@ export default {
                 );
 
             //fetch categories
-            categoryService
+            await categoryService
                 .getAllCategories(
                     `${this.baseURL}/data/category/getallcategories`,
                     this.config

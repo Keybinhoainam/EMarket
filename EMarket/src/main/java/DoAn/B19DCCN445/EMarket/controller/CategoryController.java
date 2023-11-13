@@ -30,7 +30,6 @@ public class CategoryController {
 	}
 	@PostMapping("/seller/category/save")
 	private ResponseEntity<ApiResponse> saveCategory(@RequestBody CategoryDTO category) {
-		System.out.println(category.getCategory_name());
 		return ResponseEntity.ok(categoryService.saveCategory(category));
 	}
 	@GetMapping("/data/category/getallcategories")

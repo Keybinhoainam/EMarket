@@ -9,8 +9,10 @@ import org.hibernate.annotations.FetchMode;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -36,6 +38,7 @@ import lombok.NoArgsConstructor;
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,43 +61,43 @@ public class Product {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "category_id")
-	@JsonBackReference
+	@JsonBackReference("category-products")
 	private Category category;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "store_id")
-	@JsonBackReference
+	@JsonBackReference("store-products")
 	private Store store;
 
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SUBSELECT)
-	@JsonManagedReference
+//	@JsonManagedReference("product-shop_export_details")
 	private Collection<Shop_export_detail> shop_export_details;
 	@Fetch(FetchMode.SUBSELECT)
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JsonManagedReference
+//	@JsonManagedReference("product-order_details")
 	private Collection<Order_detail> order_details;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SUBSELECT)
-	@JsonManagedReference
+//	@JsonManagedReference("product-product_reviews")
 	private Collection<Product_review> product_reviews;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SUBSELECT)
-	@JsonManagedReference
+//	@JsonManagedReference("product-product_vouchers")
 	private Collection<Product_voucher> product_vouchers;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SUBSELECT)
-	@JsonManagedReference
+	@JsonManagedReference("product-product_images")
 	private Collection<Product_image> product_images;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SUBSELECT)
-	@JsonManagedReference
+//	@JsonManagedReference("product-product_discounts")
 	private Collection<Product_discount> product_discounts;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SUBSELECT)
-	@JsonManagedReference
+//	@JsonManagedReference("product-shop_import_details")
 	private Collection<Shop_import_detail> shop_import_details;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SUBSELECT)
-	@JsonManagedReference
+//	@JsonManagedReference("product-cart_details")
 	private Collection<Cart_detail> cart_details;
 }
