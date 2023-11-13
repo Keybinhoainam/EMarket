@@ -6,8 +6,7 @@
                 width="300"
                 height="300"
                 :src="
-                    product.product_images.length > 0 &&
-                    product.product_images[0].image != null
+                    product.product_images.length > 0 && product.product_images[0].image != null
                         ? getImageURL(product.product_images[0].image)
                         : require('@/assets/images/noImage.webp')
                 "
@@ -15,23 +14,26 @@
             />
         </div>
         <div class="card-body">
-            <router-link
-                :to="{ name: 'ShowDetails', params: { id: product.id } }"
+            <router-link :to="{ name: 'ShowDetails', params: { id: product.id } }"
                 ><h5 class="card-title">
                     {{ product.product_name }}
                 </h5></router-link
             >
             <p class="card-text"><sup>$</sup>{{ product.price }}</p>
-            <p class="card-text font-italic">
-                {{ product.short_description }}...
-            </p>
-            <router-link
-                id="edit-product"
-                :to="{ name: 'EditProduct', params: { id: product.id } }"
-                v-if="$route.name == 'Product'"
-            >
-                Edit
-            </router-link>
+            <p class="card-text font-italic">{{ product.short_description }}...</p>
+            <div v-if="$route.name == 'Product'">
+                <router-link
+                    id="edit-product"
+                    :to="{ name: 'EditProduct', params: { id: product.id } }"
+                >
+                    Edit
+                </router-link>
+            </div>
+
+            <!-- <div v-if="$route.name == 'WishList'">
+                
+            </div> -->
+            <div v-if="$route.name == ''"></div>
         </div>
     </div>
 </template>
@@ -41,15 +43,16 @@ import getFile from "@/mixins/getFile";
 import mixinsProduct from "@/mixins/mixinsProduct";
 import sweetAlert from "@/mixins/sweetAlert";
 import VLazyImage from "v-lazy-image";
+import mixinsWishList from "@/mixins/mixinsWishList";
 export default {
     name: "ProductBox",
     props: ["product", "baseURL"],
-    mixins: [getFile, sweetAlert, mixinsProduct],
+    mixins: [getFile, sweetAlert, mixinsProduct, mixinsWishList],
     components: { VLazyImage },
     data() {
         return {
             baseGetImageUrl: `${this.baseURL}/data/file/images/`,
-            noImageUrl: '@/assets/images/noImage.webp',
+            noImageUrl: "@/assets/images/noImage.webp",
         };
     },
 };

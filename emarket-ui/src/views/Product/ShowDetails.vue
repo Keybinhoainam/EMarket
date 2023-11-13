@@ -10,7 +10,6 @@
                 >
                     <img
                         class="card-img-top embed-responsive-item"
-                        
                         :src="getImageURL(img.image)"
                         alt="Product Image"
                     />
@@ -39,7 +38,7 @@
                             type="button"
                             id="add-to-cart-button"
                             class="btn"
-                            @click="addToCart(this.product,this.quantity)"
+                            @click="addToCart(this.product, this.quantity)"
                         >
                             Add to Cart
                             <ion-icon name="cart-outline" v-pre></ion-icon>
@@ -61,23 +60,16 @@
                 <button
                     id="wishlist-button"
                     class="btn mr-3 p-1 py-0"
-                    :class="{
-                        product_added_wishlist: isAddedToWishlist,
-                    }"
-                    @click="addToWishList(this.product.id)"
+                    @click="addToWishList(this.product)"
                 >
-                    {{ wishlistString }}
+                    Add to wishlist
                 </button>
-                <button
-                    id="show-cart-button"
-                    type="button"
-                    class="btn mr-3 p-1 py-0"
-                    @click="listCartItems()"
-                >
-                    Show Cart
+                <router-link :to="{ name: 'Cart' }"
+                    ><button id="show-cart-button" type="button" class="btn mr-3 p-1 py-0">
+                        Show Cart
 
-                    <ion-icon name="cart-outline" v-pre></ion-icon>
-                </button>
+                        <ion-icon name="cart-outline" v-pre></ion-icon></button
+                ></router-link>
             </div>
             <div class="col-md-1"></div>
         </div>
@@ -91,52 +83,21 @@ import { useRoute } from "vue-router";
 import mixinsProduct from "@/mixins/mixinsProduct";
 import sweetAlert from "@/mixins/sweetAlert";
 import { nextTick } from "vue";
-import mixinsCart from '@/mixins/mixinsCart';
+import mixinsCart from "@/mixins/mixinsCart";
+import mixinsWishList from "@/mixins/mixinsWishList";
 
 export default {
     data() {
         return {
             product: new Product(),
             noImageUrl: "@/assets/images/noImage.webp",
-            isAddedToWishlist: false,
-            wishlistString: "Add to wishlist",
             quantity: 1,
             getProductUrl: `${this.baseURL}/data/product/get/`,
         };
     },
     props: ["baseURL", "products", "categories"],
-    mixins: [mixinsProduct, sweetAlert,mixinsCart],
-    methods: {
-        addToWishList(productId) {
-            // axios
-            //     .post(`${this.baseURL}wishlist/add?token=${this.token}`, {
-            //         id: productId,
-            //     })
-            //     .then(
-            //         (response) => {
-            //             if (response.status == 201) {
-            //                 this.isAddedToWishlist = true;
-            //                 this.wishlistString = "Added to WishList";
-            //             }
-            //         },
-            //         (error) => {
-            //             console.log(error);
-            //         }
-            //     );
-        },
-        listCartItems() {
-            // axios.get(`${this.baseURL}cart/?token=${this.token}`).then(
-            //     (response) => {
-            //         if (response.status === 200) {
-            //             this.$router.push("/cart");
-            //         }
-            //     },
-            //     (error) => {
-            //         console.log(error);
-            //     }
-            // );
-        },
-    },
+    mixins: [mixinsProduct, sweetAlert, mixinsCart, mixinsWishList],
+    methods: {},
     async created() {
         const route = useRoute();
         if (route.params.id) {

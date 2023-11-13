@@ -94,10 +94,10 @@
     </section>
 </template>
 <script>
+import mixinsAuthen from "@/mixins/mixinsAuthen";
 import sweetAlert from "@/mixins/sweetAlert";
 import validateAccount from "@/mixins/validateAccount";
 import User from "@/models/user";
-import authService from "@/services/auth.service";
 export default {
     name: "LoginForm",
     data() {
@@ -113,24 +113,11 @@ export default {
     methods: {
         async login() {
             if (this.validateLogin()) {
-                authService.login(this.url, this.user, this.config).then(
-                    () => {
-                        this.alertSuccess("Login success !");
-
-                        this.$router.push(this.$route.query.redirect || '/');
-                    },
-                    (error) => {
-                        this.alertFail(
-                            "Login Fail...",
-                            error.message
-                            // "Something went wrong!"
-                        );
-                    }
-                );
+                this.mxLogin();
             }
         },
     },
-    mixins: [validateAccount, sweetAlert],
+    mixins: [validateAccount, sweetAlert, mixinsAuthen],
     props: ["baseURL"],
 };
 </script>

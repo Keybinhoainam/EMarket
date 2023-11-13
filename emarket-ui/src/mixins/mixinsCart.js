@@ -60,7 +60,7 @@ export default {
                 this.cart.cart_details.push(cartDetailTmp);
             }
             localStorage.setItem("cart", JSON.stringify(this.cart));
-            // this.alertSuccess("Add to Cart Successfully");
+            this.alertSuccess("Add to Cart Successfully");
         },
         async saveCart() {
             try {
@@ -72,6 +72,29 @@ export default {
                 );
                 this.$router.push({ name: "home" });
             }
+        },
+        removeItem(cart_detail) {
+            this.alertWarning(
+                "Are you sure?",
+                "You won't be able to revert this!",
+                "Yes, delete it!"
+            ).then((result) => {
+                if (result.isConfirmed) {
+                    try {
+                        let cartDetail = this.cart.cart_details.find(
+                            (x) => x.product.id === cart_detail.product.id
+                        );
+                        let index = this.cart.cart_details.indexOf(cartDetail);
+                        this.cart.cart_details.splice(index, 1);
+                        localStorage.setItem("cart", JSON.stringify(this.cart));
+                        this.getCart();
+                        nextTick();
+                        this.alertSuccess("Remove CartItem Successfully");
+                    } catch (error) {
+                        console.log(error.message);
+                    }
+                }
+            });
         },
     },
 };

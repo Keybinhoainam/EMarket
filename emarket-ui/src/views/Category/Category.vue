@@ -36,7 +36,7 @@
                             ></router-link>
                             <button
                                 class="btn btn-danger mx-2"
-                                @click="delete(category.id)"
+                                @click="deleteCategory(category.id)"
                             >
                                 <i class="fa fa-recycle"></i>
                             </button>
@@ -75,9 +75,6 @@ export default {
         forcesUpdate() {
             const instance = getCurrentInstance();
             instance.proxy.forceUpdate();
-        },
-        delete(id) {
-            this.deleteCategory(id);
         },
     },
     created() {

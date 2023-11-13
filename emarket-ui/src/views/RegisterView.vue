@@ -185,6 +185,7 @@ import sweetAlert from "@/mixins/sweetAlert";
 import validateAccount from "@/mixins/validateAccount";
 import User from "@/models/user";
 import authService from "@/services/auth.service";
+import mixinsAuthen from '@/mixins/mixinsAuthen';
 export default {
     name: "SignupForm",
     data() {
@@ -196,24 +197,11 @@ export default {
     methods: {
         async save() {
             if (this.validateRegister()) {
-                authService.register(this.url, this.user, this.config).then(
-                    (user) => {
-                        this.alertSuccess(
-                            "Account created successfully success !"
-                        );
-                        this.$router.push({ name: "login" });
-                    },
-                    (error) => {
-                        this.alertFail(
-                            "Failed to create an account !",
-                            error.message
-                        );
-                    }
-                );
+                this.mxRegister();
             }
         },
     },
-    mixins: [validateAccount, sweetAlert],
+    mixins: [validateAccount, sweetAlert,mixinsAuthen],
     props: ["baseURL"],
 };
 </script>

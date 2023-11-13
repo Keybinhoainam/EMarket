@@ -9,6 +9,7 @@ import Cookies from 'js-cookie';
 import ShowDetailsVue from '@/views/Product/ShowDetails.vue'
 import ProductsCategory from '@/views/Product/ProductsCategory.vue'
 import Cart from '@/views/Cart/Cart.vue'
+import WishList from '@/views/Product/Wishlist.vue'
 const routes = [
   // {
   //   path:'/',
@@ -42,10 +43,13 @@ const routes = [
   {
     path: '/cart',
     name: 'Cart',
-    meta: {
-      requiresAuth: true
-    },
     component: Cart
+  },
+  
+  {
+    path: '/wishList',
+    name: 'WishList',
+    component: WishList
   },
   {
     path: '/seller/category/add',

@@ -2,10 +2,12 @@ package DoAn.B19DCCN445.EMarket.service;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import DoAn.B19DCCN445.EMarket.common.ApiResponse;
+import DoAn.B19DCCN445.EMarket.dto.CategoryDTO;
 import DoAn.B19DCCN445.EMarket.model.Category;
 import DoAn.B19DCCN445.EMarket.model.Product;
 import DoAn.B19DCCN445.EMarket.repository.CategoryRepository;
@@ -25,8 +27,11 @@ public class CategoryService {
 		return repository.findById(id).get();
 	}
 
-	public ApiResponse saveCategory(Category category) {
+	public ApiResponse saveCategory(CategoryDTO categoryDto) {
 		// TODO Auto-generated method stub
+		Category category=new Category();
+		BeanUtils.copyProperties(categoryDto, category);
+		System.out.println(category.getCategory_name());
 		repository.save(category);
 		return ApiResponse.builder().message("save category successfully!").success(true).build();
 	}

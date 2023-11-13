@@ -16,3 +16,4 @@ app.use(VueAxios,axios)
 app.use(vuetify)
 app.use(VueSweetalert2);
 app.mount('#app')
+// Vue.config.ignoredElements = [/^ion-/]

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import DoAn.B19DCCN445.EMarket.common.ApiResponse;
+import DoAn.B19DCCN445.EMarket.dto.CategoryDTO;
 import DoAn.B19DCCN445.EMarket.model.Category;
 import DoAn.B19DCCN445.EMarket.model.Product;
 import DoAn.B19DCCN445.EMarket.service.CategoryService;
@@ -28,7 +29,8 @@ public class CategoryController {
 		return ResponseEntity.ok(categoryService.getCategory(id));
 	}
 	@PostMapping("/seller/category/save")
-	private ResponseEntity<ApiResponse> saveCategory(@RequestBody Category category) {
+	private ResponseEntity<ApiResponse> saveCategory(@RequestBody CategoryDTO category) {
+		System.out.println(category.getCategory_name());
 		return ResponseEntity.ok(categoryService.saveCategory(category));
 	}
 	@GetMapping("/data/category/getallcategories")
