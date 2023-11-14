@@ -82,11 +82,12 @@ public class ProductService {
 	public List<ProductDTO> getAllProducts() {
 		// TODO Auto-generated method stub
 		List<ProductDTO> products=repository.findAllProduct().stream().map((product)->{
-			List<Product_image> list=new ArrayList<>(product.getProduct_images());
-			System.out.println(list.get(0).getImage());
-//			System.out.println(product.getProduct_images().toArray()[0].getImage());
+//			List<Product_image> list=new ArrayList<>(product.getProduct_images());
+//			System.out.println(list.get(0).getImage());
 			ProductDTO pdto=new ProductDTO();
 			BeanUtils.copyProperties(product, pdto);
+//			List<Product_image> list2=new ArrayList<>(pdto.getProduct_images());
+//			System.out.println(list2.get(0).getImage());
 			return pdto;
 		}).collect(Collectors.toList());
 		

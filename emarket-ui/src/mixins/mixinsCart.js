@@ -33,14 +33,18 @@ export default {
             //     this.$router.push({ name: "home" });
             // }
         },
-        editCartDetail(cart_detail) {
+        async editCartDetail(cart_detail) {
             try {
                 let cartDetail = this.cart.cart_details.find(
                     (x) => x.product.id === cart_detail.product.id
                 );
-                cartDetail.quantity = cart_detail.quantity;
+                let index = this.cart.cart_details.indexOf(cartDetail);
+                this.cart.cart_details.splice(index, 1,cart_detail);
+                // console.log(this.cart);
                 localStorage.setItem("cart", JSON.stringify(this.cart));
+
                 this.getCart();
+                await nextTick()
                 this.alertSuccess("edit Cart Successfully");
             } catch (error) {
                 console.log(error.message);
@@ -51,11 +55,13 @@ export default {
             let cartDetailTmp = new Cart_detail();
             cartDetailTmp.quantity = quantity;
             cartDetailTmp.product = product;
-            let cartDetail = this.cart.cart_details.find(
-                (cartDetailTmp) => cartDetailTmp.product.id === product.id
-            );
+            let cartDetail = this.cart.cart_details.find((x) => x.product.id === product.id);
             if (cartDetail) {
-                cartDetail.quantity += quantity;
+                console.log("edit quantity");
+                cartDetailTmp.quantity += cartDetail.quantity;
+                let index = this.cart.cart_details.indexOf(cartDetail);
+                this.cart.cart_details.splice(index, 1,cartDetailTmp);
+                // cartDetail=cartDetailTmp;
             } else {
                 this.cart.cart_details.push(cartDetailTmp);
             }

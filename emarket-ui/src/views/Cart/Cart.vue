@@ -57,7 +57,8 @@
                             $ {{ cart_detail.product.price * cart_detail.quantity }}</span
                         >
                     </p>
-                    <br /><a href="#" class="text-right">Remove From Cart</a>
+                    <br /><button type="button" class="btn btn-danger" @click="removeItem(cart_detail)">Remove From Cart</button>
+                    <!-- <a href="#" class="text-right"></a> -->
                 </div>
             </div>
             <div class="col-2"></div>
