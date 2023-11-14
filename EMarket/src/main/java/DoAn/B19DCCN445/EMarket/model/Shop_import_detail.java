@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Shop_import_detail {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

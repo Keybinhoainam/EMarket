@@ -1,4 +1,4 @@
-import { async } from "@zakerxa/vue-multiple-image-upload";
+// import { async } from "@zakerxa/vue-multiple-image-upload";
 import axios from "axios";
 
 class ProductService {

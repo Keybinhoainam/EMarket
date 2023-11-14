@@ -14,6 +14,15 @@ export default {
     //     this.getCart();
     // },
     methods: {
+        checkTotalCost(){
+            this.totalcost=0;
+            const cart_details=this.cart.cart_details;
+            for(let i=0;i<cart_details.length;i++){
+                this.totalcost+=cart_details[i].quantity*cart_details[i].product.price;
+                
+            }
+            
+        },
         async getCart() {
             // localStorage.removeItem("cart")
             if (localStorage.getItem("cart")) {
@@ -21,17 +30,8 @@ export default {
             } else {
                 this.cart = new Cart();
             }
+            this.checkTotalCost();
             await nextTick();
-            // try {
-            //     this.cart=await cartService.getCart(this.getCartUrl,this.config);
-
-            // } catch (error) {
-            //     this.alertFail(
-            //         "Failed to load Cart !"
-            //         // "Something went wrong!"
-            //     );
-            //     this.$router.push({ name: "home" });
-            // }
         },
         async editCartDetail(cart_detail) {
             try {
@@ -42,8 +42,9 @@ export default {
                 this.cart.cart_details.splice(index, 1,cart_detail);
                 // console.log(this.cart);
                 localStorage.setItem("cart", JSON.stringify(this.cart));
-
+                
                 this.getCart();
+                this.checkTotalCost();
                 await nextTick()
                 this.alertSuccess("edit Cart Successfully");
             } catch (error) {
@@ -68,17 +69,17 @@ export default {
             localStorage.setItem("cart", JSON.stringify(this.cart));
             this.alertSuccess("Add to Cart Successfully");
         },
-        async saveCart() {
-            try {
-                this.cart = await cartService.saveCart(this.saveCartUrl, this.cart, this.config);
-            } catch (error) {
-                this.alertFail(
-                    "Failed to save Cart !"
-                    // "Something went wrong!"
-                );
-                this.$router.push({ name: "home" });
-            }
-        },
+        // async saveCart() {
+        //     try {
+        //         this.cart = await cartService.saveCart(this.saveCartUrl, this.cart, this.config);
+        //     } catch (error) {
+        //         this.alertFail(
+        //             "Failed to save Cart !"
+        //             // "Something went wrong!"
+        //         );
+        //         this.$router.push({ name: "home" });
+        //     }
+        // },
         removeItem(cart_detail) {
             this.alertWarning(
                 "Are you sure?",
@@ -94,6 +95,7 @@ export default {
                         this.cart.cart_details.splice(index, 1);
                         localStorage.setItem("cart", JSON.stringify(this.cart));
                         this.getCart();
+                        checkTotalCost();
                         nextTick();
                         this.alertSuccess("Remove CartItem Successfully");
                     } catch (error) {

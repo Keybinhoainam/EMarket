@@ -1,6 +1,7 @@
 package DoAn.B19DCCN445.EMarket.model;
 
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -34,13 +35,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "orders")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Date order_date;
 	private Date shipped_date;
+	private String note;
 	private String ship_address;
 	private Double ship_fee;
 	private Date paid_date;
@@ -58,5 +60,5 @@ public class Order {
 	private Payment_type payment_type;
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
-	private Set<Order_detail>order_details;
+	private Collection<Order_detail>order_details;
 }

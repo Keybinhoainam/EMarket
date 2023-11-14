@@ -10,6 +10,7 @@ import ShowDetailsVue from '@/views/Product/ShowDetails.vue'
 import ProductsCategory from '@/views/Product/ProductsCategory.vue'
 import Cart from '@/views/Cart/Cart.vue'
 import WishList from '@/views/Product/Wishlist.vue'
+import Checkout from '@/views/Checkout/Checkout.vue'
 const routes = [
   // {
   //   path:'/',
@@ -50,6 +51,14 @@ const routes = [
     path: '/wishList',
     name: 'WishList',
     component: WishList
+  },
+  {
+    path: '/checkout',
+    name: 'Checkout',
+    meta: {
+      requiresAuth: true
+    },
+    component: Checkout
   },
   {
     path: '/seller/category/add',

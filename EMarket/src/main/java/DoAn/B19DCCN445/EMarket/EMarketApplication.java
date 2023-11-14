@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import DoAn.B19DCCN445.EMarket.config.StorageProperties;
 import DoAn.B19DCCN445.EMarket.model.Category;
+import DoAn.B19DCCN445.EMarket.model.Payment_type;
 import DoAn.B19DCCN445.EMarket.model.Role;
 import DoAn.B19DCCN445.EMarket.model.Store;
 import DoAn.B19DCCN445.EMarket.model.User;
@@ -54,6 +55,11 @@ public class EMarketApplication implements CommandLineRunner {
 //		em.persist(category);
 //		Store store= Store.builder().store_code("BHN").store_name("BHN Store").description("Description").image(null).build();
 //		em.persist(store);
+//		
+//		Payment_type payment_type1=Payment_type.builder().name("Pay Now").build();
+//		Payment_type payment_type2=Payment_type.builder().name("Buy Now, Pay Later").build();
+//		em.persist(payment_type1);
+//		em.persist(payment_type2);
 	}
 
 }

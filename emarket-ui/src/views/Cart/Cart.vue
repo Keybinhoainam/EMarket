@@ -70,7 +70,7 @@
             <h5>Total : $ {{ totalcost.toFixed(2) }}</h5>
             <!-- :disabled="isDisabled()"
             @click="checkout" -->
-            <button type="button" class="btn btn-primary confirm">Confirm Order</button>
+            <router-link :to="{name:'Checkout'}"><button type="button" class="btn btn-primary confirm text-light">Confirm Order</button></router-link>
         </div>
     </div>
 </template>
@@ -95,53 +95,7 @@ export default {
     props: ["baseURL", "config"],
     mixins: [mixinsCart, mixinsProduct, sweetAlert],
     methods: {
-        //   isDisabled() {
-        //     if (this.cartItems.length === 0) {
-        //       return true;
-        //     }
-        //     return false;
-        //   },
-        //   // fetch all the items in cart
-        //   listCartItems() {
-        //     axios.get(`${this.baseURL}cart/?token=${this.token}`).then(
-        //       (response) => {
-        //         if (response.status == 200) {
-        //           const result = response.data;
-        //           // store cartitems and total price in two variables
-        //           this.cartItems = result.cartItems;
-        //           this.totalcost = result.totalCost;
-        //         }
-        //       },
-        //       (error) => {
-        //         console.log(error);
-        //       }
-        //     );
-        //   },
-        //   // go to checkout page
-        //   checkout() {
-        //     this.$router.push({ name: 'Checkout' });
-        //   },
-        //   deleteItem(itemId) {
-        //     axios
-        //       .delete(`${this.baseURL}cart/delete/${itemId}/?token=${this.token} `)
-        //       .then(
-        //         (response) => {
-        //           if (response.status == 200) {
-        //             this.$router.go(0);
-        //           }
-        //           this.$emit('fetchData');
-        //         },
-        //         (error) => {
-        //           console.log(error);
-        //         }
-        //       );
-        //   },
-        //   showDetails(productId) {
-        //     this.$router.push({
-        //       name: 'ShowDetails',
-        //       params: { id: productId },
-        //     });
-        //   },
+        
     },
     async created() {
         await this.getCart();
