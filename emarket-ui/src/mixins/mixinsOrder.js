@@ -14,9 +14,16 @@ export default{
             try {
                 // console.log(this.order);
                 this.addOrderDetails();
+                if(this.cart.cart_details.length==0){
+                    this.alertFail("Cart is empty !");
+                    this.$router.push({name:'Cart'});
+                    return;
+                }
+                console.log("nam");
                 // console.log(this.order);
                 await orderService.checkOut(this.urlCheckOut,this.order, this.config);
                 localStorage.removeItem("cart");
+                this.$router.push({name:'home'});
                 this.alertSuccess("CheckOut successfully")
             } catch (error) {
                 this.alertFail("fail to checkout")

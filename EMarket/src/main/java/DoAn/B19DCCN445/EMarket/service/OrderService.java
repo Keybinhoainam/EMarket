@@ -11,6 +11,7 @@ import DoAn.B19DCCN445.EMarket.model.Order;
 import DoAn.B19DCCN445.EMarket.model.Order_detail;
 import DoAn.B19DCCN445.EMarket.model.User;
 import DoAn.B19DCCN445.EMarket.repository.AccountRepository;
+import DoAn.B19DCCN445.EMarket.repository.OrderDetailRepository;
 import DoAn.B19DCCN445.EMarket.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,6 +24,8 @@ public class OrderService {
 	private JwtService jwtService;
 	@Autowired
 	private AccountRepository accountRepository;
+	@Autowired
+	private OrderDetailRepository orderDetailRepository;
 	
 	public ApiResponse checkOut(Order order,String authHeader) {
 		String jwt;
@@ -39,9 +42,10 @@ public class OrderService {
 		Collection<Order_detail> order_details=order.getOrder_details();
 		order.setOrder_details(null);
 		order=repository.save(order);
-		System.out.println(order.getId());
-		order.setOrder_details(order_details);
-		order=repository.save(order);
+		for(Order_detail order_detail: order_details) {
+			order_detail.setOrder(order);
+			orderDetailRepository.save(order_detail);
+		}
 		return ApiResponse.builder().message("CheckOut successfully!").success(true).build();
 	}
 }
