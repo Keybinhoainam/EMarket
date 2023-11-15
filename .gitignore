@@ -113,3 +113,10 @@ emarket-ui/*.njsproj
 emarket-ui/*.sln
 emarket-ui/*.sw?
 
+# Visual Paradigm
+**/.vpprefdata/
+**/*.vpp~*
+**/*.vpp.working
+**/*.vpp.working-journal
+**/*.lock
+
