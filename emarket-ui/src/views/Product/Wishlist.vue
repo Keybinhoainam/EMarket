@@ -1,5 +1,8 @@
 <template>
     <div class="container">
+        <router-link :to="{ name: 'home' }">
+            <button>Continue shopping</button>
+        </router-link>
         <div class="row">
             <div class="col-12 text-center">
                 <h4 class="pt-3">Your WishList</h4>

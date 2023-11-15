@@ -5,7 +5,7 @@
                 <h3 class="pt-3">Shopping cart</h3>
             </div>
         </div>
-        <router-link v-if="cart.cart_details.length == 0" :to="{ name: 'home' }">
+        <router-link :to="{ name: 'home' }">
             <button>Continue shopping</button>
         </router-link>
 

@@ -1,5 +1,8 @@
 <template>
     <div class="container">
+        <router-link :to="{ name: 'home' }">
+            <button>Continue shopping</button>
+        </router-link>
         <div class="row pt-5">
             <div class="col-md-1"></div>
             <div class="col-md-4 col-12">
