@@ -115,8 +115,10 @@ emarket-ui/*.sw?
 
 # Visual Paradigm
 **/.vpprefdata/
-**/*.vpp~*
-**/*.vpp.working
-**/*.vpp.working-journal
-**/*.lock
+**/*.vpp.*
+**/~$*
+# **/*.vpp.working
+# **/*.vpp.working-journal
+# **/*vpp.lck
+# **/*vpp.lock
 
