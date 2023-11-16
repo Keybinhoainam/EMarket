@@ -122,3 +122,6 @@ emarket-ui/*.sw?
 # **/*vpp.lck
 # **/*vpp.lock
 
+
+
+**/*.tmp
