@@ -41,6 +41,7 @@
                     <p id="item-price" class="mb-0 font-weight-bold">
                         $ {{ cart_detail.product.price }} per unit
                     </p>
+                    <p class="mb-0"> Stock: {{ cart_detail.product.stock }}</p>
                     <p id="item-quantity" class="mb-0">
                         Quantity :
                         <input
@@ -92,13 +93,13 @@ export default {
         };
     },
     name: "Cart",
-    props: ["baseURL", "config"],
+    props: ["baseURL", "config","products"],
     mixins: [mixinsCart, mixinsProduct, sweetAlert],
     methods: {
         
     },
     async created() {
-        await this.getCart();
+        await this.getCart(this.products);
         // console.log(this.cart);
     },
 };

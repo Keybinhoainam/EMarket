@@ -41,6 +41,7 @@
                             type="button"
                             id="add-to-cart-button"
                             class="btn"
+                            :disabled="product.stock <= 0"
                             @click="addToCart(this.product, this.quantity)"
                         >
                             Add to Cart
@@ -48,7 +49,12 @@
                         </button>
                     </div>
                 </div>
-
+                <h6 class="stock font-italic mt-2" v-if="product.stock > 0">
+                    Stock: {{ product.stock }}
+                </h6>
+                <div class="invalid-feedback mt-1 mb-4 ms-1" style="display: block;" v-else>
+                    Out of Stock
+                </div>
                 <div class="features pt-3">
                     <h5><strong>Features</strong></h5>
                     <ul>

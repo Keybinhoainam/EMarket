@@ -55,6 +55,21 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label>Stock</label>
+                        <input
+                            type="number"
+                            class="form-control"
+                            v-model="product.stock"
+                            @blur="validateProduct()"
+                            v-bind:class="{
+                                'is-invalid': errors.stock,
+                            }"
+                        />
+                        <div class="invalid-feedback mt-1 mb-4 ms-1">
+                            {{ errors.stock }}
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label>Description</label>
                         <input
                             type="text"
@@ -217,6 +232,7 @@ export default {
         if (route.params.id) {
             this.isEdit = true;
             await this.getProduct(route.params.id);
+            console.log(this.product);
         }
 
         this.applyImages();

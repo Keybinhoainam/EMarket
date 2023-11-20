@@ -48,6 +48,8 @@ public class OrderService {
 		order=repository.save(order);
 		for(Order_detail order_detail: order_details) {
 			Product product=productRepository.findById(order_detail.getProduct().getId()).get();
+			product.setStock(product.getStock()-order_detail.getQuantity());
+			productRepository.save(product);
 			order_detail.setOrder(order);
 			orderDetailRepository.save(order_detail);
 		}

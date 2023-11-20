@@ -102,13 +102,19 @@ export default {
                 this.isValid = false;
             }
         },
+        validateStockProduct() {
+            if (!this.product.stock) {
+                this.errors.stock = "Stock is required";
+                this.isValid = false;
+            }
+        },
         validateProduct() {
             this.isValid = true;
             this.errors = new Product();
             this.validateCategoryProduct();
             this.validateProductName();
             this.validateProductPrice();
-
+            this.validateStockProduct();
             // const regexImageURL=/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/;
             // if(!regexImageURL.test(this.product.product_images.url)){
             //     this.errors.product_images.url="fill image url with .jpg, .gif, .png"

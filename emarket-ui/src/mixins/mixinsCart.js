@@ -14,19 +14,35 @@ export default {
     //     this.getCart();
     // },
     methods: {
-        checkTotalCost(){
-            this.totalcost=0;
-            const cart_details=this.cart.cart_details;
-            for(let i=0;i<cart_details.length;i++){
-                this.totalcost+=cart_details[i].quantity*cart_details[i].product.price;
-                
+        checkTotalCost() {
+            this.totalcost = 0;
+            const cart_details = this.cart.cart_details;
+            for (let i = 0; i < cart_details.length; i++) {
+                this.totalcost += cart_details[i].quantity * cart_details[i].product.price;
             }
-            
+        },
+        async saveAndLoadCart() {
+            localStorage.setItem("cart", JSON.stringify(this.cart));
+            this.getCart();
+            this.checkTotalCost();
+            await nextTick();
         },
         async getCart() {
             // localStorage.removeItem("cart")
             if (localStorage.getItem("cart")) {
                 this.cart = JSON.parse(localStorage.getItem("cart"));
+                const cart_details = this.cart.cart_details;
+                for (let i = 0; i < cart_details.length; i++) {
+                    if (cart_details[i].quantity > cart_details[i].product.stock) {
+                        cart_details[i].quantity = cart_details[i].product.stock;
+                    }
+                    if (cart_details[i].quantity == 0) {
+                        this.removeItem(cart_details[i]);
+                    }
+                }
+                localStorage.setItem("cart", JSON.stringify(this.cart));
+                this.checkTotalCost();
+                await nextTick();
             } else {
                 this.cart = new Cart();
             }
@@ -35,33 +51,51 @@ export default {
         },
         async editCartDetail(cart_detail) {
             try {
+                let check = true;
+                if (
+                    cart_detail.quantity === "" ||
+                    cart_detail.quantity <= 0 ||
+                    cart_detail.quantity > cart_detail.product.stock
+                ) {
+                    check = false;
+                    cart_detail.quantity = cart_detail.product.stock;
+                }
                 let cartDetail = this.cart.cart_details.find(
                     (x) => x.product.id === cart_detail.product.id
                 );
+                // if(!cart_detail.quantity){
+                //     console.log("nam");
+                // }
                 let index = this.cart.cart_details.indexOf(cartDetail);
-                this.cart.cart_details.splice(index, 1,cart_detail);
+                this.cart.cart_details.splice(index, 1, cart_detail);
                 // console.log(this.cart);
-                localStorage.setItem("cart", JSON.stringify(this.cart));
-                
-                this.getCart();
-                this.checkTotalCost();
-                await nextTick()
+                this.saveAndLoadCart();
+                if (!check) {
+                    this.alertFail("Please re-fill quantity");
+                    return;
+                }
                 this.alertSuccess("edit Cart Successfully");
             } catch (error) {
                 console.log(error.message);
             }
         },
         addToCart(product, quantity) {
+            if (quantity <= 0 || quantity == "") {
+                this.alertFail("Please re-fill quantity");
+                return;
+            }
             this.getCart();
             let cartDetailTmp = new Cart_detail();
             cartDetailTmp.quantity = quantity;
             cartDetailTmp.product = product;
             let cartDetail = this.cart.cart_details.find((x) => x.product.id === product.id);
             if (cartDetail) {
-                console.log("edit quantity");
                 cartDetailTmp.quantity += cartDetail.quantity;
+                if (cartDetailTmp.quantity > cartDetailTmp.product.stock)
+                    cartDetailTmp.quantity = cartDetailTmp.product.stock;
+
                 let index = this.cart.cart_details.indexOf(cartDetail);
-                this.cart.cart_details.splice(index, 1,cartDetailTmp);
+                this.cart.cart_details.splice(index, 1, cartDetailTmp);
                 // cartDetail=cartDetailTmp;
             } else {
                 this.cart.cart_details.push(cartDetailTmp);
@@ -81,6 +115,17 @@ export default {
         //     }
         // },
         removeItem(cart_detail) {
+            let cartDetail = this.cart.cart_details.find(
+                (x) => x.product.id === cart_detail.product.id
+            );
+            let index = this.cart.cart_details.indexOf(cartDetail);
+            this.cart.cart_details.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(this.cart));
+            this.getCart();
+            this.checkTotalCost();
+            nextTick();
+        },
+        askToremove(cart_detail) {
             this.alertWarning(
                 "Are you sure?",
                 "You won't be able to revert this!",
@@ -88,21 +133,21 @@ export default {
             ).then((result) => {
                 if (result.isConfirmed) {
                     try {
-                        let cartDetail = this.cart.cart_details.find(
-                            (x) => x.product.id === cart_detail.product.id
-                        );
-                        let index = this.cart.cart_details.indexOf(cartDetail);
-                        this.cart.cart_details.splice(index, 1);
-                        localStorage.setItem("cart", JSON.stringify(this.cart));
-                        this.getCart();
-                        checkTotalCost();
-                        nextTick();
+                        this.removeItem(cart_detail);
                         this.alertSuccess("Remove CartItem Successfully");
                     } catch (error) {
                         console.log(error.message);
                     }
                 }
             });
+        },
+        checkVaildCart() {
+            const cart_details = this.cart.cart_details;
+            for (let i = 0; i < cart_details.length; i++) {
+                this.totalcost += cart_details[i].quantity * cart_details[i].product.price;
+                if (cart_details[i].quantity > cart_details[i].product.stock) return false;
+            }
+            return true;
         },
     },
 };

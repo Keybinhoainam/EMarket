@@ -27,6 +27,7 @@ public class ProductDTO {
 	private String short_description;
 	private Double standard_cost;
 	private Double price;
+	private int stock;
 	private Boolean is_discontinued;
 	private Boolean is_featured;
 	private Boolean is_new;
