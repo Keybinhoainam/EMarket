@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 import DoAn.B19DCCN445.EMarket.common.ApiResponse;
 import DoAn.B19DCCN445.EMarket.model.Order;
 import DoAn.B19DCCN445.EMarket.model.Order_detail;
+import DoAn.B19DCCN445.EMarket.model.Product;
 import DoAn.B19DCCN445.EMarket.model.User;
 import DoAn.B19DCCN445.EMarket.repository.AccountRepository;
 import DoAn.B19DCCN445.EMarket.repository.OrderDetailRepository;
 import DoAn.B19DCCN445.EMarket.repository.OrderRepository;
+import DoAn.B19DCCN445.EMarket.repository.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -26,6 +28,8 @@ public class OrderService {
 	private AccountRepository accountRepository;
 	@Autowired
 	private OrderDetailRepository orderDetailRepository;
+	@Autowired
+	private ProductRepository productRepository;
 	
 	public ApiResponse checkOut(Order order,String authHeader) {
 		String jwt;
@@ -43,6 +47,7 @@ public class OrderService {
 		order.setOrder_details(null);
 		order=repository.save(order);
 		for(Order_detail order_detail: order_details) {
+			Product product=productRepository.findById(order_detail.getProduct().getId()).get();
 			order_detail.setOrder(order);
 			orderDetailRepository.save(order_detail);
 		}
