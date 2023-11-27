@@ -1,6 +1,8 @@
 {
   "name": "emarket-ui",
   "version": "0.1.0",
+  "description": "EMarket website template",
+  "author": "keybinhoainam@gmail.com",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

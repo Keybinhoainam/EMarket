@@ -11,107 +11,114 @@ import ProductsCategory from '@/views/Product/ProductsCategory.vue'
 import Cart from '@/views/Cart/Cart.vue'
 import WishList from '@/views/Product/Wishlist.vue'
 import Checkout from '@/views/Checkout/Checkout.vue'
+import Layout from '@/components/Layout'
 const routes = [
   // {
   //   path:'/',
   //   redirect:'/home'
   // },
   {
-    path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import('../views/LoginView.vue')
-  },
-  {
-    path: '/register',
-    name: 'register',
-    component: () => import('../views/RegisterView.vue')
-  },
-  {
-    path : '/product/show/:id',
-    name : 'ShowDetails',
-    component: ShowDetailsVue
-  },
-  {
-    path : '/category/products/:id',
-    name : 'ShowProductsCategory',
-    component: ProductsCategory
-  },
-  {
-    path: '/cart',
-    name: 'Cart',
-    component: Cart
-  },
-  
-  {
-    path: '/wishList',
-    name: 'WishList',
-    component: WishList
-  },
-  {
-    path: '/checkout',
-    name: 'Checkout',
-    meta: {
-      requiresAuth: true
-    },
-    component: Checkout
-  },
-  {
-    path: '/seller/category/add',
-    name: 'AddCategory',
-    meta: {
-      requiresAuth: true
-    },
-    component: AddOrEditCategory
-  },
-  {
-    path: '/seller/category/edit/:id',
-    name: 'EditCategory',
-    meta: {
-      requiresAuth: true
-    },
-    component: AddOrEditCategory
-  },
-  {
-    path: '/seller/category',
-    name: 'Category',
-    meta: {
-      requiresAuth: true
-    },
-    component: Category
-  },
-  {
-    path: '/seller/product/add',
-    name: 'AddProduct',
-    meta: {
-      requiresAuth: true
-    },
-    component: AddOrEditProduct
-  },
-  {
-    path: '/seller/product/edit/:id',
-    name: 'EditProduct',
-    meta: {
-      requiresAuth: true
-    },
-    component: AddOrEditProduct
-  },
-  {
-    path: '/seller/product',
-    name: 'Product',
-    meta: {
-      requiresAuth: true
-    },
-    component: Product
-  },
-  {
-    path: "/:notFound",
-    component: PageNotFound,
-  },
+    path:'/',
+    component:Layout,
+    children:[
+      {
+        path: '/',
+        name: 'home',
+        component: HomeView
+      },
+      {
+        path: '/login',
+        name: 'login',
+        component: () => import('../views/LoginView.vue')
+      },
+      {
+        path: '/register',
+        name: 'register',
+        component: () => import('../views/RegisterView.vue')
+      },
+      {
+        path : '/product/show/:id',
+        name : 'ShowDetails',
+        component: ShowDetailsVue
+      },
+      {
+        path : '/category/products/:id',
+        name : 'ShowProductsCategory',
+        component: ProductsCategory
+      },
+      {
+        path: '/cart',
+        name: 'Cart',
+        component: Cart
+      },
+      
+      {
+        path: '/wishList',
+        name: 'WishList',
+        component: WishList
+      },
+      {
+        path: '/checkout',
+        name: 'Checkout',
+        meta: {
+          requiresAuth: true
+        },
+        component: Checkout
+      },
+      {
+        path: '/seller/category/add',
+        name: 'AddCategory',
+        meta: {
+          requiresAuth: true
+        },
+        component: AddOrEditCategory
+      },
+      {
+        path: '/seller/category/edit/:id',
+        name: 'EditCategory',
+        meta: {
+          requiresAuth: true
+        },
+        component: AddOrEditCategory
+      },
+      {
+        path: '/seller/category',
+        name: 'Category',
+        meta: {
+          requiresAuth: true
+        },
+        component: Category
+      },
+      {
+        path: '/seller/product/add',
+        name: 'AddProduct',
+        meta: {
+          requiresAuth: true
+        },
+        component: AddOrEditProduct
+      },
+      {
+        path: '/seller/product/edit/:id',
+        name: 'EditProduct',
+        meta: {
+          requiresAuth: true
+        },
+        component: AddOrEditProduct
+      },
+      {
+        path: '/seller/product',
+        name: 'Product',
+        meta: {
+          requiresAuth: true
+        },
+        component: Product
+      },
+      {
+        path: "/:notFound",
+        component: PageNotFound,
+      },
+    ]
+  }
 ]
 
 const router = createRouter({
