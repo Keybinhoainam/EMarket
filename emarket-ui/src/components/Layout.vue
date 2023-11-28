@@ -1,11 +1,11 @@
 <template>
-    <v-app id="inspire">
+    <v-app id="inspire" >
         <v-app-bar :clipped-left="lgAndUp" app color="primary" dark>
             <!--      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />-->
 
             <v-toolbar-title style="width: 350px">
-                <a href="/" class="white--text" style="text-decoration: none"
-                    ><v-icon>mdi-truck</v-icon>&nbsp;ShipIT</a
+                <a href="/" class="text-white" style="text-decoration: none"
+                    ><v-icon>mdi-store</v-icon>&nbsp;Emarket</a
                 >
             </v-toolbar-title>
             <v-text-field
@@ -17,77 +17,79 @@
                 class="hidden-sm-and-down pl-10 ml-4"
             />
             <v-spacer />
-            <v-btn icon>
+            <v-btn icon title="Account">
                 <v-icon>mdi-account-circle</v-icon>
             </v-btn>
-            <v-btn v-on="activatorEvents" icon>
+            <v-btn icon title="Notification">
                 <v-badge content="2" value="2" color="green" overlap>
                     <v-icon>mdi-bell</v-icon>
                 </v-badge>
             </v-btn>
-            <v-btn v-on="activatorEvents" href="/cart" icon>
+            <v-btn  href="/cart" icon title="Cart">
                 <v-badge content="2" value="2" color="green" overlap>
                     <v-icon>mdi-cart</v-icon>
                 </v-badge>
             </v-btn>
+            <v-btn  href="/wishlist" icon title="Wishlist">
+                <v-badge content="2" value="2" color="green" overlap>
+                    <v-icon>mdi-tag-heart</v-icon>
+                </v-badge>
+            </v-btn>
+            
         </v-app-bar>
-        <v-content>
-            <v-bottom-navigation :value="1" color="primary" horizontal>
-                <a href="/" class="v-btn">
+        
+        <v-main>
+            <v-bottom-navigation color="primary" horizontal style="position: relative;">
+                
+                <v-btn href="/">
                     <span>Home</span>
-                </a>
+                </v-btn>
                 <v-menu open-on-hover offset-y>
-                    <template>
-                        <v-btn v-on="activatorEvents">
-                            <span>Shop</span>
+                    <template v-slot:activator="{ props }">
+                        <v-btn v-bind="props">
+                            Shop
                         </v-btn>
                     </template>
-                    <v-card class="mx-auto" max-width="344" outlined>
-                        <v-list-item v-for="(item, index) in items" :key="index" href="/shop">
-                            <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    <v-list class="mx-auto" max-width="344px">
+                        <v-list-item v-for="(item, index) in products" :key="index" href="/shop">
+                            <v-list-item-title >{{ item.product_name }}</v-list-item-title>
                         </v-list-item>
-                    </v-card>
+                    </v-list>
                 </v-menu>
-                <a href="/product" class="v-btn">
+                <v-btn href="/product">
                     <span>Product</span>
-                </a>
+                </v-btn>
                 <v-btn href="/blog">
                     <span>Blog</span>
                 </v-btn>
             </v-bottom-navigation>
-        </v-content>
+        </v-main>
         <router-view />
-        <v-footer :padless="true">
-            <v-card flat tile width="100%" class="secondary white--text text-center">
+        <v-footer class="p-0">
+            <v-card flat tile width="100%" class="text-white text-center" color="secondary" dark>
                 <v-card-text>
-                    <v-btn class="mx-4 white--text" icon>
-                        <v-icon size="24px">mdi-home</v-icon>
+                    <v-btn class="mx-4 text-white" icon color="secondary">
+                        <v-icon size="24px" icon="mdi-home"></v-icon>
                     </v-btn>
-                    <v-btn class="mx-4 white--text" icon>
-                        <v-icon size="24px">mdi-email</v-icon>
+                    <v-btn class="mx-4 text-white" icon color="secondary">
+                        <v-icon size="24px" icon="mdi-email"></v-icon>
                     </v-btn>
-                    <v-btn class="mx-4 white--text" icon>
-                        <v-icon size="24px">mdi-calendar</v-icon>
+                    <v-btn class="mx-4 text-white" icon color="secondary">
+                        <v-icon size="24px" icon="mdi-calendar"></v-icon>
                     </v-btn>
-                    <v-btn class="mx-4 white--text" icon>
-                        <v-icon size="24px">mdi-delete</v-icon>
+                    <v-btn class="mx-4 text-white" icon color="secondary">
+                        <v-icon size="24px" icon="mdi-delete"></v-icon>
                     </v-btn>
                 </v-card-text>
 
-                <v-card-text class="white--text pt-0">
-                    Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet. Mauris
-                    cursus commodo interdum. Praesent ut risus eget metus luctus accumsan id
-                    ultrices nunc. Sed at orci sed massa consectetur dignissim a sit amet dui. Duis
-                    commodo vitae velit et faucibus. Morbi vehicula lacinia malesuada. Nulla
-                    placerat augue vel ipsum ultrices, cursus iaculis dui sollicitudin. Vestibulum
-                    eu ipsum vel diam elementum tempor vel ut orci. Orci varius natoque penatibus et
-                    magnis dis parturient montes, nascetur ridiculus mus.
+                <v-card-text class="text-white pt-0">
+                    Hello everyone, My name is Bùi Hoài Nam. I am a PTIT student. This is my project, I hope you love it !
                 </v-card-text>
 
                 <v-divider></v-divider>
 
-                <v-card-text class="white--text">
-                    {{ new Date().getFullYear() }} — <strong>ShipIT</strong>
+                <v-card-text class="text-white">
+                    {{ new Date().getFullYear() }} — <strong>Emarket</strong>
                 </v-card-text>
             </v-card>
         </v-footer>
@@ -96,7 +98,18 @@
 <script setup>
 import { ref } from "vue";
 import { useDisplay } from "vuetify";
+import { defineProps } from 'vue';
+
+const { products } = defineProps(['products']);
 const { lgAndUp } = useDisplay();
-const activeBtn = ref(1);
-const activatorEvents=ref(null)
 </script>
+<style scoped>
+.bottom-navigation-wrapper {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000; /* Đảm bảo nằm trên cùng */
+}
+
+/* Các kiểu CSS khác tùy thuộc vào yêu cầu của bạn */
+</style>
