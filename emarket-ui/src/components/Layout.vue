@@ -38,7 +38,7 @@
             
         </v-app-bar>
         
-        <v-main>
+        <v-main class="pb-0">
             <v-bottom-navigation color="primary" horizontal style="position: relative;">
                 
                 <v-btn href="/">
@@ -100,7 +100,7 @@ import { ref } from "vue";
 import { useDisplay } from "vuetify";
 import { defineProps } from 'vue';
 
-const { products } = defineProps(['products']);
+const { products,baseURL,categories,config } = defineProps(['products','baseURL','categories','config']);
 const { lgAndUp } = useDisplay();
 </script>
 <style scoped>

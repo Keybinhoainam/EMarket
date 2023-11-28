@@ -9,6 +9,7 @@ import Cookies from 'js-cookie';
 import ShowDetailsVue from '@/views/Product/ShowDetails.vue'
 import ProductsCategory from '@/views/Product/ProductsCategory.vue'
 import Cart from '@/views/Cart/Cart.vue'
+import Cart2 from '@/views/Cart/Cart2.vue'
 import WishList from '@/views/Product/Wishlist.vue'
 import Checkout from '@/views/Checkout/Checkout.vue'
 import Layout from '@/components/Layout'
@@ -49,7 +50,7 @@ const routes = [
       {
         path: '/cart',
         name: 'Cart',
-        component: Cart
+        component: Cart2
       },
       
       {

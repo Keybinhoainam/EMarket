@@ -114,10 +114,10 @@ emarket-ui/*.sln
 emarket-ui/*.sw?
 
 ## Tham Khảo
-Tham khảo/Template/shipit-master/
-Tham khảo/Template/StarAdmin/
-Tham khảo/Template/Vue-Ecom-master
-Tham khảo/Template/ecommerce-vuejs-master
+ThamKhao/Template/shipit-master/
+ThamKhao/Template/StarAdmin/
+ThamKhao/Template/Vue-Ecom-master
+ThamKhao/Template/ecommerce-vuejs-master
 # Visual Paradigm
 **/.vpprefdata/
 **/*.vpp.*

@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-carousel cycle hide-delimiters>
-            <v-carousel-item cover :src="require('../assets/img/home/slider4.jpg')">
+            <v-carousel-item cover :src="require('@/assets/img/home/slider4.jpg')">
                 <v-row class="fill-height" align="center" justify="center">
                     <div class="display-2 text-white pl-5 pr-5 hidden-sm-only">
                         <strong>Upto 60% + Extra 10%</strong>
@@ -9,7 +9,7 @@
                     <br />
                 </v-row>
             </v-carousel-item>
-            <v-carousel-item cover :src="require('../assets/img/home/slider2.jpg')">
+            <v-carousel-item cover :src="require('@/assets/img/home/slider2.jpg')">
                 <v-row class="fill-height" align="center" justify="center">
                     <div class="display-2 text-white pl-5 pr-5 hidden-sm-only">
                         <strong>Upto 60% + Extra 10%</strong>
@@ -17,7 +17,7 @@
                     <br />
                 </v-row>
             </v-carousel-item>
-            <v-carousel-item cover :src="require('../assets/img/home/slider3.jpg')">
+            <v-carousel-item cover :src="require('@/assets/img/home/slider3.jpg')">
                 <v-row class="fill-height" align="center" justify="center">
                     <div class="display-2 text-white pl-5 pr-5 hidden-sm-only">
                         <strong>Upto 60% + Extra 10%</strong>
@@ -25,7 +25,7 @@
                     <br />
                 </v-row>
             </v-carousel-item>
-            <v-carousel-item cover :src="require('../assets/img/home/slider1.jpg')">
+            <v-carousel-item cover :src="require('@/assets/img/home/slider1.jpg')">
                 <v-row class="fill-height" align="center" justify="center">
                     <div class="display-2 text-white pl-5 pr-5 hidden-sm-only">
                         <strong>Upto 60% + Extra 10%</strong>
@@ -38,7 +38,7 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <v-card>
                     <v-img cover
-                        :src="require('../assets/img/home/slider2.jpg')"
+                        :src="require('@/assets/img/home/slider2.jpg')"
                         class="text-white align-center"
                         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                         height="400px"
@@ -66,7 +66,7 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <v-card>
                     <v-img cover
-                        :src="require('../assets/img/home/slider3.jpg')"
+                        :src="require('@/assets/img/home/slider3.jpg')"
                         class="text-white align-center"
                         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                         height="400px"
@@ -83,7 +83,7 @@
             <div class="col-md-4 col-sm-4 col-xs-12">
                 <v-card variant="outlined">
                     <v-img cover
-                        :src="require('../assets/img/home/deal2.jpg')"
+                        :src="require('@/assets/img/home/deal2.jpg')"
                         class="text-white align-center"
                         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                         height="300px"
@@ -101,7 +101,7 @@
             <div class="col-md-4 col-sm-4 col-xs-12">
                 <v-card variant="outlined">
                     <v-img cover
-                        :src="require('../assets/img/home/deal3.jpg')"
+                        :src="require('@/assets/img/home/deal3.jpg')"
                         class="text-white align-center"
                         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                         height="300px"
@@ -119,7 +119,7 @@
             <div class="col-md-4 col-sm-4 col-xs-12">
                 <v-card variant="outlined">
                     <v-img cover
-                        :src="require('../assets/img/home/deal4.jpg')"
+                        :src="require('@/assets/img/home/deal4.jpg')"
                         class="text-white align-center"
                         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                         height="300px"
@@ -148,7 +148,7 @@
                                         <v-img cover
                                             class="text-white align-end"
                                             height="200px"
-                                            :src="require('../assets/img/home/deal1.jpg')"
+                                            :src="require('@/assets/img/home/deal1.jpg')"
                                         >
                                             <v-card-title>Bags & Purses </v-card-title>
                                         </v-img>
@@ -172,7 +172,7 @@
                                         <v-img cover
                                             class="text-white align-end"
                                             height="200px"
-                                            :src="require('../assets/img/home/deal2.jpg')"
+                                            :src="require('@/assets/img/home/deal2.jpg')"
                                         >
                                             <v-card-title>T-Shirt </v-card-title>
                                         </v-img>
@@ -196,7 +196,7 @@
                                         <v-img cover
                                             class="text-white align-end"
                                             height="200px"
-                                            :src="require('../assets/img/home/deal3.jpg')"
+                                            :src="require('@/assets/img/home/deal3.jpg')"
                                         >
                                             <v-card-title>Jeans </v-card-title>
                                         </v-img>
@@ -220,7 +220,7 @@
                                         <v-img cover
                                             class="text-white align-end"
                                             height="200px"
-                                            :src="require('../assets/img/home/deal4.jpg')"
+                                            :src="require('@/assets/img/home/deal4.jpg')"
                                         >
                                             <v-card-title>Shoes </v-card-title>
                                         </v-img>
@@ -245,36 +245,36 @@
         </v-container>
         <v-card color="accent">
             <v-container>
-                <v-row no-gutters>
-                    <v-col class="col-12 col-md-4 col-sm-12">
-                        <v-row>
-                            <v-col class="col-12 col-sm-3 pr-4" align="right">
-                                <v-icon class="display-2">mdi-truck</v-icon>
+                <v-row no-gutters >
+                    <v-col cols="12" md="4" sm="12" >
+                        <v-row >
+                            <v-col class="pr-4" align="right" cols="12" sm="3" >
+                                <v-icon class="text-h3 " >mdi-truck</v-icon>
                             </v-col>
-                            <v-col class="col-12 col-sm-9 pr-4">
-                                <h3 class="font-weight-light">FREE SHIPPING & RETURN</h3>
-                                <p class="font-weight-thin">Free Shipping over $300</p>
+                            <v-col class="pr-4" cols="12" sm="9">
+                                <h5 class="font-weight-light" >FREE SHIPPING & RETURN</h5>
+                                <p class="font-weight-thin" >Free Shipping over $300</p>
                             </v-col>
                         </v-row>
                     </v-col>
-                    <v-col class="col-12 col-md-4 col-sm-12">
+                    <v-col cols="12" md="4" sm="12">
                         <v-row>
-                            <v-col class="col-12 col-sm-3 pr-4" align="right">
-                                <v-icon class="display-2">mdi-cash-usd</v-icon>
+                            <v-col class="pr-4" align="right" cols="12" sm="3">
+                                <v-icon class="text-h3">mdi-cash-usd</v-icon>
                             </v-col>
-                            <v-col class="col-12 col-sm-9 pr-4">
-                                <h3 class="font-weight-light">MONEY BACK GUARANTEE</h3>
+                            <v-col class="pr-4" cols="12" sm="9">
+                                <h5 class="font-weight-light">MONEY BACK GUARANTEE</h5>
                                 <p class="font-weight-thin">30 Days Money Back Guarantee</p>
                             </v-col>
                         </v-row>
                     </v-col>
-                    <v-col class="col-12 col-md-4 col-sm-12">
+                    <v-col cols="12" md="4" sm="12">
                         <v-row>
-                            <v-col class="col-12 col-sm-3 pr-4" align="right">
-                                <v-icon class="display-2">mdi-phone</v-icon>
+                            <v-col class="pr-4" align="right" cols="12" sm="3">
+                                <v-icon class="text-h3">mdi-phone</v-icon>
                             </v-col>
-                            <v-col class="col-12 col-sm-9 pr-4">
-                                <h3 class="font-weight-light">+8486837****</h3>
+                            <v-col class="pr-4" cols="12" sm="9">
+                                <h5 class="font-weight-light">+8486837****</h5>
                                 <p class="font-weight-thin">24/7 Available Support</p>
                             </v-col>
                         </v-row>
