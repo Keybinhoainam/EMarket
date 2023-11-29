@@ -3,21 +3,10 @@
         <v-container>
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-12">
-                    <v-carousel cycle>
+                    <v-carousel cycle eager>
                         <v-carousel-item v-for="(img, key) in product.product_images" :key="key">
-                            <!-- <img :src="getImageURL(img.image)" alt="" class="fill-image" /> -->
-                            <template v-slot:default>
-                              <v-img :src="getImageURL(img.image)" class="fill-image">
-                                    <template v-slot:placeholder>
-                                        <div class="d-flex align-center justify-center fill-height">
-                                            <v-progress-circular
-                                                color="grey-lighten-4"
-                                                indeterminate
-                                            ></v-progress-circular>
-                                        </div>
-                                    </template>
-                                </v-img>
-                            </template>
+                            <!-- <v-img :src="getImageURL(img.image)" class="fill-image" eager></v-img> -->
+                            <img :src="getImageURL(img.image)" class="fill-image" />
                         </v-carousel-item>
                     </v-carousel>
                 </div>
@@ -34,7 +23,7 @@
                             </p>
                             <v-spacer></v-spacer>
                             <v-rating
-                                half-increments
+                                v-if="product.rating"
                                 readonly
                                 :model-value="product.rating"
                                 class=""
@@ -42,7 +31,9 @@
                                 color="warning"
                                 dense
                             ></v-rating>
-                            <span class="body-2 font-weight-thin"> {{ product.reviews }}</span>
+                            <span class="body-2 font-weight-thin">
+                                {{ product.reviews }} REVIEWS</span
+                            >
                         </v-card-actions>
                         <p class="text-subtitle-1 font-weight-thin">
                             {{ product.short_description }}
@@ -57,17 +48,28 @@
                         </v-radio-group> -->
                         <p class="title">ITEMS</p>
 
+                        <div v-if="product.stock > 0"></div>
+                        <div v-else>Out of stock</div>
                         <v-text-field
                             variant="outlined"
                             style="width: 100px"
-                            :value="1"
-                            dense
+                            v-model="quantity"
+                            min="1"
+                            :max="product.stock"
                             type="number"
                         ></v-text-field>
-                        <v-btn class="white--text" color="primary" tile dense
+                        <v-btn
+                            :disabled="product.stock <= 0 || quantity > product.stock"
+                            class="white--text"
+                            color="primary"
+                            tile
+                            dense
+                            @click="addToCart(this.product, this.quantity)"
                             ><v-icon>mdi-cart</v-icon> ADD TO CART</v-btn
                         >
-                        <v-btn class="ml-4" tile>ADD TO WISHLIST</v-btn>
+                        <v-btn class="ml-4" tile @click="addToWishList(this.product)"
+                            >ADD TO WISHLIST</v-btn
+                        >
                     </div>
                 </div>
             </div>
@@ -81,45 +83,28 @@
                     <v-window v-model="tab">
                         <v-window-item value="description">
                             <p class="pt-10 text-subtitle-1 font-weight-thin">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                Ultricies mi eget mauris pharetra et. Vel pretium lectus quam id leo
-                                in vitae turpis massa. Orci dapibus ultrices in iaculis nunc. At
-                                auctor urna nunc id cursus metus. Integer feugiat scelerisque varius
-                                morbi enim nunc. Aliquam sem et tortor consequat id porta nibh
-                                venenatis cras. Pellentesque pulvinar pellentesque habitant morbi
-                                tristique senectus et netus. Malesuada nunc vel risus commodo
-                                viverra maecenas. Neque volutpat ac tincidunt vitae semper quis.
+                                {{ product.description }}
                             </p>
                         </v-window-item>
 
                         <v-window-item value="materials">
                             <p class="pt-10 subtitle-1 font-weight-thin">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                Ultricies mi eget mauris pharetra et. Vel pretium lectus quam id leo
-                                in vitae turpis massa. Orci dapibus ultrices in iaculis nunc. At
-                                auctor urna nunc id cursus metus. Integer feugiat scelerisque varius
-                                morbi enim nunc. Aliquam sem et tortor consequat id porta nibh
-                                venenatis cras. Pellentesque pulvinar pellentesque habitant morbi
-                                tristique senectus et netus. Malesuada nunc vel risus commodo
-                                viverra maecenas. Neque volutpat ac tincidunt vitae semper quis.
+                                {{ product.description }}
                             </p>
                         </v-window-item>
 
                         <v-window-item value="reviews">
                             <v-list lines="three" height="300px">
                                 <v-list-item
-                                    v-for="(item, i) in items"
+                                    v-for="(review, i) in product.product_reviews"
                                     :key="i"
-                                    :prepend-avatar="item.avatar"
-                                    :title="item.title"
-                                    :subtitle="item.subtitle"
+                                    :prepend-avatar="null"
+                                    :title="review.comment"
                                     color="primary"
                                 >
                                     <v-list-item-title> </v-list-item-title>
                                     <v-rating
-                                        v-model="rating"
+                                        v-model="review.rating"
                                         class=""
                                         background-color="warning lighten-3"
                                         color="warning"

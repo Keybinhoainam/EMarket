@@ -46,10 +46,10 @@ public class Product_review {
 	
 	@ManyToOne(fetch =FetchType.LAZY )
 	@JoinColumn(name = "product_id")
-	@JsonBackReference("product-Product_review")
+	@JsonBackReference("product-product_reviews")
 	private Product product;
 	@ManyToOne(fetch =FetchType.LAZY )
 	@JoinColumn(name = "customer_id")
-	@JsonBackReference("user-Product_review")
+	@JsonBackReference("user-product_review")
 	private User user;
 }

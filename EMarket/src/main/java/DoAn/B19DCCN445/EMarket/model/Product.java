@@ -79,7 +79,7 @@ public class Product {
 	private Collection<Order_detail> order_details;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SUBSELECT)
-//	@JsonManagedReference("product-product_reviews")
+	@JsonManagedReference("product-product_reviews")
 	private Collection<Product_review> product_reviews;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SUBSELECT)

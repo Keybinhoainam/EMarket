@@ -1,5 +1,6 @@
 import Category from "./category";
 import Product_Image from "./product_image";
+import Product_review from "./product_review";
 import Store from "./store";
 
 export default class Product {
@@ -20,6 +21,7 @@ export default class Product {
         store=new Store(),
         rating=4.5,
         reviews=20,
+        product_reviews=new Product_review()
     ) {
         Object.assign(this, {
             id,
@@ -37,7 +39,8 @@ export default class Product {
             category,
             store,
             rating,
-            reviews
+            reviews,
+            product_reviews
         });
     }
 }

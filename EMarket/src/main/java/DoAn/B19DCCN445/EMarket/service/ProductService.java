@@ -21,8 +21,10 @@ import DoAn.B19DCCN445.EMarket.exception.ProductNotFoundException;
 import DoAn.B19DCCN445.EMarket.exception.StorageException;
 import DoAn.B19DCCN445.EMarket.model.Product;
 import DoAn.B19DCCN445.EMarket.model.Product_image;
+import DoAn.B19DCCN445.EMarket.model.Product_review;
 import DoAn.B19DCCN445.EMarket.repository.ProductImageRepository;
 import DoAn.B19DCCN445.EMarket.repository.ProductRepository;
+import DoAn.B19DCCN445.EMarket.repository.ProductReviewRepository;
 
 @Service
 public class ProductService {
@@ -32,6 +34,8 @@ public class ProductService {
 	private ProductImageRepository imageRepository;
 	@Autowired
 	FilesStorageService storageService;
+	@Autowired
+	ProductReviewRepository productReviewRepository;
 
 	public ProductDTO getProduct(Long id) throws ProductNotFoundException {
 		Product p = repository.findProduct(id);
@@ -43,6 +47,22 @@ public class ProductService {
 //		p.setProduct_images(images);
 		ProductDTO pdto=new ProductDTO();
 		BeanUtils.copyProperties(p, pdto);
+		
+		List<Product_review>product_reviews= productReviewRepository.findByProduct(p);
+		Integer reviews=product_reviews.size();
+		Double rating;
+		if(reviews>0) {
+			rating=0.0;
+			for(Product_review review : product_reviews) {
+				rating+=(double)(review.getRating());
+			}
+			rating/=reviews;
+		}
+		else {
+			rating=null;
+		}
+		pdto.setRating(rating);
+		pdto.setReviews(reviews);
 		return pdto;
 	}
 
