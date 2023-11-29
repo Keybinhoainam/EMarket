@@ -47,6 +47,7 @@ export default {
                 this.cart = new Cart();
             }
             this.checkTotalCost();
+            this.$emit("loadCart");
             await nextTick();
         },
         async editCartDetail(cart_detail) {
@@ -125,7 +126,7 @@ export default {
             this.checkTotalCost();
             nextTick();
         },
-        askToremove(cart_detail) {
+        askToRemove(cart_detail) {
             this.alertWarning(
                 "Are you sure?",
                 "You won't be able to revert this!",

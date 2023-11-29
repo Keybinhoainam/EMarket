@@ -8,11 +8,11 @@
                         <!-- <template v-slot:default> -->
                         <thead>
                             <tr>
-                                <th class="text-center">ITEM</th>
-                                <th class="text-center">PRICE</th>
-                                <th class="text-center">QUANTITY</th>
-                                <th class="text-center">TOTAL</th>
-                                <th class="text-center"></th>
+                                <th >ITEM</th>
+                                <th >PRICE</th>
+                                <th >QUANTITY</th>
+                                <th >TOTAL</th>
+                                <th ></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -35,18 +35,20 @@
                                         </v-list-item>
                                     </v-list-item>
                                 </td>
-                                <td>$40.00</td>
+                                <td >
+                                    ${{ cart_detail.product.price }}
+                                </td>
                                 <td>
                                     <v-text-field
                                         class="pt-10"
                                         style="width: 80px"
-                                        variant="outlined"
-                                        model-value="2"
+                                        v-model="cart_detail.quantity"
                                         type="number"
+                                        @change="editCartDetail(cart_detail)"
                                     ></v-text-field>
                                 </td>
-                                <td>$80.00</td>
-                                <td><a>X</a></td>
+                                <td>${{ cart_detail.product.price * cart_detail.quantity }}</td>
+                                <td  title="Remove Item"><button type="button" class="btn btn-danger" @click="askToRemove(cart_detail)" title="Remove item">X</button></td>
                             </tr>
                         </tbody>
                         <!-- </template> -->
@@ -63,7 +65,7 @@
                             <tbody>
                                 <tr>
                                     <td>Order Subtotal</td>
-                                    <td class="text-right" style="width: 50px">$160.00</td>
+                                    <td class="text-right" style="width: 50px">${{ totalcost.toFixed(2) }}</td>
                                 </tr>
                                 <tr>
                                     <td>Shipping Charges</td>
@@ -71,60 +73,22 @@
                                 </tr>
                                 <tr>
                                     <td>Tax</td>
-                                    <td class="text-right" style="width: 50px">$5.00</td>
+                                    <td class="text-right" style="width: 50px">$0</td>
                                 </tr>
                                 <tr>
                                     <td><b>Total</b></td>
-                                    <td class="text-right" style="width: 50px"><b>$175.00</b></td>
+                                    <td class="text-right" style="width: 50px"><b>${{ (totalcost+10).toFixed(2)}}</b></td>
                                 </tr>
                             </tbody>
                         </template>
                     </v-table>
                     <div class="text-center">
-                        <v-btn class="primary white--text mt-5" outlined>PROCEED TO PAY</v-btn>
+                        <v-btn class="white--text mt-5" color="primary">PROCEED TO PAY</v-btn>
                     </div>
                 </v-col>
             </v-row>
         </v-container>
-        <v-card color="accent">
-            <v-container>
-                <v-row no-gutters>
-                    <v-col cols="12" md="4" sm="12">
-                        <v-row>
-                            <v-col class="pr-4" align="right" cols="12" sm="3">
-                                <v-icon class="text-h3">mdi-truck</v-icon>
-                            </v-col>
-                            <v-col class="pr-4" cols="12" sm="9">
-                                <h5 class="font-weight-light">FREE SHIPPING & RETURN</h5>
-                                <p class="font-weight-thin">Free Shipping over $300</p>
-                            </v-col>
-                        </v-row>
-                    </v-col>
-                    <v-col cols="12" md="4" sm="12">
-                        <v-row>
-                            <v-col class="pr-4" align="right" cols="12" sm="3">
-                                <v-icon class="text-h3">mdi-cash-usd</v-icon>
-                            </v-col>
-                            <v-col class="pr-4" cols="12" sm="9">
-                                <h5 class="font-weight-light">MONEY BACK GUARANTEE</h5>
-                                <p class="font-weight-thin">30 Days Money Back Guarantee</p>
-                            </v-col>
-                        </v-row>
-                    </v-col>
-                    <v-col cols="12" md="4" sm="12">
-                        <v-row>
-                            <v-col class="pr-4" align="right" cols="12" sm="3">
-                                <v-icon class="text-h3">mdi-phone</v-icon>
-                            </v-col>
-                            <v-col class="pr-4" cols="12" sm="9">
-                                <h5 class="font-weight-light">+8486837****</h5>
-                                <p class="font-weight-thin">24/7 Available Support</p>
-                            </v-col>
-                        </v-row>
-                    </v-col>
-                </v-row>
-            </v-container>
-        </v-card>
+        
     </div>
 </template>
 <script>
@@ -148,8 +112,7 @@ export default {
     mixins: [mixinsCart, mixinsProduct, sweetAlert],
     methods: {},
     async created() {
-        console.log(this.baseURL);
-        await this.getCart(this.products);
+        await this.getCart();
         // console.log(this.cart);
     },
 };

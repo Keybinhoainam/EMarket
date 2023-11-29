@@ -1,5 +1,5 @@
 <template>
-    <v-app id="inspire" >
+    <v-app id="inspire">
         <v-app-bar :clipped-left="lgAndUp" app color="primary" dark>
             <!--      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />-->
 
@@ -25,34 +25,30 @@
                     <v-icon>mdi-bell</v-icon>
                 </v-badge>
             </v-btn>
-            <v-btn  href="/cart" icon title="Cart">
-                <v-badge content="2" value="2" color="green" overlap>
+            <v-btn href="/cart" icon title="Cart">
+                <v-badge :content="cart.cart_details.length"  color="green" overlap>
                     <v-icon>mdi-cart</v-icon>
                 </v-badge>
             </v-btn>
-            <v-btn  href="/wishlist" icon title="Wishlist">
+            <v-btn href="/wishlist" icon title="Wishlist">
                 <v-badge content="2" value="2" color="green" overlap>
                     <v-icon>mdi-tag-heart</v-icon>
                 </v-badge>
             </v-btn>
-            
         </v-app-bar>
-        
+
         <v-main class="pb-0">
-            <v-bottom-navigation color="primary" horizontal style="position: relative;">
-                
+            <v-bottom-navigation color="primary" horizontal style="position: relative">
                 <v-btn href="/">
                     <span>Home</span>
                 </v-btn>
                 <v-menu open-on-hover offset-y>
                     <template v-slot:activator="{ props }">
-                        <v-btn v-bind="props">
-                            Shop
-                        </v-btn>
+                        <v-btn v-bind="props"> Shop </v-btn>
                     </template>
                     <v-list class="mx-auto" max-width="344px">
                         <v-list-item v-for="(item, index) in products" :key="index" href="/shop">
-                            <v-list-item-title >{{ item.product_name }}</v-list-item-title>
+                            <v-list-item-title>{{ item.product_name }}</v-list-item-title>
                         </v-list-item>
                     </v-list>
                 </v-menu>
@@ -64,7 +60,52 @@
                 </v-btn>
             </v-bottom-navigation>
         </v-main>
-        <router-view />
+        <router-view
+            :baseURL="baseURL"
+            :products="products"
+            :categories="categories"
+            :config="config"
+            @loadCart="loadCart"
+        />
+        <v-card color="accent">
+            <v-container>
+                <v-row no-gutters>
+                    <v-col cols="12" md="4" sm="12">
+                        <v-row>
+                            <v-col class="pr-4" align="right" cols="12" sm="3">
+                                <v-icon class="text-h3">mdi-truck</v-icon>
+                            </v-col>
+                            <v-col class="pr-4" cols="12" sm="9">
+                                <h5 class="font-weight-light">FREE SHIPPING & RETURN</h5>
+                                <p class="font-weight-thin">Free Shipping over $300</p>
+                            </v-col>
+                        </v-row>
+                    </v-col>
+                    <v-col cols="12" md="4" sm="12">
+                        <v-row>
+                            <v-col class="pr-4" align="right" cols="12" sm="3">
+                                <v-icon class="text-h3">mdi-cash-usd</v-icon>
+                            </v-col>
+                            <v-col class="pr-4" cols="12" sm="9">
+                                <h5 class="font-weight-light">MONEY BACK GUARANTEE</h5>
+                                <p class="font-weight-thin">30 Days Money Back Guarantee</p>
+                            </v-col>
+                        </v-row>
+                    </v-col>
+                    <v-col cols="12" md="4" sm="12">
+                        <v-row>
+                            <v-col class="pr-4" align="right" cols="12" sm="3">
+                                <v-icon class="text-h3">mdi-phone</v-icon>
+                            </v-col>
+                            <v-col class="pr-4" cols="12" sm="9">
+                                <h5 class="font-weight-light">+8486837****</h5>
+                                <p class="font-weight-thin">24/7 Available Support</p>
+                            </v-col>
+                        </v-row>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-card>
         <v-footer class="p-0">
             <v-card flat tile width="100%" class="text-white text-center" color="secondary" dark>
                 <v-card-text>
@@ -83,7 +124,7 @@
                 </v-card-text>
 
                 <v-card-text class="text-white pt-0">
-                    Hello everyone, My name is Bùi Hoài Nam. I am a PTIT student. This is my project, I hope you love it !
+                    I'm Bùi Hoài Nam from PTIT with love !!!
                 </v-card-text>
 
                 <v-divider></v-divider>
@@ -95,21 +136,43 @@
         </v-footer>
     </v-app>
 </template>
-<script setup>
-import { ref } from "vue";
+<script>
+import mixinsCart from "@/mixins/mixinsCart";
+import Cart from "@/models/cart";
 import { useDisplay } from "vuetify";
-import { defineProps } from 'vue';
+export default {
+    setup(){
+        const { lgAndUp } = useDisplay();
+        return {
+            lgAndUp
+        }
+    },
+    props: ["products", "baseURL", "categories", "config"],
+    mixins: [mixinsCart],
+    data() {
+        return {
+            cartItemsQuantity: 0,
+            cart: new Cart(),
+        };
+    },
+    methods: {
+        async loadCart(){
+            this.cart = JSON.parse(localStorage.getItem("cart"));
+        }
+    },
+    created() {
+        this.loadCart();
+        // console.log(this.cart);
+    },
+};
 
-const { products,baseURL,categories,config } = defineProps(['products','baseURL','categories','config']);
-const { lgAndUp } = useDisplay();
+
 </script>
 <style scoped>
 .bottom-navigation-wrapper {
     position: fixed;
     bottom: 0;
     width: 100%;
-    z-index: 1000; /* Đảm bảo nằm trên cùng */
+    z-index: 1000;
 }
-
-/* Các kiểu CSS khác tùy thuộc vào yêu cầu của bạn */
 </style>

@@ -142,7 +142,7 @@
                         <v-card-title class="subheading">Deals of the Day</v-card-title>
                         <v-divider></v-divider>
                         <div class="row">
-                            <div class="col-12 col-md-3 col-sm-6 col-xs-6 text-center">
+                            <div class="col-12 col-md-3 col-sm-6  text-center">
                                 <v-hover v-slot="{ isHovering, props}" open-delay="200">
                                     <v-card :elevation="isHovering ? 16 : 2" v-bind="props">
                                         <v-img cover
@@ -243,45 +243,7 @@
                 </v-col>
             </v-row>
         </v-container>
-        <v-card color="accent">
-            <v-container>
-                <v-row no-gutters >
-                    <v-col cols="12" md="4" sm="12" >
-                        <v-row >
-                            <v-col class="pr-4" align="right" cols="12" sm="3" >
-                                <v-icon class="text-h3 " >mdi-truck</v-icon>
-                            </v-col>
-                            <v-col class="pr-4" cols="12" sm="9">
-                                <h5 class="font-weight-light" >FREE SHIPPING & RETURN</h5>
-                                <p class="font-weight-thin" >Free Shipping over $300</p>
-                            </v-col>
-                        </v-row>
-                    </v-col>
-                    <v-col cols="12" md="4" sm="12">
-                        <v-row>
-                            <v-col class="pr-4" align="right" cols="12" sm="3">
-                                <v-icon class="text-h3">mdi-cash-usd</v-icon>
-                            </v-col>
-                            <v-col class="pr-4" cols="12" sm="9">
-                                <h5 class="font-weight-light">MONEY BACK GUARANTEE</h5>
-                                <p class="font-weight-thin">30 Days Money Back Guarantee</p>
-                            </v-col>
-                        </v-row>
-                    </v-col>
-                    <v-col cols="12" md="4" sm="12">
-                        <v-row>
-                            <v-col class="pr-4" align="right" cols="12" sm="3">
-                                <v-icon class="text-h3">mdi-phone</v-icon>
-                            </v-col>
-                            <v-col class="pr-4" cols="12" sm="9">
-                                <h5 class="font-weight-light">+8486837****</h5>
-                                <p class="font-weight-thin">24/7 Available Support</p>
-                            </v-col>
-                        </v-row>
-                    </v-col>
-                </v-row>
-            </v-container>
-        </v-card>
+        
     </div>
     <!-- <div id="home">
 

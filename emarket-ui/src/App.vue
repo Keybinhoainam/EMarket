@@ -4,6 +4,7 @@
     @resetCartCount="resetCartCount"
     v-if="!['Signup', 'Signin'].includes($route.name)"
   /> -->
+    <!-- <Layout :baseURL="baseURL" :products="products" :categories="categories" :config="config" /> -->
     <div style="min-height: 60vh">
         <router-view
             :baseURL="baseURL"
@@ -31,7 +32,7 @@ import Cart from "./models/cart";
 export default {
     data() {
         return {
-            cart:new Cart(),
+            cart: new Cart(),
             baseURL: "http://localhost:8080/api",
             products: null,
             categories: null,
@@ -43,46 +44,34 @@ export default {
         };
     },
 
-    // components: { Footer, Navbar },
+    // components: { Layout },
     mixins: [sweetAlert],
     methods: {
         async fetchData() {
             // fetch products
             // console.log(this.schema);
             await productService
-                .getAllProducts(
-                    `${this.baseURL}/data/product/getallproducts`,
-                    this.config
-                )
+                .getAllProducts(`${this.baseURL}/data/product/getallproducts`, this.config)
                 .then(
                     (res) => {
                         this.products = res.data;
                     },
                     (error) => {
                         console.log(error.message);
-                        this.alertFail(
-                            "Failed to load all products",
-                            error.message
-                        );
+                        this.alertFail("Failed to load all products", error.message);
                     }
                 );
 
             //fetch categories
             await categoryService
-                .getAllCategories(
-                    `${this.baseURL}/data/category/getallcategories`,
-                    this.config
-                )
+                .getAllCategories(`${this.baseURL}/data/category/getallcategories`, this.config)
                 .then(
                     (res) => {
                         this.categories = res.data;
                     },
                     (error) => {
                         console.log(error.message);
-                        this.alertFail(
-                            "Failed to load all categories",
-                            error.message
-                        );
+                        this.alertFail("Failed to load all categories", error.message);
                     }
                 );
 
@@ -114,13 +103,12 @@ export default {
         //         .required()
         //         .oneOf([Yup.ref("password")], "Passwords do not match"),
         // });
-        
         // console.log(this.categories);
     },
     async mounted() {
         // this.token = localStorage.getItem("token");
-        
-        this.config=authHeader();
+
+        this.config = authHeader();
         await this.fetchData();
     },
 };

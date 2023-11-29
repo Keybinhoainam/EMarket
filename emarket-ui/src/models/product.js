@@ -9,7 +9,7 @@ export default class Product {
         product_name=null,
         description=null,
         short_description=null,
-        standard_cost=null,
+        standard_cost=0,
         price=null,
         stock=null,
         is_discontinued=false,
@@ -17,7 +17,9 @@ export default class Product {
         is_new=true,
         product_images=[],
         category=new Category(),
-        store=new Store()
+        store=new Store(),
+        rating=4.5,
+        reviews=20,
     ) {
         Object.assign(this, {
             id,
@@ -34,6 +36,8 @@ export default class Product {
             product_images,
             category,
             store,
+            rating,
+            reviews
         });
     }
 }
