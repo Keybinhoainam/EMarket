@@ -51,6 +51,10 @@ public class ProductController {
 	private ResponseEntity<List<ProductDTO>> getAllProducts() {
 		return ResponseEntity.ok(productService.getAllProducts());
 	}
+	@GetMapping("/data/product/getproductslikename")
+	private ResponseEntity<List<ProductDTO>> getProductsLikeName(@RequestParam("name") String name) {
+		return ResponseEntity.ok(productService.getProductsLikeName(name));
+	}
 	
 	@DeleteMapping("/seller/product/delete/{id}")
 	private ResponseEntity<ApiResponse> getDeleteProduct(@PathVariable Long id) {

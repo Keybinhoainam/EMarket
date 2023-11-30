@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Entity;
@@ -50,6 +51,6 @@ public class Product_review {
 	private Product product;
 	@ManyToOne(fetch =FetchType.LAZY )
 	@JoinColumn(name = "customer_id")
-	@JsonBackReference("user-product_review")
+	@JsonManagedReference("user-product_review")
 	private User user;
 }

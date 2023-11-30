@@ -9,6 +9,7 @@ export default {
             isValid: true,
             baseGetImageUrl: `${this.baseURL}/data/file/images/`,
             getProductUrl: `${this.baseURL}/data/product/get/`,
+            getProductsLikeNameUrl:`${this.baseURL}/data/product/getproductslikename`
         };
     },
     methods: {
@@ -131,5 +132,18 @@ export default {
             // }
             return this.isValid;
         },
+        async findProductsLikeName(name){
+            await productService
+                .getProductsLikeName(this.getProductsLikeNameUrl,name, this.config)
+                .then(
+                    (res) => {
+                        this.products = res.data;
+                    },
+                    (error) => {
+                        console.log(error.message);
+                        this.alertFail("Failed To Load Products Like Name", error.message);
+                    }
+                );
+        }
     },
 };

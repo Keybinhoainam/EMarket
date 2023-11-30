@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.hibernate.jpa.QueryHints;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,9 +26,11 @@ import DoAn.B19DCCN445.EMarket.model.Product_review;
 import DoAn.B19DCCN445.EMarket.repository.ProductImageRepository;
 import DoAn.B19DCCN445.EMarket.repository.ProductRepository;
 import DoAn.B19DCCN445.EMarket.repository.ProductReviewRepository;
-
+import jakarta.persistence.EntityManager;
 @Service
 public class ProductService {
+	@Autowired
+	private EntityManager entityManager;
 	@Autowired
 	private ProductRepository repository;
 	@Autowired
@@ -36,9 +39,20 @@ public class ProductService {
 	FilesStorageService storageService;
 	@Autowired
 	ProductReviewRepository productReviewRepository;
-
+//	private Product findProduct(Long id) {
+//		// TODO Auto-generated method stub
+//		Product p = repository.findProduct(id);
+//		p= entityManager.createQuery("""
+//			    select distinct p
+//			    from Product p
+//			    left join fetch p.product_reviews
+//			    where p in :product""", Product.class)
+//			.setParameter("product", p)
+//			.getSingleResult();
+//		return p;
+//	}
 	public ProductDTO getProduct(Long id) throws ProductNotFoundException {
-		Product p = repository.findProduct(id);
+		Product p =repository.findProduct(id);
 		
 		if (p == null)
 			throw new ProductNotFoundException("Product is not found");
@@ -48,7 +62,7 @@ public class ProductService {
 		ProductDTO pdto=new ProductDTO();
 		BeanUtils.copyProperties(p, pdto);
 		
-		List<Product_review>product_reviews= productReviewRepository.findByProduct(p);
+		List<Product_review> product_reviews=new ArrayList<>(p.getProduct_reviews());
 		Integer reviews=product_reviews.size();
 		Double rating;
 		if(reviews>0) {
@@ -108,6 +122,16 @@ public class ProductService {
 			BeanUtils.copyProperties(product, pdto);
 //			List<Product_image> list2=new ArrayList<>(pdto.getProduct_images());
 //			System.out.println(list2.get(0).getImage());
+			return pdto;
+		}).collect(Collectors.toList());
+		
+		return products;
+	}
+	public List<ProductDTO> getProductsLikeName(String name) {
+		// TODO Auto-generated method stub
+		List<ProductDTO> products=repository.findByLikeName(name).stream().map((product)->{
+			ProductDTO pdto=new ProductDTO();
+			BeanUtils.copyProperties(product, pdto);
 			return pdto;
 		}).collect(Collectors.toList());
 		

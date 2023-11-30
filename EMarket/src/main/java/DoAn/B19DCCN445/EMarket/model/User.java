@@ -83,9 +83,9 @@ public class User implements UserDetails {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Order> orders;
 	@Fetch(FetchMode.SUBSELECT)
-	@JsonManagedReference("user-product_review")
+	@JsonBackReference("user-product_review")
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Product_review> product_reviews;
+	private Collection<Product_review> product_reviews;
 	@Fetch(FetchMode.SUBSELECT)
 //	@JsonManagedReference
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

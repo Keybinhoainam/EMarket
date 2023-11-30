@@ -15,6 +15,7 @@
                 prepend-inner-icon="mdi-magnify"
                 label="Search"
                 class="hidden-sm-and-down pl-10 ml-4"
+                @keyup.enter="search()"
             />
             <v-spacer />
             <v-btn icon title="Account">
@@ -42,19 +43,20 @@
                 <v-btn href="/">
                     <span>Home</span>
                 </v-btn>
+                <v-btn href="/shop">
+                    <span>Shop</span>
+                </v-btn>
                 <v-menu open-on-hover offset-y>
                     <template v-slot:activator="{ props }">
-                        <v-btn v-bind="props"> Shop </v-btn>
+                        <v-btn v-bind="props"> Product </v-btn>
                     </template>
                     <v-list class="mx-auto" max-width="344px">
-                        <v-list-item v-for="(item, index) in products" :key="index" href="/shop">
-                            <v-list-item-title>{{ item.product_name }}</v-list-item-title>
+                        <v-list-item v-for="(product, index) in products" :key="index" :href="'/product/show/'+product.id">
+                            <v-list-item-title>{{ product.product_name }}</v-list-item-title>
                         </v-list-item>
                     </v-list>
                 </v-menu>
-                <v-btn href="/product">
-                    <span>Product</span>
-                </v-btn>
+                
                 <v-btn href="/blog">
                     <span>Blog</span>
                 </v-btn>
@@ -62,7 +64,7 @@
         </v-main>
         <router-view
             :baseURL="baseURL"
-            :products="products"
+            :products="shopProducts"
             :categories="categories"
             :config="config"
             @loadCart="loadCart"
@@ -140,6 +142,8 @@
 import mixinsCart from "@/mixins/mixinsCart";
 import Cart from "@/models/cart";
 import { useDisplay } from "vuetify";
+import mixinsProduct from '@/mixins/mixinsProduct';
+import sweetAlert from "@/mixins/sweetAlert";
 export default {
     setup(){
         const { lgAndUp } = useDisplay();
@@ -148,16 +152,21 @@ export default {
         }
     },
     props: ["products", "baseURL", "categories", "config"],
-    mixins: [mixinsCart],
+    mixins: [mixinsCart,mixinsProduct,sweetAlert],
     data() {
         return {
             cartItemsQuantity: 0,
             cart: new Cart(),
+            shopProducts:this.products
         };
     },
     methods: {
         async loadCart(){
             this.cart = JSON.parse(localStorage.getItem("cart"));
+        },
+        search(name){
+            this.products=this.findProductsLikeName(name);
+            this.$router.push({name:"shop"})
         }
     },
     created() {

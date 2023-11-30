@@ -16,8 +16,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	List<Product> findAllProduct();
 
 //	
-	@Query("select p from Product p " + "left join fetch p.category c " + "left join fetch p.store s "
-			+ "left join fetch p.product_images i "+ "left join fetch p.product_reviews pr "
+	@Query("select distinct p from Product p " + "left join fetch p.category c " + "left join fetch p.store s "
 			 + "where p.id = ?1 ")
 	Product findProduct(Long id);
 
@@ -27,8 +26,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 //	Product_image findProductImage(Long id);
 
 	@Query("select p from Product p " + "left join fetch p.category " + "left join fetch p.store "
-			+ "where p.product_name like ?1")
-	ArrayList<Product> findByLikeName(String name);
+			+ "where p.product_name like %?1%")
+	List<Product> findByLikeName(String name);
 	
 	List<Product> findByCategory(Category category);
 

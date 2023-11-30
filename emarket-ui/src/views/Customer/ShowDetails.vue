@@ -98,7 +98,7 @@
                                 <v-list-item
                                     v-for="(review, i) in product.product_reviews"
                                     :key="i"
-                                    :prepend-avatar="null"
+                                    :prepend-avatar='review.user.avatar'
                                     :title="review.comment"
                                     color="primary"
                                 >
@@ -216,7 +216,7 @@ export default {
                     href: "/",
                 },
                 {
-                    title: "Store()",
+                    title: this.product.store.store_name,
                     disabled: false,
                     href: "/",
                 },

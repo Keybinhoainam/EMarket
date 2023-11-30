@@ -7,6 +7,7 @@ import Product from '../views/Product/Product'
 import PageNotFound from '@/views/PageNotFound.vue'
 import Cookies from 'js-cookie';
 import ShowDetails from '@/views/Customer/ShowDetails.vue'
+import Shop from '../views/Customer/Shop.vue'
 import ProductsCategory from '@/views/Product/ProductsCategory.vue'
 import Cart from '@/views/Customer/Cart.vue'
 import WishList from '@/views/Product/Wishlist.vue'
@@ -25,6 +26,11 @@ const routes = [
         path: '/',
         name: 'home',
         component: HomeView
+      },
+      {
+        path: '/shop',
+        name: 'shop',
+        component: Shop
       },
       {
         path: '/login',

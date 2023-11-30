@@ -42,8 +42,18 @@ class ProductService {
     }
     getAllProducts(url, config) {
         return axios.get(url, config).then(
-            (product) => {
-                return Promise.resolve(product);
+            (products) => {
+                return Promise.resolve(products);
+            },
+            (error) => {
+                return Promise.reject(error);
+            }
+        );
+    }
+    getProductsLikeName(url,name, config) {
+        return axios.get(url,name, config).then(
+            (products) => {
+                return Promise.resolve(products);
             },
             (error) => {
                 return Promise.reject(error);
