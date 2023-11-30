@@ -94,7 +94,7 @@ export default {
         //     this.cartCount = 0;
         // },
     },
-    created() {
+    async created() {
         // this.schema = Yup.object().shape({
         //     name: Yup.string().required(),
         //     email: Yup.string().email().required(),
@@ -104,12 +104,13 @@ export default {
         //         .oneOf([Yup.ref("password")], "Passwords do not match"),
         // });
         // console.log(this.categories);
-    },
-    async mounted() {
-        // this.token = localStorage.getItem("token");
-
         this.config = authHeader();
         await this.fetchData();
+    },
+     mounted() {
+        // this.token = localStorage.getItem("token");
+
+        
     },
 };
 </script>

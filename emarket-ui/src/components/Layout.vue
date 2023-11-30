@@ -15,7 +15,8 @@
                 prepend-inner-icon="mdi-magnify"
                 label="Search"
                 class="hidden-sm-and-down pl-10 ml-4"
-                @keyup.enter="search()"
+                :v-model="textSearch"
+                @keyup.enter="search(textSearch)"
             />
             <v-spacer />
             <v-btn icon title="Account">
@@ -64,9 +65,10 @@
         </v-main>
         <router-view
             :baseURL="baseURL"
-            :products="shopProducts"
+            :products="products"
             :categories="categories"
             :config="config"
+            :textSearch="textSearch"
             @loadCart="loadCart"
         />
         <v-card color="accent">
@@ -144,6 +146,7 @@ import Cart from "@/models/cart";
 import { useDisplay } from "vuetify";
 import mixinsProduct from '@/mixins/mixinsProduct';
 import sweetAlert from "@/mixins/sweetAlert";
+import { nextTick, shallowRef  } from 'vue';
 export default {
     setup(){
         const { lgAndUp } = useDisplay();
@@ -157,22 +160,22 @@ export default {
         return {
             cartItemsQuantity: 0,
             cart: new Cart(),
-            shopProducts:this.products
+            textSearch:"",
         };
     },
     methods: {
         async loadCart(){
             this.cart = JSON.parse(localStorage.getItem("cart"));
         },
-        search(name){
-            this.products=this.findProductsLikeName(name);
-            this.$router.push({name:"shop"})
+        search(textSearch){
+            // this.findProductsLikeName(textSearch);
+            // this.$router.push({name:"shop",params:{textSearch:textSearch}})
         }
     },
-    created() {
+    async created() {
         this.loadCart();
-        // console.log(this.cart);
     },
+    
 };
 
 

@@ -134,10 +134,10 @@ export default {
         },
         async findProductsLikeName(name){
             await productService
-                .getProductsLikeName(this.getProductsLikeNameUrl,name, this.config)
+                .getProductsLikeName(this.getProductsLikeNameUrl,{ params: { 'name': name } }, this.config)
                 .then(
                     (res) => {
-                        this.products = res.data;
+                        this.shopProducts = {...res.data};
                     },
                     (error) => {
                         console.log(error.message);

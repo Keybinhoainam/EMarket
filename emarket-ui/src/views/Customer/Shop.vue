@@ -3,7 +3,7 @@
         <v-container>
             <div class="row">
                 <div class="col-md-3 col-sm-3 col-xs-12">
-                    <v-card>
+                    <v-card class=" px-5">
                         <v-card-title>Filters</v-card-title>
                         <v-divider></v-divider>
                         <v-list>
@@ -47,10 +47,10 @@
                                     density="compact"
                                 ></v-text-field>
                             </v-col>
-                            <v-col cols="12" sm="2">
-                                <p class="pt-2 text-center">TO</p>
+                            <v-col cols="12" sm="1">
+                                <p class="pt-2 text-center">-</p>
                             </v-col>
-                            <v-col cols="12" sm="5">
+                            <v-col cols="12" sm="6">
                                 <v-text-field
                                     v-model="range[1]"
                                     label="Max"
@@ -168,8 +168,9 @@
 <script>
 import mixinsProduct from "@/mixins/mixinsProduct";
 import sweetAlert from "@/mixins/sweetAlert";
+import { shallowRef } from 'vue';
 export default {
-    props: ["categories","products","baseURL"],
+    props: ["categories","products","baseURL","textSearch"],
     mixins: [mixinsProduct, sweetAlert],
     data: () => ({
         range: [0, 10000],
@@ -206,6 +207,20 @@ export default {
         page: 1,
         min: 0,
         max: 10000,
+        shopProducts:null
     }),
+    watch:{
+        products(products){
+            this.shopProducts={...products};
+        },
+        textSearch(textSearch){
+            this.findProductsLikeName(textSearch);
+        }
+    },
+    // async mounted() {
+    //     if(textSearch){
+    //         await this.findProductsLikeName(textSearch);
+    //     }
+    // },
 };
 </script>

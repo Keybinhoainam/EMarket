@@ -50,8 +50,8 @@ class ProductService {
             }
         );
     }
-    getProductsLikeName(url,name, config) {
-        return axios.get(url,name, config).then(
+    getProductsLikeName(url,params, config) {
+        return axios.get(url,params, config).then(
             (products) => {
                 return Promise.resolve(products);
             },
