@@ -21,7 +21,7 @@ export default class Product {
         store=new Store(),
         rating=4.5,
         reviews=20,
-        product_reviews=new Product_review()
+        product_reviews=null
     ) {
         Object.assign(this, {
             id,

@@ -5,7 +5,7 @@ export default class User{
     //     this.username=username;
     //     this.password=password;
     // }
-    constructor(username,password,confirmPassword,email,fullname,gender,birthday,avatar,phone,store){
+    constructor(username,password,confirmPassword,email,fullname,gender,birthday,avatar,phone,store=new Store()){
         this.username=username;
         this.password=password;
         this.confirmPassword=confirmPassword;
@@ -15,6 +15,6 @@ export default class User{
         this.birthday=birthday;
         this.avatar=avatar;
         this.phone=phone;
-        this.store=new Store();
+        this.store=store;
     }
 }

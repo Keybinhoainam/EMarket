@@ -21,7 +21,7 @@
                                     <v-list-item>
                                         <v-list-item
                                             :title="cart_detail.product.product_name"
-                                            :subtitle="cart_detail.product.category.category_name"
+                                            :subtitle="'Stock: '+cart_detail.product.stock"
                                             :prepend-avatar="
                                                 cart_detail.product.product_images.length > 0 &&
                                                 cart_detail.product.product_images[0].image != null

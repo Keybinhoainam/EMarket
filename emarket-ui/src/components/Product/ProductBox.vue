@@ -1,41 +1,39 @@
 <template>
-    <div class="card h-100 w-100" width="1000" height="1000">
-        <div class="embed-responsive embed-responsive-16by9">
-            <img
-                class="card-img-top embed-responsive-item"
-                width="300"
-                height="300"
+    <v-hover v-slot:default="{ isHovering, props }">
+        <v-card class="mx-auto">
+            <v-img
+                class="text-white align-end"
+                :aspect-ratio="1"
+                height="300px"
                 :src="
                     product.product_images.length > 0 && product.product_images[0].image != null
                         ? getImageURL(product.product_images[0].image)
                         : require('@/assets/images/noImage.webp')
                 "
-                alt="Product Image"
-            />
-        </div>
-        <div class="card-body">
-            <router-link :to="{ name: 'ShowDetails', params: { id: product.id } }"
-                ><h5 class="card-title">
-                    {{ product.product_name }}
-                </h5></router-link
+                cover
+                v-bind="props"
             >
-            <p class="card-text"><sup>$</sup>{{ product.price }}</p>
-            <p class="card-text font-italic">{{ product.short_description }}...</p>
-            <div v-if="$route.name == 'Product'">
-                <router-link
-                    id="edit-product"
-                    :to="{ name: 'EditProduct', params: { id: product.id } }"
-                >
-                    Edit
-                </router-link>
-            </div>
-
-            <!-- <div v-if="$route.name == 'WishList'">
-                
-            </div> -->
-            <div v-if="$route.name == ''"></div>
-        </div>
-    </div>
+                <!-- <v-card-title>{{ product.category.category_name }} </v-card-title> -->
+                <v-expand-transition>
+                    <div
+                        v-if="isHovering"
+                        class="d-flex justify-center flex-column transition-fast-in-fast-out v-card--reveal display-3 text-white bg-grey-lighten-1"
+                        style="height: 100%"
+                    >
+                        <v-btn :href="'/product/show/' + product.id" class="my-1">VIEW</v-btn>
+                        
+                        <v-btn v-if="$route.name=='WishList'" @click="removeWishListItem(product)" class="text-white my-1" color="red">Remove Item</v-btn>
+                    </div>
+                </v-expand-transition>
+            </v-img>
+            <v-card-text class="text-primary">
+                <div>
+                    <a href="/product" style="text-decoration: none">{{ product.product_name }}</a>
+                </div>
+                <div>${{ product.price }}</div>
+            </v-card-text>
+        </v-card>
+    </v-hover>
 </template>
 
 <script>
@@ -47,14 +45,21 @@ import mixinsWishList from "@/mixins/mixinsWishList";
 export default {
     name: "ProductBox",
     props: ["product", "baseURL"],
+    emits: ["changeCart"],
     mixins: [getFile, sweetAlert, mixinsProduct, mixinsWishList],
     components: { VLazyImage },
     data() {
         return {
             baseGetImageUrl: `${this.baseURL}/data/file/images/`,
             noImageUrl: "@/assets/images/noImage.webp",
+            
         };
     },
+    // watch:{
+    //     wishList(wishList){
+            
+    //     }
+    // }
 };
 </script>
 

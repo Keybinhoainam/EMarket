@@ -15,8 +15,8 @@
                 prepend-inner-icon="mdi-magnify"
                 label="Search"
                 class="hidden-sm-and-down pl-10 ml-4"
-                :v-model="textSearch"
-                @keyup.enter="search(textSearch)"
+                v-model="textSearch"
+                @keyup.enter="search()"
             />
             <v-spacer />
             <v-btn icon title="Account">
@@ -167,9 +167,8 @@ export default {
         async loadCart(){
             this.cart = JSON.parse(localStorage.getItem("cart"));
         },
-        search(textSearch){
-            // this.findProductsLikeName(textSearch);
-            // this.$router.push({name:"shop",params:{textSearch:textSearch}})
+        search(){
+            this.$router.push({name:"shop"})
         }
     },
     async created() {

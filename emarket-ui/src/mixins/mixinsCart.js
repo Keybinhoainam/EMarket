@@ -72,7 +72,7 @@ export default {
                 // console.log(this.cart);
                 this.saveAndLoadCart();
                 if (!check) {
-                    this.alertFail("Please re-fill quantity");
+                    this.alertFail("Please re-enter quantity",`greater than 0 and less than or equal to ${cart_detail.product.stock}`);
                     return;
                 }
                 this.alertSuccess("edit Cart Successfully");

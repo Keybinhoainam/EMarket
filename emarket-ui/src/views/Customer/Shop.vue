@@ -3,14 +3,11 @@
         <v-container>
             <div class="row">
                 <div class="col-md-3 col-sm-3 col-xs-12">
-                    <v-card class=" px-5">
+                    <v-card class="px-5">
                         <v-card-title>Filters</v-card-title>
                         <v-divider></v-divider>
                         <v-list>
-                            <v-list-group
-                                v-for="(category) in categories"
-                                :key="category.id"
-                            >
+                            <v-list-group v-for="category in categories" :key="category.id">
                                 <template v-slot:activator="{ props }">
                                     <v-list-item
                                         v-bind="props"
@@ -19,7 +16,7 @@
                                 </template>
 
                                 <v-list-item
-                                    v-for="(product) in category.products"
+                                    v-for="product in category.products"
                                     :key="product.id"
                                     :title="product.product_name"
                                     :value="product.id"
@@ -101,50 +98,11 @@
 
                     <div class="row text-center">
                         <div
-                            class="col-md-4 col-sm-6 col-xs-12"
+                            class="col-md-3 col-sm-6 col-xs-12"
                             :key="product.id"
-                            v-for="product in products"
+                            v-for="product in shopProducts"
                         >
-                            <v-hover v-slot:default="{ isHovering, props }">
-                                <v-card class="mx-auto">
-                                    <v-img
-                                        class="text-white align-end"
-                                        :aspect-ratio="16 / 9"
-                                        height="200px"
-                                        :src="
-                                            product.product_images.length > 0 &&
-                                            product.product_images[0].image != null
-                                                ? getImageURL(
-                                                      product.product_images[0].image
-                                                  )
-                                                : require('@/assets/images/noImage.webp')
-                                        "
-                                        cover
-                                        v-bind="props"
-                                    >
-                                        <!-- <v-card-title>{{ product.category.category_name }} </v-card-title> -->
-                                        <v-expand-transition>
-                                            <div
-                                                v-if="isHovering"
-                                                class="d-flex transition-fast-in-fast-out v-card--reveal display-3 text-white bg-grey-lighten-1"
-                                                style="height: 100%"
-                                            >
-                                                <v-btn :href="'/product/show/' + product.id" class=""
-                                                    >VIEW</v-btn
-                                                >
-                                            </div>
-                                        </v-expand-transition>
-                                    </v-img>
-                                    <v-card-text class="text-primary">
-                                        <div>
-                                            <a href="/product" style="text-decoration: none">{{
-                                                product.product_name
-                                            }}</a>
-                                        </div>
-                                        <div>${{ product.price }}</div>
-                                    </v-card-text>
-                                </v-card>
-                            </v-hover>
+                            <ProductBox :product="product" :baseURL="baseURL"> </ProductBox>
                         </div>
                     </div>
                     <div class="text-center mt-12">
@@ -168,10 +126,12 @@
 <script>
 import mixinsProduct from "@/mixins/mixinsProduct";
 import sweetAlert from "@/mixins/sweetAlert";
-import { shallowRef } from 'vue';
+import { nextTick, shallowRef } from "vue";
+import ProductBox from "@/components/Product/ProductBox";
 export default {
-    props: ["categories","products","baseURL","textSearch"],
+    props: ["categories", "products", "baseURL", "textSearch"],
     mixins: [mixinsProduct, sweetAlert],
+    components: { ProductBox },
     data: () => ({
         range: [0, 10000],
         rating: 0,
@@ -207,20 +167,19 @@ export default {
         page: 1,
         min: 0,
         max: 10000,
-        shopProducts:null
+        shopProducts: null,
     }),
-    watch:{
-        products(products){
-            this.shopProducts={...products};
+    watch: {
+        async textSearch(textSearch) {
+            await this.findProductsLikeName(textSearch);
+            await nextTick();
         },
-        textSearch(textSearch){
-            this.findProductsLikeName(textSearch);
-        }
     },
-    // async mounted() {
-    //     if(textSearch){
-    //         await this.findProductsLikeName(textSearch);
-    //     }
-    // },
+    async mounted() {
+        await this.findProductsLikeName(this.textSearch);
+        // if(textSearch){
+        //     await this.findProductsLikeName(textSearch);
+        // }
+    },
 };
 </script>

@@ -12,7 +12,7 @@
             <div
                 v-for="product of products"
                 :key="product.id"
-                class="col-md-6 col-xl-4 col-12 pt-3 justify-content-around d-flex"
+                class="col-md-3 col-sm-6 col-xs-12"
             >
                 <ProductBox :product="product" :baseURL="baseURL"> </ProductBox>
             </div>

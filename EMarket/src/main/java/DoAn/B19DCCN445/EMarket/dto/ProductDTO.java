@@ -40,6 +40,6 @@ public class ProductDTO {
 	private Collection<Product_image> product_images;
 	private Double rating;
 	private Integer reviews;
-	private Collection<Product_review> product_reviews;
+	private Collection<Product_reviewDTO> product_reviews;
 	private Collection<Product_voucher> product_vouchers;
 }

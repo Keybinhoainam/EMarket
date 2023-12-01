@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import DoAn.B19DCCN445.EMarket.common.ApiResponse;
 import DoAn.B19DCCN445.EMarket.dto.ProductDTO;
+import DoAn.B19DCCN445.EMarket.dto.Product_reviewDTO;
 import DoAn.B19DCCN445.EMarket.exception.ProductNotFoundException;
 import DoAn.B19DCCN445.EMarket.exception.StorageException;
 import DoAn.B19DCCN445.EMarket.model.Product;
@@ -63,18 +64,25 @@ public class ProductService {
 		BeanUtils.copyProperties(p, pdto);
 		
 		List<Product_review> product_reviews=new ArrayList<>(p.getProduct_reviews());
+		List<Product_reviewDTO> product_reviewDTOs=new ArrayList<>();
 		Integer reviews=product_reviews.size();
 		Double rating;
+		rating=0.0;
+		
+		for(Product_review review : product_reviews) {
+			rating+=(double)(review.getRating());
+			Product_reviewDTO product_reviewDTO=new Product_reviewDTO();
+			BeanUtils.copyProperties(review, product_reviewDTO);
+			product_reviewDTOs.add(product_reviewDTO);
+		}
 		if(reviews>0) {
-			rating=0.0;
-			for(Product_review review : product_reviews) {
-				rating+=(double)(review.getRating());
-			}
+			
 			rating/=reviews;
 		}
 		else {
 			rating=null;
 		}
+		pdto.setProduct_reviews(product_reviewDTOs);
 		pdto.setRating(rating);
 		pdto.setReviews(reviews);
 		return pdto;

@@ -49,8 +49,9 @@
                         <p class="title">ITEMS</p>
 
                         <div v-if="product.stock > 0"></div>
-                        <div v-else>Out of stock</div>
+                        <div v-else class="text-red bold">Out of stock</div>
                         <v-text-field
+                            :disabled="product.stock <= 0"
                             variant="outlined"
                             style="width: 100px"
                             v-model="quantity"

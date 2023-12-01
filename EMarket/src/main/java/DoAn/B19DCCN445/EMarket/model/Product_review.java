@@ -51,6 +51,6 @@ public class Product_review {
 	private Product product;
 	@ManyToOne(fetch =FetchType.LAZY )
 	@JoinColumn(name = "customer_id")
-	@JsonManagedReference("user-product_review")
+	@JsonBackReference("user-product_review")
 	private User user;
 }
