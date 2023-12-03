@@ -9,7 +9,7 @@
                     full-width
                     dense
                     append-icon="mdi-magnify"
-                    outlined
+                    variant="outlined" 
                     rounded
                     placeholder="Search"
                 />

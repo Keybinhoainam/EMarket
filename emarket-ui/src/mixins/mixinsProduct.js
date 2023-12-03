@@ -9,7 +9,8 @@ export default {
             isValid: true,
             baseGetImageUrl: `${this.baseURL}/data/file/images/`,
             getProductUrl: `${this.baseURL}/data/product/get/`,
-            getProductsLikeNameUrl:`${this.baseURL}/data/product/getproductslikename`
+            getProductsLikeNameUrl: `${this.baseURL}/data/product/getproductslikename`,
+            deleteProductUrl: `${this.baseURL}/seller/product/delete/`,
         };
     },
     methods: {
@@ -132,18 +133,43 @@ export default {
             // }
             return this.isValid;
         },
-        async findProductsLikeName(name){
+        async findProductsLikeName(name) {
             await productService
-                .getProductsLikeName(this.getProductsLikeNameUrl,{ params: { 'name': name } }, this.config)
+                .getProductsLikeName(
+                    this.getProductsLikeNameUrl,
+                    { params: { name: name } },
+                    this.config
+                )
                 .then(
                     (res) => {
-                        this.shopProducts = {...res.data};
+                        this.shopProducts = { ...res.data };
                     },
                     (error) => {
                         console.log(error.message);
                         this.alertFail("Failed To Load Products Like Name", error.message);
                     }
                 );
-        }
+        },
+        editProduct(product) {
+            this.$router.push({ name: "EditProduct", params: { id: product.id } });
+        },
+        async deleteProduct(product) {
+            this.alertWarning(
+                "Are you sure?",
+                "You won't be able to revert this!",
+                "Yes, delete it!"
+            ).then((result) => {
+                if(result.isConfirmed){
+                    try {
+                        productService.deleteProduct(`${this.deleteProductUrl}${product.id}`, this.config);
+                        this.$emit("fetchData");
+                        nextTick();
+                        this.alertSuccess("Remove CartItem Successfully");
+                    } catch (error) {
+                        this.alertFail("Remove CartItem Fail",error.message)
+                    }
+                }
+            });
+        },
     },
 };

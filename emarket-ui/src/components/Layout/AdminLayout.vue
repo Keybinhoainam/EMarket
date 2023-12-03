@@ -1,17 +1,20 @@
 <template>
     <v-app id="inspire">
-        <Sidebar :drawer="drawer" />
-        <TopBar @drawerEvent="drawerEvent" />
-        <v-main style="background: #f5f5f540">
-            <v-container class="py-8 px-6" fluid>
-                <router-view
-                    :baseURL="baseURL"
-                    :products="products"
-                    :categories="categories"
-                    :config="config"
-                />
-            </v-container>
-        </v-main>
+        <v-layout>
+            <Sidebar :drawer="drawer" />
+            <TopBar @drawerEvent="drawerEvent" />
+            <v-main style="background: #f5f5f540">
+                <v-container class="py-8 px-6" fluid>
+                    <router-view
+                        :baseURL="baseURL"
+                        :products="products"
+                        :categories="categories"
+                        :config="config"
+                        @fetchData="fetchData"
+                    />
+                </v-container>
+            </v-main>
+        </v-layout>
     </v-app>
 </template>
 <script>
@@ -31,6 +34,7 @@ export default {
         };
     },
     props: ["products", "baseURL", "categories", "config"],
+    emits:["fetchData"],
     // mixins: [mixinsCart, mixinsProduct, sweetAlert],
     components: { TopBar, Sidebar },
     data() {
@@ -39,7 +43,7 @@ export default {
             cart: new Cart(),
             wishList: new WishList(),
             textSearch: "",
-            drawer:true,
+            drawer: true,
         };
     },
     methods: {
@@ -50,9 +54,9 @@ export default {
         search() {
             this.$router.push({ name: "shop" });
         },
-        drawerEvent(){
-            this.drawer=!this.drawer
-        }
+        drawerEvent() {
+            this.drawer = !this.drawer;
+        },
     },
     async created() {
         this.load();

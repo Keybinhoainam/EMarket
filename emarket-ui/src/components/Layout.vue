@@ -70,6 +70,7 @@
             :config="config"
             :textSearch="textSearch"
             @loadCart="loadCart"
+            @fetchData="fetchData"
         />
         <v-card color="accent">
             <v-container>
