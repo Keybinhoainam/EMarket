@@ -114,6 +114,7 @@ emarket-ui/*.sln
 emarket-ui/*.sw?
 
 ## Tham Khảo
+ThamKhao/Template/Unzip/
 ThamKhao/Template/shipit-master/
 ThamKhao/Template/StarAdmin/
 ThamKhao/Template/Vue-Ecom-master
