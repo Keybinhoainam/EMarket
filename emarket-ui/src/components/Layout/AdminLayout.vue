@@ -57,6 +57,9 @@ export default {
         drawerEvent() {
             this.drawer = !this.drawer;
         },
+        fetchData(){
+            this.$emit("fetchData");
+        }
     },
     async created() {
         this.load();

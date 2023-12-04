@@ -157,6 +157,7 @@ export default {
     },
     props: ["products", "baseURL", "categories", "config"],
     mixins: [mixinsCart,mixinsProduct,sweetAlert],
+    emits:["fetchData"],
     data() {
         return {
             cartItemsQuantity: 0,

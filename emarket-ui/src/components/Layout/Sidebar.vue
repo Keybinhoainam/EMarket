@@ -1,5 +1,5 @@
 <template>
-    <v-navigation-drawer v-model="localDrawer" :rail="rail" @click.stop="rail = !rail" permanent>
+    <v-navigation-drawer v-model="localDrawer" :rail="rail" permanent>
         <v-img
             height="140"
             class="pa-4"
@@ -21,11 +21,12 @@
         <v-divider v-if="!rail"></v-divider>
         <v-list>
             <v-list-item
-                v-for="[icon, text] in links"
+                v-for="[icon, text,link] in links"
                 :key="icon"
                 link
                 :prepend-icon="icon"
                 :title="text"
+                :href="link"
             >
             </v-list-item>
         </v-list>
@@ -41,11 +42,12 @@ export default {
     data() {
         return {
             localDrawer: true,
-            rail: this.drawer,
+            rail: false,
             links: [
                 ["mdi-microsoft-windows", "Dashboard"],
                 ["mdi-account", "Profile"],
-                ["mdi-clipboard-list-outline", "Products"],
+                ["mdi-format-list-bulleted-type", "Categories","/seller/category"],
+                ["mdi-clipboard-list-outline", "Products","/seller/product"],
                 ["mdi-card-account-details-outline", "Orders"],
                 ["mdi-cog", "System Setting"],
             ],

@@ -11,6 +11,9 @@ export default {
             getProductUrl: `${this.baseURL}/data/product/get/`,
             getProductsLikeNameUrl: `${this.baseURL}/data/product/getproductslikename`,
             deleteProductUrl: `${this.baseURL}/seller/product/delete/`,
+            getAllProductsUrl:`${this.baseURL}/data/product/getallproducts`,
+            getAllCategoriesUrl:`${this.baseURL}/data/category/getallcategories`,
+            
         };
     },
     methods: {
@@ -161,10 +164,15 @@ export default {
             ).then((result) => {
                 if(result.isConfirmed){
                     try {
-                        productService.deleteProduct(`${this.deleteProductUrl}${product.id}`, this.config);
-                        this.$emit("fetchData");
-                        nextTick();
-                        this.alertSuccess("Remove CartItem Successfully");
+                        productService.deleteProduct(`${this.deleteProductUrl}${product.id}`, this.config).then(
+                            (res)=>{
+                                this.$emit("fetchData");
+                                nextTick();
+                                this.alertSuccess("Remove CartItem Successfully");
+                            }
+                        );
+                        // this.$store.dispatch('data/fetchProductsData',{url:this.getAllProductsUrl,config:this.config});
+                        
                     } catch (error) {
                         this.alertFail("Remove CartItem Fail",error.message)
                     }

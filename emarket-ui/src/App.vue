@@ -38,6 +38,7 @@ export default {
             categories: null,
             config: null,
             schema: null,
+            
             // key: 0,
             // token: null,
             // cartCount: 0,
@@ -48,8 +49,14 @@ export default {
     mixins: [sweetAlert],
     methods: {
         async fetchData() {
-            // fetch products
-            // console.log(this.schema);
+            // console.log(this.getAllProductsUrl);
+            // await this.$store.dispatch('data/fetchProductsData',{url:`${this.baseURL}/data/product/getallproducts`,config:this.config})
+            // await this.$store.dispatch('data/fetchCategoriesData',{url:`${this.baseURL}/data/category/getallcategories`,config:this.config})
+            // console.log(this.$store.state.data.products);
+            // this.products=this.$store.state.data.products;
+            // this.categories=this.$store.state.data.categories;
+
+
             await productService
                 .getAllProducts(`${this.baseURL}/data/product/getallproducts`, this.config)
                 .then(
@@ -75,20 +82,7 @@ export default {
                     }
                 );
 
-            //fetch cart items
-            // if (this.token) {
-            //   await axios.get(`${this.baseURL}cart/?token=${this.token}`).then(
-            //     (response) => {
-            //       if (response.status == 200) {
-            //         // update cart
-            //         this.cartCount = Object.keys(response.data.cartItems).length;
-            //       }
-            //     },
-            //     (error) => {
-            //       console.log(error);
-            //     }
-            //   );
-            // }
+            
         },
         // resetCartCount() {
         //     this.cartCount = 0;
