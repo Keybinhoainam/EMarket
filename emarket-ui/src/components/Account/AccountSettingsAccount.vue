@@ -1,54 +1,40 @@
-<script setup>
-import avatar1 from "@/assets/img/avatar-1.png";
+<script>
 import User from "@/models/user";
-import { ref } from "vue";
-const user=new User();
-const accountData = {
-    avatarImg: avatar1,
-    firstName: "john",
-    lastName: "Doe",
-    email: "johnDoe@example.com",
-    org: "ThemeSelection",
-    phone: "+1 (917) 543-9876",
-    address: "123 Main St, New York, NY 10001",
-    state: "New York",
-    zip: "10001",
-    country: "USA",
-    language: "English",
-    timezone: "(GMT-11:00) International Date Line West",
-    currency: "USD",
-};
+import { ref } from 'vue';
+export default {
+    data() {
+        return {
+            user: new User(),
 
-const refInputEl = ref();
-const accountDataLocal = ref(structuredClone(accountData));
-const isAccountDeactivated = ref(false);
-
-const resetForm = () => {
-    accountDataLocal.value = structuredClone(accountData);
-};
-
-const changeAvatar = (file) => {
-    const fileReader = new FileReader();
-    const { files } = file.target;
-    if (files && files.length) {
-        fileReader.readAsDataURL(files[0]);
-        fileReader.onload = () => {
-            if (typeof fileReader.result === "string")
-                accountDataLocal.value.avatarImg = fileReader.result;
         };
-    }
+    },
+    methods: {
+        resetAvatar(){
+            this.user.image=(new User()).avatar;
+        },
+        resetForm(){
+            this.user=new User();
+        },
+        changeAvatar(file){
+            const fileReader = new FileReader();
+            const { files } = file.target;
+            if (files && files.length) {
+                fileReader.readAsDataURL(files[0]);
+                fileReader.onload = () => {
+                    if (typeof fileReader.result === "string")
+                    this.user.avatar = fileReader.result;
+                };
+            }
+        },
+        uploadFile(){
+            this.$refs.refInput.click();
+        }
+    },
 };
-
-// reset avatar image
-const resetAvatar = () => {
-    accountDataLocal.value.avatarImg = accountData.avatarImg;
-};
-
-
 </script>
 
 <template>
-    <VRow>
+    <v-row>
         <v-col cols="12">
             <v-card title="Account Details">
                 <v-cardText class="d-flex">
@@ -56,28 +42,27 @@ const resetAvatar = () => {
                         rounded="lg"
                         size="100"
                         class="me-6"
-                        :image="accountDataLocal.avatarImg"
+                        :image="user.avatar"
                     />
                     <form class="d-flex flex-column justify-center gap-5">
                         <div class="d-flex flex-wrap gap-2">
-                            <VBtn color="primary" @click="refInputEl?.click()">
+                            <v-btn color="primary" @click="uploadFile">
                                 <VIcon icon="bx-cloud-upload" class="d-sm-none" />
                                 <span class="d-none d-sm-block">Upload new photo</span>
-                            </VBtn>
+                            </v-btn>
 
                             <input
-                                ref="refInputEl"
+                                ref="refInput"
                                 type="file"
-                                name="file"
                                 accept=".jpeg,.png,.jpg,GIF"
                                 hidden
                                 @input="changeAvatar"
                             />
 
-                            <VBtn type="reset" color="error" variant="tonal" @click="resetAvatar">
+                            <v-btn type="reset" color="error" variant="tonal" @click="resetAvatar">
                                 <span class="d-none d-sm-block">Reset</span>
                                 <VIcon icon="bx-refresh" class="d-sm-none" />
-                            </VBtn>
+                            </v-btn>
                         </div>
 
                         <p class="text-body-1 mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
@@ -125,80 +110,17 @@ const resetAvatar = () => {
                                 />
                             </v-col>
 
-                            <!-- <v-col cols="12" md="6">
-                                <v-text-field
-                                    v-model="accountDataLocal.address"
-                                    label="Address"
-                                    placeholder="123 Main St, New York, NY 10001"
-                                />
-                            </v-col>
-
-                            <v-col cols="12" md="6">
-                                <v-text-field
-                                    v-model="accountDataLocal.state"
-                                    label="State"
-                                    placeholder="New York"
-                                />
-                            </v-col>
-
-                            <v-col cols="12" md="6">
-                                <v-text-field
-                                    v-model="accountDataLocal.zip"
-                                    label="Zip Code"
-                                    placeholder="10001"
-                                />
-                            </v-col>
-
-                            <v-col cols="12" md="6">
-                                <VSelect
-                                    v-model="accountDataLocal.country"
-                                    label="Country"
-                                    :items="['USA', 'Canada', 'UK', 'India', 'Australia']"
-                                    placeholder="Select Country"
-                                />
-                            </v-col>
-
-                            <v-col cols="12" md="6">
-                                <VSelect
-                                    v-model="accountDataLocal.language"
-                                    label="Language"
-                                    placeholder="Select Language"
-                                    :items="['English', 'Spanish', 'Arabic', 'Hindi', 'Urdu']"
-                                />
-                            </v-col>
-
-                        
-                            <v-col cols="12" md="6">
-                                <VSelect
-                                    v-model="accountDataLocal.timezone"
-                                    label="Timezone"
-                                    placeholder="Select Timezone"
-                                    :items="timezones"
-                                    :menu-props="{ maxHeight: 200 }"
-                                />
-                            </v-col>
-
-                            <v-col cols="12" md="6">
-                                <VSelect
-                                    v-model="accountDataLocal.currency"
-                                    label="Currency"
-                                    placeholder="Select Currency"
-                                    :items="currencies"
-                                    :menu-props="{ maxHeight: 200 }"
-                                />
-                            </v-col> -->
-
                             <v-col cols="12" class="d-flex flex-wrap gap-4">
-                                <VBtn>Save changes</VBtn>
+                                <v-btn>Save changes</v-btn>
 
-                                <VBtn
+                                <v-btn
                                     color="secondary"
                                     variant="tonal"
                                     type="reset"
                                     @click.prevent="resetForm"
                                 >
                                     Reset
-                                </VBtn>
+                                </v-btn>
                             </v-col>
                         </v-row>
                     </v-form>
@@ -206,8 +128,7 @@ const resetAvatar = () => {
             </v-card>
         </v-col>
 
-        <v-col cols="12">
-            <!-- 👉 Deactivate Account -->
+        <!-- <v-col cols="12">
             <v-card title="Deactivate Account">
                 <v-cardText>
                     <div>
@@ -217,11 +138,11 @@ const resetAvatar = () => {
                         />
                     </div>
 
-                    <VBtn :disabled="!isAccountDeactivated" color="error" class="mt-3">
+                    <v-btn :disabled="!isAccountDeactivated" color="error" class="mt-3">
                         Deactivate Account
-                    </VBtn>
+                    </v-btn>
                 </v-cardText>
             </v-card>
-        </v-col>
-    </VRow>
+        </v-col> -->
+    </v-row>
 </template>

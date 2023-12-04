@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute } from "vue-router";
-import AccountSettingsAccount from "@/components/Account/AccountSettingsAccount2.vue";
+import AccountSettingsAccount from "@/components/Account/AccountSettingsAccount.vue";
 import AccountSettingsNotification from "@/components/Account/AccountSettingsNotification.vue";
 import AccountSettingsSecurity from "@/components/Account/AccountSettingsSecurity.vue";
 import TopBar from "@/components/Layout/TopBar.vue";
