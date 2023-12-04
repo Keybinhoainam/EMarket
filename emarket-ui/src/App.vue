@@ -100,6 +100,7 @@ export default {
         // });
         // console.log(this.categories);
         this.config = authHeader();
+        this.$store.commit("data/changeConfig",this.config);
         await this.fetchData();
     },
      mounted() {

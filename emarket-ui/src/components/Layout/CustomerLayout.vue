@@ -8,35 +8,52 @@
                     ><v-icon>mdi-store</v-icon>&nbsp;Emarket</a
                 >
             </v-toolbar-title>
-            <v-text-field
+
+            <v-spacer />
+            <v-col lg="6" cols="12">
+                <v-text-field
+                    class="p-0 m-0 mt-6"
+                    dense
+                    append-icon="mdi-magnify"
+                    variant="outlined"
+                    rounded
+                    placeholder="Search"
+                    v-model="textSearch"
+                    @keyup.enter="search()"
+                />
+            </v-col>
+            <!-- <v-text-field
                 flat
                 solo-inverted
                 hide-details
+                variant="outlined"
+                rounded
                 prepend-inner-icon="mdi-magnify"
                 label="Search"
                 class="hidden-sm-and-down pl-10 ml-4"
-                v-model="textSearch"
-                @keyup.enter="search()"
-            />
+                
+            /> -->
             <v-spacer />
-            <v-btn icon title="Account">
-                <v-icon>mdi-account-circle</v-icon>
-            </v-btn>
-            <v-btn icon title="Notification">
+
+            <!-- <v-btn icon title="Notification">
                 <v-badge content="2" value="2" color="green" overlap>
                     <v-icon>mdi-bell</v-icon>
                 </v-badge>
-            </v-btn>
+            </v-btn> -->
+            <Notification />
             <v-btn href="/cart" icon title="Cart">
-                <v-badge :content="cart.cart_details.length"  color="green" overlap>
+                <v-badge v-if="cart&&cart.cart_details" :content="cart.cart_details.length" color="green" overlap>
                     <v-icon>mdi-cart</v-icon>
                 </v-badge>
+                <v-icon v-else>mdi-cart</v-icon>
             </v-btn>
             <v-btn href="/wishlist" icon title="Wishlist">
-                <v-badge :content="wishList.products.length" color="green" overlap>
+                <v-badge v-if="wishList&&wishList.products" :content="wishList.products" color="green" overlap>
                     <v-icon>mdi-tag-heart</v-icon>
                 </v-badge>
+                <v-icon v-else>mdi-tag-heart</v-icon>
             </v-btn>
+            <AccountMenu></AccountMenu>
         </v-app-bar>
 
         <v-main class="pb-0">
@@ -52,12 +69,16 @@
                         <v-btn v-bind="props"> Product </v-btn>
                     </template>
                     <v-list class="mx-auto" max-width="344px">
-                        <v-list-item v-for="(product, index) in products" :key="index" :href="'/product/show/'+product.id">
+                        <v-list-item
+                            v-for="(product, index) in products"
+                            :key="index"
+                            :href="'/product/show/' + product.id"
+                        >
                             <v-list-item-title>{{ product.product_name }}</v-list-item-title>
                         </v-list-item>
                     </v-list>
                 </v-menu>
-                
+
                 <v-btn href="/blog">
                     <span>Blog</span>
                 </v-btn>
@@ -144,43 +165,43 @@
 import mixinsCart from "@/mixins/mixinsCart";
 import Cart from "@/models/cart";
 import { useDisplay } from "vuetify";
-import mixinsProduct from '@/mixins/mixinsProduct';
+import mixinsProduct from "@/mixins/mixinsProduct";
 import sweetAlert from "@/mixins/sweetAlert";
-import { nextTick, shallowRef  } from 'vue';
+import { nextTick, shallowRef } from "vue";
 import WishList from "@/models/wishList";
+import Notification from "@/components/Common/Notification.vue";
+import AccountMenu from "@/components/Common/AccountMenu.vue";
 export default {
-    setup(){
+    setup() {
         const { lgAndUp } = useDisplay();
         return {
-            lgAndUp
-        }
+            lgAndUp,
+        };
     },
     props: ["products", "baseURL", "categories", "config"],
-    mixins: [mixinsCart,mixinsProduct,sweetAlert],
+    mixins: [mixinsCart, mixinsProduct, sweetAlert],
+    components: { AccountMenu, Notification },
     data() {
         return {
             cartItemsQuantity: 0,
             cart: new Cart(),
-            wishList:new WishList(),
-            textSearch:"",
+            wishList: new WishList(),
+            textSearch: "",
         };
     },
     methods: {
-        async load(){
+        async load() {
             this.cart = JSON.parse(localStorage.getItem("cart"));
-            this.wishList=JSON.parse(localStorage.getItem("wishList"));
+            this.wishList = JSON.parse(localStorage.getItem("wishList"));
         },
-        search(){
-            this.$router.push({name:"shop"})
-        }
+        search() {
+            this.$router.push({ name: "shop" });
+        },
     },
     async created() {
         this.load();
     },
-    
 };
-
-
 </script>
 <style scoped>
 .bottom-navigation-wrapper {

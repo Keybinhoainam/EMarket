@@ -37,7 +37,7 @@ public class AuthenticationController {
 		return ResponseEntity.ok(service.register(acc));
 	}
 	@PostMapping("/login")
-	public ResponseEntity<AuthenticationResponse> authenticate(
+	public ResponseEntity<UserDTO> authenticate(
 			@RequestBody UserDTO  acc
 	) throws BadCredentialsException, NoSuchElementException, UserNotFoundException {
 //		System.out.println(acc.getUsername());

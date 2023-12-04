@@ -3,6 +3,7 @@ package DoAn.B19DCCN445.EMarket.dto;
 import java.util.Date;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -21,39 +22,33 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserDTO {
 	private Long id;
-	@NotBlank
-	@NotNull(message = "username shouldn't be null")
+//	@NotBlank
+//	@NotNull(message = "username shouldn't be null")
 	private String username;
-	@NotNull(message = "password shouldn't be null")
-	@NotBlank
-	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$", 
-			message = "password should use 8 or more character with a mix of letters, numbers & symbols.")
+//	@NotNull(message = "password shouldn't be null")
+//	@NotBlank
+//	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$", 
+//			message = "password should use 8 or more character with a mix of letters, numbers & symbols.")
 	private String password;
-	@NotBlank
-	@NotNull(message = "email shouldn't be null")
+//	@NotBlank
+//	@NotNull(message = "email shouldn't be null")
 	private String email;
-	@NotBlank
-	@NotNull(message = "fullname shouldn't be null")
+//	@NotBlank
+//	@NotNull(message = "fullname shouldn't be null")
 	private String fullname;
-	@NotBlank
-	@NotNull(message = "gender shouldn't be null")
+//	@NotBlank
+//	@NotNull(message = "gender shouldn't be null")
 	private String gender;
-	@NotNull(message = "dateOfBirth shouldn't be null")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+//	@NotNull(message = "dateOfBirth shouldn't be null")
+//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private Date birthday;
-	private String avatar;
-	@NotNull(message = "phone shouldn't be null")
-	@NotBlank
-	@Pattern(regexp = "[0-9]{10}")
+//	private MultipartFile avatar;
+	
+	
+//	@NotNull(message = "phone shouldn't be null")
+//	@NotBlank
+//	@Pattern(regexp = "[0-9]{10}")
 	private String phone;
 	
-	
-	public Boolean compareUsernamePassword(User acc) {
-		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-		if (this.username.equals(acc.getUsername())
-				&& bCryptPasswordEncoder.matches(this.password, acc.getPassword())) {
-			return true;
-		} else
-			return false;
-	}
+	private String accessToken;
 }

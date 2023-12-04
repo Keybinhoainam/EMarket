@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/Customer/HomeView.vue";
-import AddOrEditCategory from "../views/Category/AddOrEditCategory.vue";
-import Category from "../views/Category/Category";
-import AddOrEditProduct from "../views/Product/AddOrEditProduct.vue";
-import Product from "../views/Product/Product";
+import HomeView from "@/views/Customer/HomeView.vue";
+import AddOrEditCategory from "@/views/Category/AddOrEditCategory.vue";
+import Category from "@/views/Category/Category";
+import AddOrEditProduct from "@/views/Product/AddOrEditProduct.vue";
+import Product from "@/views/Product/Product";
 import PageNotFound from "@/views/PageNotFound.vue";
 import Cookies from "js-cookie";
 import ShowDetails from "@/views/Customer/ShowDetails.vue";
-import Shop from "../views/Customer/Shop.vue";
+import Shop from "@/views/Customer/Shop.vue";
 import ProductsCategory from "@/views/Product/ProductsCategory.vue";
 import Cart from "@/views/Customer/Cart.vue";
 import WishList from "@/views/Customer/Wishlist.vue";
@@ -23,12 +23,12 @@ const routes = [
     {
         path: "/login",
         name: "login",
-        component: () => import("../views/LoginView.vue"),
+        component: () => import("@/views/LoginView.vue"),
     },
     {
         path: "/register",
         name: "register",
-        component: () => import("../views/RegisterView.vue"),
+        component: () => import("@/views/RegisterView.vue"),
     },
     {
         path: "/profile",
@@ -39,7 +39,7 @@ const routes = [
         component: AccountSettings,
     },
     {
-        path: "/",
+        path:"/",
         component: CustomerLayout,
         children: [
             {
@@ -85,7 +85,7 @@ const routes = [
         ],
     },
     {
-        path: "/",
+        path:"/seller",
         component: AdminLayout,
         children: [
             

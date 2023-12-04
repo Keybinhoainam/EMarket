@@ -2,6 +2,7 @@ package DoAn.B19DCCN445.EMarket.service;
 
 import java.util.NoSuchElementException;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -49,7 +50,7 @@ public class AuthenticationService {
 	private Boolean UserExists(User user) {
 		return accountRepository.findByUsername(user.getUsername()).isPresent();
 	}
-	public AuthenticationResponse authenticate(UserDTO  acc) throws BadCredentialsException,NoSuchElementException, UserNotFoundException{
+	public UserDTO authenticate(UserDTO  acc) throws BadCredentialsException,NoSuchElementException, UserNotFoundException{
 //		System.out.println(acc.getUsername());
 		authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(
@@ -62,13 +63,10 @@ public class AuthenticationService {
 				.orElseThrow(()->new UserNotFoundException("User not found!"));
 		
 		var jwtToken=jwtService.genarateToken(user);
-//		user=accountRepository.findById(user.getId()).get();
-//		System.out.println(user.getId());
-//		System.out.println(user.getStore());
-		return AuthenticationResponse.builder()
-				.accessToken(jwtToken)
-				.store(user.getStore())
-				.build();
+		UserDTO userDTO=new UserDTO();
+		BeanUtils.copyProperties(user, userDTO);
+		userDTO.setAccessToken(jwtToken);
+		return userDTO;
 		
 	}
 	

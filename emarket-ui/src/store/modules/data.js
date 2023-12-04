@@ -4,8 +4,10 @@ import sweetAlert from "@/mixins/sweetAlert";
 export const data = {
     namespaced: true,
     state: {
+        baseURL: "http://localhost:8080/api",
         products: null,
         categories: null,
+        config: null,
     },
     actions: {
         fetchProductsData({ commit }, { url, config }) {
@@ -37,34 +39,6 @@ export const data = {
                     }
                 );
         },
-        // login({ commit }, { url, user, config }) {
-        //     return AuthService.login(url, user, config).then(
-        //         (user) => {
-        //             commit("loginSuccess", user);
-        //             return Promise.resolve(user);
-        //         },
-        //         (error) => {
-        //             commit("loginFailure");
-        //             return Promise.reject(error);
-        //         }
-        //     );
-        // },
-        // logout({ commit }) {
-        //     AuthService.logout();
-        //     commit("logout");
-        // },
-        // register({ commit }, { url, user }) {
-        //     return AuthService.register(url, user).then(
-        //         (user) => {
-        //             commit("registerSuccess", user);
-        //             return Promise.resolve(user);
-        //         },
-        //         (error) => {
-        //             commit("registerFailure");
-        //             return Promise.reject(error);
-        //         }
-        //     );
-        // },
     },
     mutations: {
         fetchProductsData(state,products){
@@ -73,23 +47,8 @@ export const data = {
         fetchCategoriesData(state,categories){
             state.categories=categories;
         },
-        // loginSuccess(state, user) {
-        //     state.status.loggedIn = true;
-        //     state.user = user;
-        // },
-        // loginFailure(state) {
-        //     state.status.loggedIn = false;
-        //     state.user = null;
-        // },
-        // logout(state) {
-        //     state.status.loggedIn = false;
-        //     state.user = null;
-        // },
-        // registerSuccess(state) {
-        //     state.status.loggedIn = false;
-        // },
-        // registerFailure(state) {
-        //     state.status.loggedIn = false;
-        // },
+        changeConfig(state,config){
+            state.config=config;
+        }
     },
 };

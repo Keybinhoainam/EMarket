@@ -36,7 +36,7 @@ export default {
             authService.logout();
             localStorage.removeItem("cart");
             localStorage.removeItem("wishList");
-            router.push({name:"login"})
+            router.push({name:"home"})
         }
     },
 };

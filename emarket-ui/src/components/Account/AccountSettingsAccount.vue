@@ -1,10 +1,16 @@
 <script>
 import User from "@/models/user";
 import { ref } from 'vue';
+import mixinsAccount from '@/mixins/mixinsAccount';
+import sweetAlert from "@/mixins/sweetAlert";
+import Cookies from "js-cookie";
 export default {
+    mixins:[mixinsAccount,sweetAlert],
     data() {
         return {
             user: new User(),
+            baseURL: "http://localhost:8080/api",
+            config:this.$store.state.data.config
 
         };
     },
@@ -28,6 +34,15 @@ export default {
         },
         uploadFile(){
             this.$refs.refInput.click();
+        },
+        saveChange(){
+            this.saveAccount(this.user);
+        }
+    },
+    created() {
+        if(Cookies.get("user")){
+            this.user={...JSON.parse(Cookies.get("user"))};
+            // console.log(this.user);
         }
     },
 };
@@ -72,7 +87,6 @@ export default {
                 <VDivider />
 
                 <v-cardText>
-                    <!-- 👉 Form -->
                     <v-form class="mt-6">
                         <v-row>
                             <v-col md="6" cols="12">
@@ -111,7 +125,7 @@ export default {
                             </v-col>
 
                             <v-col cols="12" class="d-flex flex-wrap gap-4">
-                                <v-btn>Save changes</v-btn>
+                                <v-btn @click="saveChange()">Save changes</v-btn>
 
                                 <v-btn
                                     color="secondary"
