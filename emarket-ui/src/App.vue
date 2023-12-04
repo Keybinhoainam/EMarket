@@ -13,6 +13,7 @@
             :config="config"
             :schema="schema"
             @fetchData="fetchData"
+            
         >
         </router-view>
     </div>

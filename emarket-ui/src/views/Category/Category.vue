@@ -53,7 +53,6 @@
     </div>
 </template>
 <script>
-import Sidebar from "@/components/Sidebar.vue";
 import sweetAlert from "@/mixins/sweetAlert";
 import mixinsCategory from "@/mixins/mixinsCategory";
 import { getCurrentInstance } from "vue";
@@ -63,7 +62,6 @@ const axios = require("axios");
 // import CategoryBox from "@/components/Category/CategoryBox.vue";
 export default {
     name: "Category",
-    components: { Sidebar },
     data() {
         return {
             urlDelete: `${this.baseURL}/seller/category/delete/`,

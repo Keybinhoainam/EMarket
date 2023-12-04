@@ -14,6 +14,7 @@ import WishList from "@/views/Customer/Wishlist.vue";
 import Checkout from "@/views/Checkout/Checkout.vue";
 import CustomerLayout from "@/components/Layout/CustomerLayout.vue";
 import AdminLayout from "@/components/Layout/AdminLayout.vue";
+import AccountSettings from "@/views/Common/AccountSettings.vue";
 const routes = [
     // {
     //   path:'/',
@@ -28,6 +29,14 @@ const routes = [
         path: "/register",
         name: "register",
         component: () => import("../views/RegisterView.vue"),
+    },
+    {
+        path: "/profile",
+        name: "Profile",
+        meta: {
+            requiresAuth: true,
+        },
+        component: AccountSettings,
     },
     {
         path: "/",
@@ -79,6 +88,7 @@ const routes = [
         path: "/",
         component: AdminLayout,
         children: [
+            
             {
                 path: "/seller/category/add",
                 name: "AddCategory",

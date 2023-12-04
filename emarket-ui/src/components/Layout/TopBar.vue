@@ -1,6 +1,7 @@
 <template>
     <v-app-bar app elevate-on-scroll elevation="3" color="white">
-        <v-app-bar-nav-icon @click="$emit('drawerEvent')"></v-app-bar-nav-icon>
+        <v-btn icon="mdi-home" title="Back to Home" v-if="$route.name=='Profile'" color="info" href="/"></v-btn>
+        <v-app-bar-nav-icon @click="$emit('drawerEvent')" v-else></v-app-bar-nav-icon>
         <v-spacer />
         <v-col lg="6" cols="12">
             <v-form>
