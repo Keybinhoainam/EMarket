@@ -1,49 +1,62 @@
 <script>
 import User from "@/models/user";
-import { ref } from 'vue';
-import mixinsAccount from '@/mixins/mixinsAccount';
+import { ref } from "vue";
+import mixinsAccount from "@/mixins/mixinsAccount";
 import sweetAlert from "@/mixins/sweetAlert";
 import Cookies from "js-cookie";
+import defaultAvatar from "@/assets/images/defaultAvatar.png";
+import mixinsFile from "@/mixins/mixinsFile";
+import { nextTick } from "vue";
 export default {
-    mixins:[mixinsAccount,sweetAlert],
+    mixins: [mixinsAccount, sweetAlert, mixinsFile],
     data() {
         return {
             user: new User(),
             baseURL: "http://localhost:8080/api",
-            config:this.$store.state.data.config
-
+            config: this.$store.state.data.config,
+            defaultAvatar: defaultAvatar,
+            avatar: null,
         };
     },
     methods: {
-        resetAvatar(){
-            this.user.image=(new User()).avatar;
+        resetAvatar() {
+            this.user.avatar = new User().avatar;
+            this.user.avatar == defaultAvatar ? (this.avatar = defaultAvatar) : this.applyImages();
         },
-        resetForm(){
-            this.user=new User();
+        resetForm() {
+            this.user = new User();
         },
-        changeAvatar(file){
-            const fileReader = new FileReader();
+        async changeAvatar(file) {
+            // console.log(defaultAvatar);
+            // console.log(this.avatar);
             const { files } = file.target;
             if (files && files.length) {
-                fileReader.readAsDataURL(files[0]);
-                fileReader.onload = () => {
-                    if (typeof fileReader.result === "string")
-                    this.user.avatar = fileReader.result;
-                };
+                this.user.avatar = files[0];
             }
+            await nextTick();
+            await this.applyImages();
+            // console.log(this.avatar);
+
         },
-        uploadFile(){
+        uploadFile() {
             this.$refs.refInput.click();
         },
-        saveChange(){
+        saveChange() {
             this.saveAccount(this.user);
-        }
+            // Cookies.set("user",JSON.stringify(this.user));
+            // this.$store.dispatch();
+            this.$store.dispatch("data/changeUser", this.user);
+        },
     },
-    created() {
-        if(Cookies.get("user")){
-            this.user={...JSON.parse(Cookies.get("user"))};
-            // console.log(this.user);
-        }
+    async created() {
+        this.user = this.$store.state.data.user;
+        // console.log(this.user);
+        // console.log(this.user);
+        // console.log(this.getImage(this.user.avatarString));
+        // this.user.avatar = await this.user.avatarString ? this.getImage(this.user.avatarString) : defaultAvatar;
+        await this.getImage(this.user.avatarString);
+        await this.applyImages();
+        // await this.user.avatar == defaultAvatar ? (this.avatar = defaultAvatar) : this.applyImages();
     },
 };
 </script>
@@ -53,12 +66,13 @@ export default {
         <v-col cols="12">
             <v-card title="Account Details">
                 <v-cardText class="d-flex">
-                    <VAvatar
-                        rounded="lg"
-                        size="100"
+                    <v-avatar
+                        
+                        size="120"
                         class="me-6"
-                        :image="user.avatar"
-                    />
+                        :image="user.avatar ? avatar : defaultAvatar"
+                    >
+                </v-avatar>
                     <form class="d-flex flex-column justify-center gap-5">
                         <div class="d-flex flex-wrap gap-2">
                             <v-btn color="primary" @click="uploadFile">
@@ -108,6 +122,7 @@ export default {
                             <!-- 👉 Organization -->
                             <v-col cols="12" md="6">
                                 <v-text-field
+                                
                                     type="date"
                                     v-model="user.birthday"
                                     label="Birthday"

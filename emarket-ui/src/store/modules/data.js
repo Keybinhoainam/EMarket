@@ -1,6 +1,7 @@
 import categoryService from "@/services/category.service";
 import productService from "@/services/product.service";
-import sweetAlert from "@/mixins/sweetAlert";
+import User from "@/models/user";
+import Cookies from "js-cookie";
 export const data = {
     namespaced: true,
     state: {
@@ -8,6 +9,7 @@ export const data = {
         products: null,
         categories: null,
         config: null,
+        user:Cookies.get("user")?JSON.parse(Cookies.get("user")):new User(),
     },
     actions: {
         fetchProductsData({ commit }, { url, config }) {
@@ -39,6 +41,12 @@ export const data = {
                     }
                 );
         },
+        changeConfig({commit},config){
+            commit("changeConfig",config)
+        },
+        changeUser({commit},user){
+            commit("changeUser",user)
+        }
     },
     mutations: {
         fetchProductsData(state,products){
@@ -49,6 +57,11 @@ export const data = {
         },
         changeConfig(state,config){
             state.config=config;
-        }
+        },
+        changeUser(state,user){
+            Cookies.set("user",JSON.stringify(user));
+            state.user=user;
+        },
+
     },
 };

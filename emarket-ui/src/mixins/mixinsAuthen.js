@@ -1,13 +1,19 @@
+import User from "@/models/user";
 import router from "@/router";
 import authService from "@/services/auth.service";
+import Cookies from "js-cookie";
 export default {
     data() {
         return {};
     },
     methods: {
         async mxLogin() {
+            this.$store.dispatch("data/changeUser", new User());
+            Cookies.remove("user");
             await authService.login(this.url, this.user, this.config).then(
-                () => {
+                (res) => {
+                    this.$store.dispatch("data/changeUser", res.data);
+                    console.log(this.$store.state.data.user);
                     this.alertSuccess("Login success !");
 
                     this.$router.push(this.$route.query.redirect || "/");
@@ -32,11 +38,11 @@ export default {
                 }
             );
         },
-        async mxLogout(){
-            authService.logout();
+        async mxLogout() {
             localStorage.removeItem("cart");
             localStorage.removeItem("wishList");
-            router.push({name:"home"})
-        }
+            Cookies.remove("user");
+            router.push({ name: "home" });
+        },
     },
 };

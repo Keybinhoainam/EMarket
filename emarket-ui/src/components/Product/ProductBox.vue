@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import getFile from "@/mixins/getFile";
+import getFile from "@/mixins/mixinsFile";
 import mixinsProduct from "@/mixins/mixinsProduct";
 import sweetAlert from "@/mixins/sweetAlert";
 import VLazyImage from "v-lazy-image";
@@ -90,3 +90,4 @@ a {
     float: right;
 }
 </style>
+@/mixins/mixinFile@/mixins/mixinsFile

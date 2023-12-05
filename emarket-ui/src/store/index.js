@@ -7,3 +7,10 @@ export default new Vuex.Store({
         data
     }
 });
+// import { createStore } from 'vuex'
+// const store = createStore({
+//     modules:{
+//         data
+//     }
+// })
+// export default store;

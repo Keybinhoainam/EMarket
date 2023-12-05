@@ -232,7 +232,7 @@ export default {
         if (route.params.id) {
             this.isEdit = true;
             await this.getProduct(route.params.id);
-            console.log(this.product);
+            // console.log(this.product);
         }
 
         this.applyImages();
@@ -256,7 +256,7 @@ export default {
         },
         async saveProduct() {
             try {
-                let store = Cookies.get("user").store;
+                let store = this.$store.state.data.user.store;
 
                 this.product.store = store;
 

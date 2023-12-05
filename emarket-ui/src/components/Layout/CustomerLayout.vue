@@ -48,7 +48,7 @@
                 <v-icon v-else>mdi-cart</v-icon>
             </v-btn>
             <v-btn href="/wishlist" icon title="Wishlist">
-                <v-badge v-if="wishList&&wishList.products" :content="wishList.products" color="green" overlap>
+                <v-badge v-if="wishList&&wishList.products" :content="wishList.products.length" color="green" overlap>
                     <v-icon>mdi-tag-heart</v-icon>
                 </v-badge>
                 <v-icon v-else>mdi-tag-heart</v-icon>

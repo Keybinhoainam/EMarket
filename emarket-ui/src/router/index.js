@@ -14,7 +14,7 @@ import WishList from "@/views/Customer/Wishlist.vue";
 import Checkout from "@/views/Checkout/Checkout.vue";
 import CustomerLayout from "@/components/Layout/CustomerLayout.vue";
 import AdminLayout from "@/components/Layout/AdminLayout.vue";
-import AccountSettings from "@/views/Common/AccountSettings.vue";
+import Profile from "@/views/Common/Profile.vue";
 const routes = [
     // {
     //   path:'/',
@@ -36,10 +36,10 @@ const routes = [
         meta: {
             requiresAuth: true,
         },
-        component: AccountSettings,
+        component: Profile,
     },
     {
-        path:"/",
+        path:"/customer",
         component: CustomerLayout,
         children: [
             {
@@ -152,7 +152,7 @@ const router = createRouter({
 });
 router.beforeEach((to, from, next) => {
     if (to.matched.some((record) => record.meta.requiresAuth)) {
-        if (!Cookies.get("user")) {
+        if (!Cookies.get("accessToken")) {
             const path = window.location.pathname;
             next({ name: "login", query: { redirect: `${path}` } });
         } else {

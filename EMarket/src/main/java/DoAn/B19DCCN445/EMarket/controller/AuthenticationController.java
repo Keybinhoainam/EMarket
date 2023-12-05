@@ -14,6 +14,7 @@ import DoAn.B19DCCN445.EMarket.common.AuthenticationResponse;
 import DoAn.B19DCCN445.EMarket.dto.UserDTO;
 import DoAn.B19DCCN445.EMarket.exception.UserAlreadyExistException;
 import DoAn.B19DCCN445.EMarket.exception.UserNotFoundException;
+import DoAn.B19DCCN445.EMarket.model.User;
 import DoAn.B19DCCN445.EMarket.service.AuthenticationService;
 import jakarta.validation.Valid;
 
@@ -38,9 +39,9 @@ public class AuthenticationController {
 	}
 	@PostMapping("/login")
 	public ResponseEntity<UserDTO> authenticate(
-			@RequestBody UserDTO  acc
+			@RequestBody User  acc
 	) throws BadCredentialsException, NoSuchElementException, UserNotFoundException {
-//		System.out.println(acc.getUsername());
+//		System.out.println(acc.getPassword());
 		return ResponseEntity.ok(service.authenticate(acc));
 	}
 }

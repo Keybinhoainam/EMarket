@@ -50,7 +50,7 @@ public class AuthenticationService {
 	private Boolean UserExists(User user) {
 		return accountRepository.findByUsername(user.getUsername()).isPresent();
 	}
-	public UserDTO authenticate(UserDTO  acc) throws BadCredentialsException,NoSuchElementException, UserNotFoundException{
+	public UserDTO authenticate(User  acc) throws BadCredentialsException,NoSuchElementException, UserNotFoundException{
 //		System.out.println(acc.getUsername());
 		authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(
@@ -58,7 +58,7 @@ public class AuthenticationService {
 						acc.getPassword()
 						)
 		);
-	
+//		System.out.println("ok");
 		var user=accountRepository.findByUsername(acc.getUsername())
 				.orElseThrow(()->new UserNotFoundException("User not found!"));
 		
@@ -66,6 +66,7 @@ public class AuthenticationService {
 		UserDTO userDTO=new UserDTO();
 		BeanUtils.copyProperties(user, userDTO);
 		userDTO.setAccessToken(jwtToken);
+		userDTO.setAvatarString(user.getAvatar());
 		return userDTO;
 		
 	}

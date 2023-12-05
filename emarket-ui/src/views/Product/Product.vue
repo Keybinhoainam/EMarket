@@ -57,7 +57,7 @@
 </template>
 <script>
 import ProductBox from "@/components/Product/ProductBox";
-import getFile from "@/mixins/getFile";
+import getFile from "@/mixins/mixinsFile";
 import sweetAlert from "@/mixins/sweetAlert";
 import { nextTick } from "vue";
 import mixinsProduct from '@/mixins/mixinsProduct';
@@ -86,3 +86,4 @@ h4 {
     font-weight: 500;
 }
 </style>
+@/mixins/mixinFile@/mixins/mixinsFile

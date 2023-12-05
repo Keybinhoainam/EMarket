@@ -72,9 +72,7 @@ export default {
         }
     },
     created() {
-        if (Cookies.get("user")) {
-            this.user = JSON.parse(Cookies.get("user"));
-        }
+        this.user = this.$store.state.data.user;
     },
 };
 </script>

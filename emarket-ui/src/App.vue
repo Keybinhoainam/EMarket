@@ -28,6 +28,7 @@ import productService from "./services/product.service";
 import * as Yup from "yup";
 import Cookies from "js-cookie";
 import Cart from "./models/cart";
+import User from "./models/user";
 // import Navbar from './components/Navbar.vue';
 // import Footer from './components/Footer.vue';
 export default {
@@ -99,8 +100,10 @@ export default {
         //         .oneOf([Yup.ref("password")], "Passwords do not match"),
         // });
         // console.log(this.categories);
+        // console.log(this.$store);
+        // this.$store.dispatch("data/changeUser",new User());
         this.config = authHeader();
-        this.$store.commit("data/changeConfig",this.config);
+        this.$store.dispatch("data/changeConfig",this.config);
         await this.fetchData();
     },
      mounted() {
