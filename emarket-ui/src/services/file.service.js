@@ -1,8 +1,12 @@
 import axios from "axios";
 class FileService {
-    getImage(url, filename,mimeType) {
+    
+    constructor() {
+        this.url= "http://localhost:8080/api/data/file/images/";
+      }
+    getImage(filename,mimeType) {
         return axios
-            .get(`${url}${filename}`, { responseType: "blob" })
+            .get(`${this.url}${filename}`, { responseType: "blob" })
             .then((res) =>{
                 // console.log([res.data]);
                 return new File([res.data], filename, { type: mimeType });

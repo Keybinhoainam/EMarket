@@ -8,9 +8,9 @@ export default {
         };
     },
     methods: {
-        async getImage(filename) {
-            this.user.avatar= await fileService.getImage(this.url, filename, "image/*");
-            console.log(this.user.avatar);
-        },
+        // async getImage(filename) {
+        //     this.user.avatar= await fileService.getImage(this.url, filename, "image/*");
+        //     console.log(this.user.avatar);
+        // },
     },
 };

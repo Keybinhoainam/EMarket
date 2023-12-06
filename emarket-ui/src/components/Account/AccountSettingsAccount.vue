@@ -3,10 +3,11 @@ import User from "@/models/user";
 import { ref } from "vue";
 import mixinsAccount from "@/mixins/mixinsAccount";
 import sweetAlert from "@/mixins/sweetAlert";
-import Cookies from "js-cookie";
 import defaultAvatar from "@/assets/images/defaultAvatar.png";
 import mixinsFile from "@/mixins/mixinsFile";
 import { nextTick } from "vue";
+import Cookies from 'js-cookie';
+import fileService from "@/services/file.service";
 export default {
     mixins: [mixinsAccount, sweetAlert, mixinsFile],
     data() {
@@ -15,13 +16,12 @@ export default {
             baseURL: "http://localhost:8080/api",
             config: this.$store.state.data.config,
             defaultAvatar: defaultAvatar,
-            avatar: null,
         };
     },
     methods: {
         resetAvatar() {
-            this.user.avatar = new User().avatar;
-            this.user.avatar == defaultAvatar ? (this.avatar = defaultAvatar) : this.applyImages();
+            this.user.avatarFile = new User().avatarFile;
+            this.applyImages();
         },
         resetForm() {
             this.user = new User();
@@ -29,9 +29,10 @@ export default {
         async changeAvatar(file) {
             // console.log(defaultAvatar);
             // console.log(this.avatar);
-            const { files } = file.target;
+            let files = file.target.files;
             if (files && files.length) {
-                this.user.avatar = files[0];
+                this.user.avatarFile=files[0];
+                // console.log(typeof this.user.avatarFile);
             }
             await nextTick();
             await this.applyImages();
@@ -41,23 +42,25 @@ export default {
         uploadFile() {
             this.$refs.refInput.click();
         },
-        saveChange() {
-            this.saveAccount(this.user);
+        async saveChange() {
+            // await console.log(this.user);
+            await this.saveAccount(this.user);
+            // await console.log(this.user);
             // Cookies.set("user",JSON.stringify(this.user));
             // this.$store.dispatch();
             this.$store.dispatch("data/changeUser", this.user);
         },
     },
     async created() {
-        this.user = this.$store.state.data.user;
+        this.user = await this.$store.state.data.user;
+        await this.getImage();
         // console.log(this.user);
-        // console.log(this.user);
-        // console.log(this.getImage(this.user.avatarString));
-        // this.user.avatar = await this.user.avatarString ? this.getImage(this.user.avatarString) : defaultAvatar;
-        await this.getImage(this.user.avatarString);
+        // console.log(this.$store.state.data.user);
+        // console.log(this.$store.state.data.avatarFile);
         await this.applyImages();
         // await this.user.avatar == defaultAvatar ? (this.avatar = defaultAvatar) : this.applyImages();
     },
+    
 };
 </script>
 
@@ -67,10 +70,10 @@ export default {
             <v-card title="Account Details">
                 <v-cardText class="d-flex">
                     <v-avatar
-                        
+                        ref="avatar"
                         size="120"
                         class="me-6"
-                        :image="user.avatar ? avatar : defaultAvatar"
+                        :image="avatarString ? avatarString : defaultAvatar"
                     >
                 </v-avatar>
                     <form class="d-flex flex-column justify-center gap-5">

@@ -244,6 +244,7 @@ export default {
             for (let i = 0; i < selectedFiles.length; i++) {
                 this.product.product_images.push(selectedFiles[i]);
             }
+            console.log(typeof this.product.product_images[0]);
             nextTick();
             this.applyImages();
         },

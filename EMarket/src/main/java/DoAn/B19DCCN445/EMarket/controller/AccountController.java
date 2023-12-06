@@ -30,14 +30,22 @@ public class AccountController {
 		return new ResponseEntity<>(service.getAccounts(),HttpStatus.OK);
 	}
 	@RequestMapping("/account/saveAccount")
-	public ResponseEntity<ApiResponse> saveAccount(@RequestBody UserDTO u){
-		System.out.println("ok");
+	public ResponseEntity<UserDTO> saveAccount(@RequestBody UserDTO u){
+//		System.out.println("ok");
 		return new ResponseEntity<>(service.saveAccount(u),HttpStatus.OK);
 	}
-	@RequestMapping("/account/saveAvatarAccount")
+	@PostMapping("/account/saveAvatarAccount")
 	public ResponseEntity<ApiResponse> saveAvatarAccount(@RequestParam("avatar") MultipartFile avatar,@RequestParam("idAccount") Long id){
 //		System.out.println("ok");
 		return new ResponseEntity<>(service.saveAvatarAccount(avatar,id),HttpStatus.OK);
+	}
+	@PostMapping("/account/checkPassword")
+	public ResponseEntity<ApiResponse> checkPassword(@RequestParam("user") User u,@RequestParam("currentPassword") String currentPassword) throws Exception{
+		System.out.println(currentPassword);
+		ApiResponse response=service.checkPassword(u, currentPassword);
+		if(response.isSuccess()) return new ResponseEntity<>(service.checkPassword(u, currentPassword),HttpStatus.OK);
+		return new ResponseEntity<>(service.checkPassword(u, currentPassword),HttpStatus.BAD_REQUEST);
+		
 	}
 //	@PostMapping("/seller/account/image/save")
 //	private ResponseEntity<ApiResponse> saveProductImages( @RequestParam("file") MultipartFile file, @RequestParam("id") Long id){

@@ -43,10 +43,10 @@ public class UserDTO {
 //	@NotNull(message = "gender shouldn't be null")
 	private String gender;
 //	@NotNull(message = "dateOfBirth shouldn't be null")
-//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date birthday;
-	private MultipartFile avatar;
-	private String avatarString;
+	private MultipartFile avatarFile;
+	private String avatar;
 	
 	
 //	@NotNull(message = "phone shouldn't be null")

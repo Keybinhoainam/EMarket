@@ -5,6 +5,9 @@ import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,15 +25,25 @@ public class AccountService {
 	private AccountRepository accountRepository;
 	@Autowired
 	FilesStorageService storageService;
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	@Autowired
+	PasswordEncoder encoder;
 	public List<User> getAccounts() {
 		List<User> list=accountRepository.findAll();
 		return list;
 	}
-	public ApiResponse saveAccount(UserDTO uDto) {
+	public UserDTO saveAccount(UserDTO uDto) {
 		User u=accountRepository.findById(uDto.getId()).get();
 //		u.setAvatar(storeImageAccount(avatar));
+//		User u= new User();
+		uDto.setPassword(u.getPassword());
+		uDto.setAvatar(u.getAvatar());
+		BeanUtils.copyProperties(uDto, u);
+//		System.out.println(u.getPassword());
 		accountRepository.save(u);
-		return ApiResponse.builder().success(true).message("Save Account Successfully").build();
+		uDto.setAvatarFile(null);
+		return uDto;
 	}
 	public String storeImageAccount(MultipartFile file) {
 		// TODO Auto-generated method stub
@@ -52,6 +65,14 @@ public class AccountService {
 		}
 		accountRepository.save(user);
 		return ApiResponse.builder().success(true).message("Save Image Account Successfully").build();
+	}
+	public ApiResponse checkPassword(User u,String currentPassword) throws Exception {
+		User tmp=accountRepository.findByUsername(u.getUsername()).get();
+		if(!encoder.matches(currentPassword, tmp.getPassword())) {
+			return ApiResponse.builder().success(false).message("Change password Fail").build();
+		}
+		// TODO Auto-generated method stub
+		return ApiResponse.builder().success(true).message("Change password Successfully").build();
 	}
 	
 	

@@ -10,6 +10,7 @@ export const data = {
         categories: null,
         config: null,
         user:Cookies.get("user")?JSON.parse(Cookies.get("user")):new User(),
+        // avatarFile:null
     },
     actions: {
         fetchProductsData({ commit }, { url, config }) {
@@ -60,6 +61,9 @@ export const data = {
         },
         changeUser(state,user){
             Cookies.set("user",JSON.stringify(user));
+            // console.log(user.avatarFile);
+            // state.avatarFile=user.avatarFile;
+            // console.log(state.avatarFile);
             state.user=user;
         },
 

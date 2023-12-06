@@ -58,7 +58,7 @@ public class AuthenticationService {
 						acc.getPassword()
 						)
 		);
-//		System.out.println("ok");
+		System.out.println("ok");
 		var user=accountRepository.findByUsername(acc.getUsername())
 				.orElseThrow(()->new UserNotFoundException("User not found!"));
 		
@@ -66,7 +66,6 @@ public class AuthenticationService {
 		UserDTO userDTO=new UserDTO();
 		BeanUtils.copyProperties(user, userDTO);
 		userDTO.setAccessToken(jwtToken);
-		userDTO.setAvatarString(user.getAvatar());
 		return userDTO;
 		
 	}

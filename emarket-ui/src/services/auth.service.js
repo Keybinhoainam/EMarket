@@ -10,13 +10,6 @@ class AuthService {
         Cookies.remove("user");
         return axios.post(url, user,config).then(
             (res) => {
-                if (res.data.accessToken) {
-                    // localStorage.setItem("user", JSON.stringify(res.data));
-                    Cookies.set("accessToken", JSON.stringify(res.data.accessToken), { expires: 1 });
-                    // this.$store.dispatch("data/changeUser",res.data);
-                    // Cookies.set("user",JSON.stringify(res.data));
-                    
-                }
                 return Promise.resolve(res);
             },
             (error) => {

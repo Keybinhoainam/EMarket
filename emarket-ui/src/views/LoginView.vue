@@ -94,7 +94,9 @@
     </section>
 </template>
 <script>
+import mixinsAccount from "@/mixins/mixinsAccount";
 import mixinsAuthen from "@/mixins/mixinsAuthen";
+import mixinsFile from "@/mixins/mixinsFile";
 import sweetAlert from "@/mixins/sweetAlert";
 import validateAccount from "@/mixins/validateAccount";
 import User from "@/models/user";
@@ -117,7 +119,7 @@ export default {
             }
         },
     },
-    mixins: [validateAccount, sweetAlert, mixinsAuthen],
+    mixins: [validateAccount, sweetAlert, mixinsAuthen,mixinsFile],
     props: ["baseURL"],
 };
 </script>
