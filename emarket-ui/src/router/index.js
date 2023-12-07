@@ -14,7 +14,7 @@ import WishList from "@/views/Customer/Wishlist.vue";
 import Checkout from "@/views/Checkout/Checkout.vue";
 import CustomerLayout from "@/components/Layout/CustomerLayout.vue";
 import AdminLayout from "@/components/Layout/AdminLayout.vue";
-import Profile from "@/views/Common/Profile.vue";
+import AccountSetting from "@/views/Common/AccountSetting.vue";
 const routes = [
     // {
     //   path:'/',
@@ -36,7 +36,17 @@ const routes = [
         meta: {
             requiresAuth: true,
         },
-        component: Profile,
+        props:{tab:"profile"},
+        component: AccountSetting,
+    },
+    {
+        path: "/security",
+        name: "Security",
+        meta: {
+            requiresAuth: true,
+        },
+        props:{tab:"security"},
+        component: AccountSetting,
     },
     {
         path:"/customer",

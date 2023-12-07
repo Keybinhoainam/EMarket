@@ -176,7 +176,11 @@ export default {
         },
     },
     async mounted() {
-        await this.findProductsLikeName(this.textSearch);
+        let tmp="";
+        if(this.textSearch)tmp=this.textSearch;
+        if(this.$route.params.textSearch) tmp=this.$route.params.textSearch;
+        await this.findProductsLikeName(tmp);
+        
         // if(textSearch){
         //     await this.findProductsLikeName(textSearch);
         // }

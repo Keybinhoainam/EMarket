@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import DoAn.B19DCCN445.EMarket.model.Store;
 import DoAn.B19DCCN445.EMarket.model.User;
@@ -31,7 +32,7 @@ public class UserDTO {
 //	@NotBlank
 //	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$", 
 //			message = "password should use 8 or more character with a mix of letters, numbers & symbols.")
-	@JsonIgnore
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 //	@NotBlank
 //	@NotNull(message = "email shouldn't be null")
@@ -56,4 +57,6 @@ public class UserDTO {
 	private Store store;
 	
 	private String accessToken;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	private String currentPassword;
 }

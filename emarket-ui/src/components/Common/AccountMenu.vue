@@ -12,7 +12,7 @@
                         >
                             <v-avatar
                                 ref="avatar"
-                                :image="avatarString ? avatarString : defaultAvatar"
+                                :image="user.avatarString ? user.avatarString : defaultAvatar"
                             >
                             </v-avatar>
                         </v-badge>
@@ -23,7 +23,7 @@
             <v-list width="250" class="py-0">
                 <v-list-item
                     lines="two"
-                    :prepend-avatar="avatarString ? avatarString : defaultAvatar"
+                    :prepend-avatar="user.avatarString ? user.avatarString : defaultAvatar"
                     :title="user.fullname"
                     :subtitle="user.id ? 'Logged In' : 'Not Login'"
                 >
@@ -50,6 +50,7 @@ import mixinsAuthen from "@/mixins/mixinsAuthen";
 import defaultAvatar from "@/assets/images/defaultAvatar.png";
 import mixinsAccount from "@/mixins/mixinsAccount";
 import fileService from "@/services/file.service";
+import { nextTick } from "vue";
 export default {
     mixins: [mixinsAuthen, mixinsAccount],
     data() {
@@ -59,8 +60,8 @@ export default {
             menus: {
                 loggedIn: [
                     { title: "Profile", icon: "mdi-account", link: "/profile" },
-                    { title: "Change Password", icon: "mdi-key", link: "/profile" },
-                    { title: "Setting", icon: "mdi-cog" },
+                    { title: "Change Password", icon: "mdi-key", link: "/security" },
+                    { title: "My Purchase", icon: "mdi-shopping" },
                     { title: "Logout", icon: "mdi-logout", click: this.logout },
                 ],
                 notLogIn: [
@@ -72,14 +73,16 @@ export default {
     },
     methods: {
         logout() {
-            (this.user = new User()), this.mxLogout();
+            this.user = new User();
+            this.mxLogout();
+            this.$router.push({ name: "home" });
         },
     },
     async created() {
         this.user = await this.$store.state.data.user;
         await this.getImage();
         await this.applyImages();
+        // await console.log(this.avatarString);
     },
-    
 };
 </script>

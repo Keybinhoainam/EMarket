@@ -61,9 +61,6 @@ export const data = {
         },
         changeUser(state,user){
             Cookies.set("user",JSON.stringify(user));
-            // console.log(user.avatarFile);
-            // state.avatarFile=user.avatarFile;
-            // console.log(state.avatarFile);
             state.user=user;
         },
 

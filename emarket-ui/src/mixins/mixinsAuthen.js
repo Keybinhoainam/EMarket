@@ -10,8 +10,8 @@ export default {
     },
     methods: {
         async mxLogin() {
-            this.$store.dispatch("data/changeUser", new User());
-            Cookies.remove("user");
+            
+            await this.mxLogout();
             try {
                 // console.log(this.$store.state.data.user);
                 let res = await authService.login(this.url, this.user, this.config);
@@ -44,10 +44,11 @@ export default {
             );
         },
         async mxLogout() {
+            await this.$store.dispatch("data/changeUser", new User());
             localStorage.removeItem("cart");
             localStorage.removeItem("wishList");
-            Cookies.remove("user");
-            router.push({ name: "home" });
+            Cookies.remove("accessToken");
+            
         },
     },
 };

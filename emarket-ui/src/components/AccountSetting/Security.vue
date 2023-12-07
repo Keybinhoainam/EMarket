@@ -11,12 +11,11 @@ export default {
         return {
             user: new User(),
             baseURL:this.$store.state.data.baseURL,
+            config:this.$store.state.data.config,
+            
             isCurrentPasswordVisible: false,
             isNewPasswordVisible: false,
             isConfirmPasswordVisible: false,
-            currentPassword: "12345678",
-            newPassword: "87654321",
-            confirmPassword: "87654321",
             passwordRequirements: [
                 "Minimum 8 characters long - the more, the better",
                 "At least one lowercase character",
@@ -47,7 +46,7 @@ export default {
     methods: {
         saveChanges() {
             if (this.validateAccountSettingSecurity()) {
-                this.checkPassword();
+                this.checkCurrentPassword();
             } else {
                 this.alertFail("Incorrect password confirmation");
             }
@@ -150,7 +149,7 @@ export default {
                         <v-row>
                             <v-col cols="12" md="6">
                                 <v-text-field
-                                    v-model="currentPassword"
+                                    v-model="user.currentPassword"
                                     :type="isCurrentPasswordVisible ? 'text' : 'password'"
                                     :append-inner-icon="
                                         isCurrentPasswordVisible ? 'bx-hide' : 'bx-show'

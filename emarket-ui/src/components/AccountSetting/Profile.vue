@@ -6,7 +6,7 @@ import sweetAlert from "@/mixins/sweetAlert";
 import defaultAvatar from "@/assets/images/defaultAvatar.png";
 import mixinsFile from "@/mixins/mixinsFile";
 import { nextTick } from "vue";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import fileService from "@/services/file.service";
 export default {
     mixins: [mixinsAccount, sweetAlert, mixinsFile],
@@ -16,6 +16,7 @@ export default {
             baseURL: "http://localhost:8080/api",
             config: this.$store.state.data.config,
             defaultAvatar: defaultAvatar,
+            isChangeAvatar:false,
         };
     },
     methods: {
@@ -27,40 +28,33 @@ export default {
             this.user = new User();
         },
         async changeAvatar(file) {
-            // console.log(defaultAvatar);
-            // console.log(this.avatar);
+            this.isChangeAvatar=true;
             let files = file.target.files;
             if (files && files.length) {
-                this.user.avatarFile=files[0];
-                // console.log(typeof this.user.avatarFile);
+                this.user.avatarFile = files[0];
+                this.user.avatar=files[0].name;
             }
             await nextTick();
             await this.applyImages();
             // console.log(this.avatar);
-
         },
         uploadFile() {
             this.$refs.refInput.click();
         },
         async saveChange() {
-            // await console.log(this.user);
             await this.saveAccount(this.user);
-            // await console.log(this.user);
-            // Cookies.set("user",JSON.stringify(this.user));
-            // this.$store.dispatch();
             this.$store.dispatch("data/changeUser", this.user);
+            await this.applyImages();
+            this.isChangeAvatar=false;
         },
     },
     async created() {
         this.user = await this.$store.state.data.user;
         await this.getImage();
-        // console.log(this.user);
-        // console.log(this.$store.state.data.user);
-        // console.log(this.$store.state.data.avatarFile);
         await this.applyImages();
+
         // await this.user.avatar == defaultAvatar ? (this.avatar = defaultAvatar) : this.applyImages();
     },
-    
 };
 </script>
 
@@ -73,9 +67,9 @@ export default {
                         ref="avatar"
                         size="120"
                         class="me-6"
-                        :image="avatarString ? avatarString : defaultAvatar"
+                        :image="user.avatarString ? user.avatarString : defaultAvatar"
                     >
-                </v-avatar>
+                    </v-avatar>
                     <form class="d-flex flex-column justify-center gap-5">
                         <div class="d-flex flex-wrap gap-2">
                             <v-btn color="primary" @click="uploadFile">
@@ -125,7 +119,6 @@ export default {
                             <!-- 👉 Organization -->
                             <v-col cols="12" md="6">
                                 <v-text-field
-                                
                                     type="date"
                                     v-model="user.birthday"
                                     label="Birthday"

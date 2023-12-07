@@ -1,61 +1,7 @@
 <template>
     <v-app id="inspire">
-        <v-app-bar :clipped-left="lgAndUp" app color="primary" dark>
-            <!--      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />-->
-
-            <v-toolbar-title style="width: 350px">
-                <a href="/" class="text-white" style="text-decoration: none"
-                    ><v-icon>mdi-store</v-icon>&nbsp;Emarket</a
-                >
-            </v-toolbar-title>
-
-            <v-spacer />
-            <v-col lg="6" cols="12">
-                <v-text-field
-                    class="p-0 m-0 mt-6"
-                    dense
-                    append-icon="mdi-magnify"
-                    variant="outlined"
-                    rounded
-                    placeholder="Search"
-                    v-model="textSearch"
-                    @keyup.enter="search()"
-                />
-            </v-col>
-            <!-- <v-text-field
-                flat
-                solo-inverted
-                hide-details
-                variant="outlined"
-                rounded
-                prepend-inner-icon="mdi-magnify"
-                label="Search"
-                class="hidden-sm-and-down pl-10 ml-4"
-                
-            /> -->
-            <v-spacer />
-
-            <!-- <v-btn icon title="Notification">
-                <v-badge content="2" value="2" color="green" overlap>
-                    <v-icon>mdi-bell</v-icon>
-                </v-badge>
-            </v-btn> -->
-            <Notification />
-            <v-btn href="/cart" icon title="Cart">
-                <v-badge v-if="cart&&cart.cart_details" :content="cart.cart_details.length" color="green" overlap>
-                    <v-icon>mdi-cart</v-icon>
-                </v-badge>
-                <v-icon v-else>mdi-cart</v-icon>
-            </v-btn>
-            <v-btn href="/wishlist" icon title="Wishlist">
-                <v-badge v-if="wishList&&wishList.products" :content="wishList.products.length" color="green" overlap>
-                    <v-icon>mdi-tag-heart</v-icon>
-                </v-badge>
-                <v-icon v-else>mdi-tag-heart</v-icon>
-            </v-btn>
-            <AccountMenu></AccountMenu>
-        </v-app-bar>
-
+        
+        <TopBar @search="search"/>
         <v-main class="pb-0">
             <v-bottom-navigation color="primary" horizontal style="position: relative">
                 <v-btn href="/">
@@ -169,23 +115,14 @@ import mixinsProduct from "@/mixins/mixinsProduct";
 import sweetAlert from "@/mixins/sweetAlert";
 import { nextTick, shallowRef } from "vue";
 import WishList from "@/models/wishList";
-import Notification from "@/components/Common/Notification.vue";
-import AccountMenu from "@/components/Common/AccountMenu.vue";
+import TopBar from "@/components/Layout/TopBar.vue";
 export default {
-    setup() {
-        const { lgAndUp } = useDisplay();
-        return {
-            lgAndUp,
-        };
-    },
+    
     props: ["products", "baseURL", "categories", "config"],
     mixins: [mixinsCart, mixinsProduct, sweetAlert],
-    components: { AccountMenu, Notification },
+    components: {TopBar },
     data() {
         return {
-            cartItemsQuantity: 0,
-            cart: new Cart(),
-            wishList: new WishList(),
             textSearch: "",
         };
     },
@@ -194,7 +131,8 @@ export default {
             this.cart = JSON.parse(localStorage.getItem("cart"));
             this.wishList = JSON.parse(localStorage.getItem("wishList"));
         },
-        search() {
+        search(textSearch) {
+            this.textSearch=textSearch;
             this.$router.push({ name: "shop" });
         },
     },

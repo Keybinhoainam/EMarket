@@ -4,37 +4,34 @@ import { nextTick } from "vue";
 export default {
     data() {
         return {
-            avatarString: null,
+            
         };
     },
     methods: {
-        checkPassword() {
-            let checkPasswordUrl = `${this.baseURL}/account/checkPassword`;
-            accountService
-                .checkPassword(
-                    checkPasswordUrl,
-                    { "user": this.user, "currentPassword": this.currentPassword },
-                    this.config
-                )
-                .then(
-                    (res) => {},
-                    (error) => {
-                        this.alertFail("Incorrect Current Password", error.message);
-                    }
-                );
+        async checkCurrentPassword() {
+            let checkPasswordUrl = `${this.baseURL}/account/checkCurrentPassword`;
+            // console.log(formData);
+            console.log(this.user);
+            await accountService.checkCurrentPassword(checkPasswordUrl, this.user, this.config).then(
+                (res) => {
+                    this.alertSuccess("Change Password Successfully");
+                },
+                (error) => {
+                    this.alertFail("Incorrect Current Password", error.message);
+                }
+            );
         },
         async saveAccount(user) {
             // console.log(this.config);
             try {
-                await this.saveAvatarAccount(user);
-                user.avatarFile = null;
+                // console.log(this.$store.state.data.user.avatar);
+                // console.log(this.user.avatar);
+                if(this.isChangeAvatar) await this.saveAvatarAccount(user);
 
+                const avatarFile=user.avatarFile;
                 let saveAccountUrl = `${this.baseURL}/account/saveAccount`;
-                // console.log(saveAccountUrl);
-
                 this.user = await accountService.saveAccount(saveAccountUrl, user, this.config);
-                // this.user.avatar=userTmp.avatar;
-                // this.config.headers["content-Type"] = undefined;
+                this.user.avatarFile=avatarFile;
                 this.alertSuccess("Save Successfully");
             } catch (error) {
                 this.alertFail("Fail to save", error.message);
@@ -43,6 +40,7 @@ export default {
         async saveAvatarAccount(user) {
             // console.log(typeof user.avatarFile);
             // console.log(user.avatarFile);
+            console.log("saveAvatarAccount");
             let formData = new FormData();
             formData.append("avatar", user.avatarFile);
             // formData.append("avatar",user.avatarFile,user.avatar);
@@ -59,7 +57,7 @@ export default {
             const fileReader = new FileReader();
             fileReader.onload = () => {
                 // this.user.avatarFile=fileReader.result;
-                this.avatarString = fileReader.result;
+                this.user.avatarString = fileReader.result;
 
                 // console.log(this.avatar);
             };

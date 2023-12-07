@@ -39,12 +39,12 @@ public class AccountController {
 //		System.out.println("ok");
 		return new ResponseEntity<>(service.saveAvatarAccount(avatar,id),HttpStatus.OK);
 	}
-	@PostMapping("/account/checkPassword")
-	public ResponseEntity<ApiResponse> checkPassword(@RequestParam("user") User u,@RequestParam("currentPassword") String currentPassword) throws Exception{
-		System.out.println(currentPassword);
-		ApiResponse response=service.checkPassword(u, currentPassword);
-		if(response.isSuccess()) return new ResponseEntity<>(service.checkPassword(u, currentPassword),HttpStatus.OK);
-		return new ResponseEntity<>(service.checkPassword(u, currentPassword),HttpStatus.BAD_REQUEST);
+	@PostMapping("/account/checkCurrentPassword")
+	public ResponseEntity<ApiResponse> checkCurrentPassword(@RequestBody UserDTO u) throws Exception{
+//		System.out.println(currentPassword);
+		ApiResponse response=service.checkCurrentPassword(u);
+		if(response.isSuccess()) return new ResponseEntity<>(response,HttpStatus.OK);
+		return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
 		
 	}
 //	@PostMapping("/seller/account/image/save")

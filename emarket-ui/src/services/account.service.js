@@ -3,6 +3,7 @@ import axios from "axios";
 
 class AccountService {
     saveAccount(url, user, config) {
+        user.avatarFile = null;
         return axios.post(url, user, config).then(
             (res) => {
                 return Promise.resolve(res.data);
@@ -22,7 +23,7 @@ class AccountService {
             }
         );
     }
-    checkPassword(url, data, config) {
+    checkCurrentPassword(url, data, config) {
         return axios.post(url, data, config).then(
             (res) => {
                 return Promise.resolve(res.data);

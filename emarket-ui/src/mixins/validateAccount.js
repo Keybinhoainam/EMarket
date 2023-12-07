@@ -19,6 +19,7 @@ export default {
             return this.isValid;
         },
         validateAccountSettingSecurity() {
+            this.isValid = true;
             this.checkPassword();
             this.checkConfirmPassword();
             return this.isValid;
