@@ -80,8 +80,10 @@ export default {
     },
     async created() {
         this.user = await this.$store.state.data.user;
-        await this.getImage();
-        await this.applyImages();
+        if (this.user.avatar) {
+            await this.getImage();
+            await this.applyImages();
+        }
         // await console.log(this.avatarString);
     },
 };

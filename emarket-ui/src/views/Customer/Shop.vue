@@ -178,7 +178,7 @@ export default {
     async mounted() {
         let tmp="";
         if(this.textSearch)tmp=this.textSearch;
-        if(this.$route.params.textSearch) tmp=this.$route.params.textSearch;
+        if(this.$route.query.textSearch) tmp=this.$route.query.textSearch;
         await this.findProductsLikeName(tmp);
         
         // if(textSearch){

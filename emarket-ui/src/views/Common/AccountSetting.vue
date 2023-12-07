@@ -35,7 +35,7 @@ export default {
     },
     methods: {
         search(textSearch) {
-            this.$router.push({ name: "shop" ,params: {textSearch:textSearch} });
+            this.$router.push({ name: "shop" ,query: {textSearch:textSearch} });
         },
     },
 };
