@@ -24,7 +24,7 @@
                 <tbody>
                     <tr v-for="product in products" :key="product">
                         <td>
-                            <v-list-item>
+                            <v-list>
                                 <v-list-item
                                     :title="product.product_name"
                                     :subtitle="product.category.category_name"
@@ -38,7 +38,7 @@
                                     "
                                 >
                                 </v-list-item>
-                            </v-list-item>
+                            </v-list>
                         </td>
                         <td>${{ product.price }}</td>
                         <td>${{ product.standard_cost }}</td>

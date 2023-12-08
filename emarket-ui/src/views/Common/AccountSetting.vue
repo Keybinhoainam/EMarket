@@ -45,7 +45,7 @@ export default {
 
 <template>
     <v-layout>
-        <TopBar @search="search"/>
+        <!-- <TopBar @search="search"/> -->
         <v-main>
             <VTabs v-model="activeTab" show-arrows>
                 <VTab v-for="item in tabs" :key="item.icon" :value="item.tab">

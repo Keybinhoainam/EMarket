@@ -41,7 +41,7 @@ public class AuthenticationController {
 	public ResponseEntity<UserDTO> authenticate(
 			@RequestBody User  acc
 	) throws BadCredentialsException, NoSuchElementException, UserNotFoundException {
-		System.out.println(acc.getPassword());
+//		System.out.println(acc.getPassword());
 		return ResponseEntity.ok(service.authenticate(acc));
 	}
 }

@@ -68,11 +68,9 @@ public class AccountService {
 	}
 	public ApiResponse checkCurrentPassword(UserDTO u) throws Exception {
 		User tmp=accountRepository.findByUsername(u.getUsername()).get();
-		System.out.println("u.getCurrentPasswor: "+ u.getCurrentPassword());
 		if(!encoder.matches(u.getCurrentPassword(), tmp.getPassword())) {
 			return ApiResponse.builder().success(false).message("Change password Fail").build();
 		}
-		System.out.println("u.getPassword "+u.getPassword());
 		tmp.setPassword(encoder.encode(u.getPassword()));
 		accountRepository.save(tmp);
 		// TODO Auto-generated method stub

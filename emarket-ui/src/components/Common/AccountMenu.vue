@@ -61,7 +61,7 @@ export default {
                 loggedIn: [
                     { title: "Profile", icon: "mdi-account", link: "/profile" },
                     { title: "Change Password", icon: "mdi-key", link: "/security" },
-                    { title: "My Purchase", icon: "mdi-shopping" },
+                    { title: "My Purchase", icon: "mdi-shopping", link:"/myPurchase"},
                     { title: "Logout", icon: "mdi-logout", click: this.logout },
                 ],
                 notLogIn: [

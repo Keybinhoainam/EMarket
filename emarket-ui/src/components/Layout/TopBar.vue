@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-app-bar :clipped-left="lgAndUp" app color="primary" dark>
+        <v-app-bar :clipped-left="lgAndUp" app color="primary" dark v-if="isCustomer">
             <!--      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />-->
 
             <v-toolbar-title style="width: 350px">
@@ -55,7 +55,7 @@
             </v-btn>
             <AccountMenu></AccountMenu>
         </v-app-bar>
-        <!-- <v-app-bar app elevate-on-scroll elevation="3" color="white">
+        <v-app-bar app elevate-on-scroll elevation="3" color="white" v-else>
             <v-btn
                 icon="mdi-home"
                 title="Back to Home"
@@ -80,7 +80,7 @@
             <v-spacer />
             <Notification />
             <AccountMenu />
-        </v-app-bar> -->
+        </v-app-bar>
     </div>
 </template>
 
@@ -98,13 +98,12 @@ export default {
             lgAndUp,
         };
     },
+    props:["isCustomer","cart","wishList"],
     emits: ["drawerEvent","search"],
     components: { AccountMenu, Notification },
     data() {
         return {
             cartItemsQuantity: 0,
-            cart: new Cart(),
-            wishList: new WishList(),
             textSearch: "",
         };
         

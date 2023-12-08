@@ -1,7 +1,6 @@
 <template>
     <v-app id="inspire">
-        
-        <TopBar @search="search"/>
+        <TopBar @search="search" :isCustomer="isCustomer" :cart="cart" :wishList="wishList" />
         <v-main class="pb-0">
             <v-bottom-navigation color="primary" horizontal style="position: relative">
                 <v-btn href="/">
@@ -117,10 +116,9 @@ import { nextTick, shallowRef } from "vue";
 import WishList from "@/models/wishList";
 import TopBar from "@/components/Layout/TopBar.vue";
 export default {
-    
-    props: ["products", "baseURL", "categories", "config"],
+    props: ["products", "baseURL", "categories", "config", "isCustomer"],
     mixins: [mixinsCart, mixinsProduct, sweetAlert],
-    components: {TopBar },
+    components: { TopBar },
     data() {
         return {
             textSearch: "",
@@ -132,7 +130,7 @@ export default {
             this.wishList = JSON.parse(localStorage.getItem("wishList"));
         },
         search(textSearch) {
-            this.textSearch=textSearch;
+            this.textSearch = textSearch;
             this.$router.push({ name: "shop" });
         },
     },

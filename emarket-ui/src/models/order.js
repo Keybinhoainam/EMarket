@@ -1,3 +1,4 @@
+import Order_detail from "./order_detail";
 import Payment_type from "./payment_type";
 import User from "./user";
 

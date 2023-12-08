@@ -30,27 +30,11 @@ const routes = [
         name: "register",
         component: () => import("@/views/RegisterView.vue"),
     },
+
     {
-        path: "/profile",
-        name: "Profile",
-        meta: {
-            requiresAuth: true,
-        },
-        props:{tab:"profile"},
-        component: AccountSetting,
-    },
-    {
-        path: "/security",
-        name: "Security",
-        meta: {
-            requiresAuth: true,
-        },
-        props:{tab:"security"},
-        component: AccountSetting,
-    },
-    {
-        path:"/customer",
+        path: "/customer",
         component: CustomerLayout,
+        props: { isCustomer: true },
         children: [
             {
                 path: "/",
@@ -92,13 +76,40 @@ const routes = [
                 },
                 component: Checkout,
             },
+            {
+                path: "/profile",
+                name: "Profile",
+                meta: {
+                    requiresAuth: true,
+                },
+                props: { tab: "profile" },
+                component: AccountSetting,
+            },
+            {
+                path: "/security",
+                name: "Security",
+                meta: {
+                    requiresAuth: true,
+                },
+                props: { tab: "security" },
+                component: AccountSetting,
+            },
+            {
+                path: "/myPurchase",
+                name: "MyPurchase",
+                meta: {
+                    requiresAuth: true,
+                },
+                props: { tab: "myPurchase" },
+                component: AccountSetting,
+            },
         ],
     },
     {
-        path:"/seller",
+        path: "/seller",
         component: AdminLayout,
+        props: { isCustomer: false },
         children: [
-            
             {
                 path: "/seller/category/add",
                 name: "AddCategory",

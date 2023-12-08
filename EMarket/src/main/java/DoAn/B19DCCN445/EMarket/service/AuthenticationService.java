@@ -58,7 +58,6 @@ public class AuthenticationService {
 						acc.getPassword()
 						)
 		);
-		System.out.println("ok");
 		var user=accountRepository.findByUsername(acc.getUsername())
 				.orElseThrow(()->new UserNotFoundException("User not found!"));
 		
