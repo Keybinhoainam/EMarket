@@ -52,8 +52,12 @@ export default {
         return {
             baseGetImageUrl: `${this.baseURL}/data/file/images/`,
             noImageUrl: "@/assets/images/noImage.webp",
+            wishList:null,
             
         };
+    },
+    created() {
+        this.getWishList();
     },
     // watch:{
     //     wishList(wishList){

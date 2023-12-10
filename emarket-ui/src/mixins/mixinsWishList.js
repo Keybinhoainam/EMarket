@@ -4,28 +4,24 @@ import { nextTick } from "vue";
 export default {
     data() {
         return {
-            wishList: new WishList(),
             
         };
     },
     methods: {
         async getWishList() {
             // localStorage.removeItem("wishList")
-            if (localStorage.getItem("wishList")) {
-                this.wishList = JSON.parse(localStorage.getItem("wishList"));
-            } else {
-                this.wishList = new WishList();
-            }
+            this.wishList=this.$store.state.data.wishList;
             await nextTick();
         },
         addToWishList(product) {
             this.getWishList();
-            console.log(product);
+            // console.log(product);
             let tmp = this.wishList.products.find((x) => x.id === product.id);
             if (!tmp) {
                 this.wishList.products.push(product);
+                this.$store.commit("data/changeWishList",this.wishList);
             }
-            localStorage.setItem("wishList", JSON.stringify(this.wishList));
+            
             this.alertSuccess("Add to wishList Successfully");
         },
         removeWishListItem(product) {
@@ -43,9 +39,9 @@ export default {
                         let index = this.wishList.products.indexOf(tmp);
                         // console.log(index);
                         this.wishList.products.splice(index, 1);
-                        localStorage.setItem("wishList", JSON.stringify(this.wishList));
+                        this.$store.commit("data/changeWishList",this.wishList);
                         this.getWishList();
-                        this.$emit('changeCart');
+                        // this.$emit('changeCart');
                         nextTick();
                         this.alertSuccess("Remove wishList Successfully");
                     } catch (error) {
@@ -55,8 +51,5 @@ export default {
                 }
             });
         },
-    },
-    created() {
-        this.getWishList()
     },
 };

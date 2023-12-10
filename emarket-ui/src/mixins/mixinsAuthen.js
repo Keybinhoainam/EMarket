@@ -3,9 +3,12 @@ import router from "@/router";
 import authService from "@/services/auth.service";
 import Cookies from "js-cookie";
 import fileService from "@/services/file.service";
+import Cart from "@/models/cart";
+import WishList from "@/models/wishList";
 export default {
     data() {
         return {
+            
         };
     },
     methods: {
@@ -45,8 +48,8 @@ export default {
         },
         async mxLogout() {
             await this.$store.dispatch("data/changeUser", new User());
-            localStorage.removeItem("cart");
-            localStorage.removeItem("wishList");
+            this.$store.commit("data/changeCart",new Cart());
+            this.$store.commit("data/changeWishList",new WishList());
             Cookies.remove("accessToken");
             
         },

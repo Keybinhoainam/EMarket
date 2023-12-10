@@ -8,6 +8,7 @@ export default {
         return {
             getCartUrl: `${this.baseURL}/customer/cart`,
             saveCartUrl: `${this.baseURL}/customer/cart/save`,
+            // cart:this.$store.state.data.cart,
         };
     },
     // created() {
@@ -22,33 +23,48 @@ export default {
             }
         },
         async saveAndLoadCart() {
-            localStorage.setItem("cart", JSON.stringify(this.cart));
+            this.$store.commit("data/changeCart", this.cart);
             this.getCart();
             this.checkTotalCost();
             await nextTick();
         },
         async getCart() {
             // localStorage.removeItem("cart")
-            if (localStorage.getItem("cart")) {
-                this.cart = JSON.parse(localStorage.getItem("cart"));
-                const cart_details = this.cart.cart_details;
-                for (let i = 0; i < cart_details.length; i++) {
-                    if (cart_details[i].quantity > cart_details[i].product.stock) {
-                        cart_details[i].quantity = cart_details[i].product.stock;
-                    }
-                    if (cart_details[i].quantity == 0) {
-                        this.removeItem(cart_details[i]);
-                    }
+
+            this.cart = this.$store.state.data.cart;
+            const cart_details = this.cart.cart_details;
+            for (let i = 0; i < cart_details.length; i++) {
+                if (cart_details[i].quantity > cart_details[i].product.stock) {
+                    cart_details[i].quantity = cart_details[i].product.stock;
                 }
-                localStorage.setItem("cart", JSON.stringify(this.cart));
-                this.checkTotalCost();
-                await nextTick();
-            } else {
-                this.cart = new Cart();
+                if (cart_details[i].quantity == 0) {
+                    this.removeItem(cart_details[i]);
+                }
             }
+            this.$store.commit("data/changeCart", this.cart);
             this.checkTotalCost();
-            this.$emit("loadCart");
             await nextTick();
+
+            // if (localStorage.getItem("cart")) {
+            //     this.cart = JSON.parse(localStorage.getItem("cart"));
+            //     const cart_details = this.cart.cart_details;
+            //     for (let i = 0; i < cart_details.length; i++) {
+            //         if (cart_details[i].quantity > cart_details[i].product.stock) {
+            //             cart_details[i].quantity = cart_details[i].product.stock;
+            //         }
+            //         if (cart_details[i].quantity == 0) {
+            //             this.removeItem(cart_details[i]);
+            //         }
+            //     }
+            //     this.$store.commit("data/changeCart",this.cart);
+            //     this.checkTotalCost();
+            //     await nextTick();
+            // } else {
+            //     this.cart = new Cart();
+            // }
+            // this.checkTotalCost();
+            // this.$emit("loadCart");
+            // await nextTick();
         },
         async editCartDetail(cart_detail) {
             try {
@@ -72,7 +88,10 @@ export default {
                 // console.log(this.cart);
                 this.saveAndLoadCart();
                 if (!check) {
-                    this.alertFail("Please re-enter quantity",`greater than 0 and less than or equal to ${cart_detail.product.stock}`);
+                    this.alertFail(
+                        "Please re-enter quantity",
+                        `greater than 0 and less than or equal to ${cart_detail.product.stock}`
+                    );
                     return;
                 }
                 this.alertSuccess("edit Cart Successfully");
@@ -101,7 +120,8 @@ export default {
             } else {
                 this.cart.cart_details.push(cartDetailTmp);
             }
-            localStorage.setItem("cart", JSON.stringify(this.cart));
+            this.$store.commit("data/changeCart", this.cart);
+            // 
             this.alertSuccess("Add to Cart Successfully");
         },
         // async saveCart() {
@@ -121,7 +141,7 @@ export default {
             );
             let index = this.cart.cart_details.indexOf(cartDetail);
             this.cart.cart_details.splice(index, 1);
-            localStorage.setItem("cart", JSON.stringify(this.cart));
+            this.$store.commit("data/changeCart", this.cart);
             this.getCart();
             this.checkTotalCost();
             nextTick();

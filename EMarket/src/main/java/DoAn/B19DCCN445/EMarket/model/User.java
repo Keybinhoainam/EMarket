@@ -101,7 +101,7 @@ public class User implements UserDetails {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "store_id")
-	@JsonBackReference
+	@JsonBackReference("store-products")
 	private Store store;
 
 	@ManyToMany(fetch = FetchType.EAGER)

@@ -42,13 +42,13 @@
             </v-btn> -->
             <Notification />
             <v-btn href="/cart" icon title="Cart">
-                <v-badge v-if="cart&&cart.cart_details" :content="cart.cart_details.length" color="green" overlap>
+                <v-badge v-if="cart&&cart.cart_details&&cart.cart_details.length>0" :content="cart.cart_details.length" color="green" overlap>
                     <v-icon>mdi-cart</v-icon>
                 </v-badge>
                 <v-icon v-else>mdi-cart</v-icon>
             </v-btn>
             <v-btn href="/wishlist" icon title="Wishlist">
-                <v-badge v-if="wishList&&wishList.products" :content="wishList.products.length" color="green" overlap>
+                <v-badge v-if="wishList&&wishList.products&&wishList.products.length>0" :content="wishList.products.length" color="green" overlap>
                     <v-icon>mdi-tag-heart</v-icon>
                 </v-badge>
                 <v-icon v-else>mdi-tag-heart</v-icon>
@@ -85,8 +85,8 @@
 </template>
 
 <script>
-import AccountMenu from "@/components/Common/AccountMenu.vue";
-import Notification from "@/components/Common/Notification.vue";
+import AccountMenu from "@/components/Layout/TopBar/AccountMenu.vue";
+import Notification from "@/components/Layout/TopBar/Notification.vue";
 import Cart from "@/models/cart";
 import WishList from "@/models/wishList";
 import { useDisplay } from 'vuetify/lib/framework.mjs';
@@ -98,13 +98,15 @@ export default {
             lgAndUp,
         };
     },
-    props:["isCustomer","cart","wishList"],
+    props:["isCustomer"],
     emits: ["drawerEvent","search"],
     components: { AccountMenu, Notification },
     data() {
         return {
             cartItemsQuantity: 0,
             textSearch: "",
+            cart:null,
+            wishList:null,
         };
         
     },
@@ -112,11 +114,11 @@ export default {
         search() {
             this.$emit("search",this.textSearch);
         },
-        async load() {
-            this.cart = JSON.parse(localStorage.getItem("cart"));
-            this.wishList = JSON.parse(localStorage.getItem("wishList"));
-        },
     },
+    created(){
+        this.cart=this.$store.state.data.cart;
+        this.wishList=this.$store.state.data.wishList;
+    }
 };
 </script>
 

@@ -3,6 +3,7 @@ package DoAn.B19DCCN445.EMarket.model;
 
 
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -62,7 +63,7 @@ public class Store {
 //	@JsonManagedReference("store-shop_exports")
 	private Set<Shop_export>shop_exports;
 	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
-//	@JsonManagedReference("store-products")
-	private Set<Product>products;
+	@JsonManagedReference("store-products")
+	private Collection<Product>products;
 	
 }

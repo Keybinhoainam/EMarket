@@ -1,6 +1,6 @@
 <template>
     <v-app id="inspire">
-        <TopBar @search="search" :isCustomer="isCustomer" :cart="cart" :wishList="wishList" />
+        <TopBar @search="search" :isCustomer="isCustomer"/>
         <v-main class="pb-0">
             <v-bottom-navigation color="primary" horizontal style="position: relative">
                 <v-btn href="/">
@@ -24,9 +24,9 @@
                     </v-list>
                 </v-menu>
 
-                <v-btn href="/blog">
+                <!-- <v-btn href="/blog">
                     <span>Blog</span>
-                </v-btn>
+                </v-btn> -->
             </v-bottom-navigation>
         </v-main>
         <router-view
@@ -107,17 +107,15 @@
     </v-app>
 </template>
 <script>
-import mixinsCart from "@/mixins/mixinsCart";
-import Cart from "@/models/cart";
 import { useDisplay } from "vuetify";
 import mixinsProduct from "@/mixins/mixinsProduct";
 import sweetAlert from "@/mixins/sweetAlert";
 import { nextTick, shallowRef } from "vue";
 import WishList from "@/models/wishList";
-import TopBar from "@/components/Layout/TopBar.vue";
+import TopBar from "@/components/Layout/TopBar/TopBar.vue";
 export default {
     props: ["products", "baseURL", "categories", "config", "isCustomer"],
-    mixins: [mixinsCart, mixinsProduct, sweetAlert],
+    mixins: [ mixinsProduct, sweetAlert],
     components: { TopBar },
     data() {
         return {
@@ -126,8 +124,8 @@ export default {
     },
     methods: {
         async load() {
-            this.cart = JSON.parse(localStorage.getItem("cart"));
-            this.wishList = JSON.parse(localStorage.getItem("wishList"));
+            // this.cart = JSON.parse(localStorage.getItem("cart"));
+            // this.wishList = JSON.parse(localStorage.getItem("wishList"));
         },
         search(textSearch) {
             this.textSearch = textSearch;

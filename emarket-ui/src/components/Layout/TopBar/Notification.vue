@@ -1,13 +1,25 @@
 <template>
-    <v-menu location="end">
+    <v-menu>
         <template v-slot:activator="{ props }">
-            <v-btn  icon v-bind="props" title="Notification">
-                <v-badge content="3" color="red" overlap>
-                    <v-icon >mdi-bell</v-icon>
+            <v-btn icon v-bind="props" title="Notification">
+                <v-badge v-if="false" content="3" color="red" overlap>
+                    <v-icon>mdi-bell</v-icon>
                 </v-badge>
+                <v-icon v-else>mdi-bell</v-icon>
             </v-btn>
         </template>
-        <v-list lines="three" width="250">
+        <v-list lines="three" width="auto" class="d-flex justify-center">
+            <v-list-item
+                title="Functionality in progress"
+                subtitle="Coming soon ..."
+                class="text-h4"
+            >
+                <template v-slot:prepend>
+                    <v-icon icon="mdi-alert" color="red"></v-icon>
+                </template>
+            </v-list-item>
+        </v-list>
+        <!-- <v-list lines="three" width="250">
             <v-list-item
                 v-for="(item, index) in items"
                 :key="index"
@@ -18,7 +30,7 @@
                     <div v-html="item.subtitle" v-bind="subtitle"></div>
                 </template>
             </v-list-item>
-        </v-list>
+        </v-list> -->
     </v-menu>
 </template>
 <script>

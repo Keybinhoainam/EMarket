@@ -71,6 +71,7 @@ export default {
                         `${this.getProductUrl}${id}`,
                         this.config
                     );
+                    this.indexShowImage=0;
                 } catch (error) {
                     this.alertFail("Failed to edit an product !", "product not exists");
                     this.$router.push({ name: "home" });

@@ -2,7 +2,7 @@
 import Profile from "@/components/AccountSetting/Profile.vue";
 import MyPurchase from "@/components/AccountSetting/MyPurchase.vue";
 import Security from "@/components/AccountSetting/Security.vue";
-import TopBar from "@/components/Layout/TopBar.vue";
+import TopBar from "@/components/Layout/TopBar/TopBar.vue";
 export default {
     props: ["tab"],
     components: {

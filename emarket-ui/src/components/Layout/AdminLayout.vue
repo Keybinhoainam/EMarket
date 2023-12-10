@@ -18,13 +18,10 @@
     </v-app>
 </template>
 <script>
-import mixinsCart from "@/mixins/mixinsCart";
-import Cart from "@/models/cart";
 import { useDisplay } from "vuetify";
 import mixinsProduct from "@/mixins/mixinsProduct";
 import sweetAlert from "@/mixins/sweetAlert";
-import WishList from "@/models/wishList";
-import TopBar from "@/components/Layout/TopBar.vue";
+import TopBar from "@/components/Layout/TopBar/TopBar.vue";
 import Sidebar from "@/components/Layout/Sidebar.vue";
 export default {
     setup() {
@@ -40,16 +37,12 @@ export default {
     data() {
         return {
             cartItemsQuantity: 0,
-            cart: new Cart(),
-            wishList: new WishList(),
             textSearch: "",
             drawer: true,
         };
     },
     methods: {
         async load() {
-            this.cart = JSON.parse(localStorage.getItem("cart"));
-            this.wishList = JSON.parse(localStorage.getItem("wishList"));
         },
         search() {
             this.$router.push({ name: "shop" });

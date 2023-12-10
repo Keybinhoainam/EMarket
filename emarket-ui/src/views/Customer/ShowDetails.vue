@@ -3,8 +3,12 @@
         <v-container>
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-12">
-                    <v-carousel cycle eager>
-                        <v-carousel-item v-for="(img, key) in product.product_images" :key="key">
+                    <v-carousel cycle v-model="indexShowImage">
+                        <v-carousel-item
+                            v-for="(img, key) in product.product_images"
+                            :key="key"
+                            :value="key"
+                        >
                             <!-- <v-img :src="getImageURL(img.image)" class="fill-image" eager></v-img> -->
                             <img :src="getImageURL(img.image)" class="fill-image" />
                         </v-carousel-item>
@@ -13,7 +17,7 @@
                 <div class="col-md-7 col-sm-7 col-xs-12">
                     <v-breadcrumbs class="pb-0" :items="breadcrums"></v-breadcrumbs>
                     <div class="pl-6">
-                        <p class="display-1 mb-0">{{ product.product_name }}</p>
+                        <p class="display-3 mb-0">{{ product.product_name }}</p>
                         <v-card-actions class="pa-0">
                             <p class="text-h5 font-weight-light pt-3">
                                 ${{ product.price }}
@@ -99,7 +103,7 @@
                                 <v-list-item
                                     v-for="(review, i) in product.product_reviews"
                                     :key="i"
-                                    :prepend-avatar='review.user.avatar'
+                                    :prepend-avatar="review.user.avatar"
                                     :title="review.comment"
                                     color="primary"
                                 >
@@ -121,7 +125,18 @@
                             YOU MIGHT ALSO LIKE
                         </p>
                         <v-divider></v-divider>
-                        <div class="row text-center">
+                        <v-list lines="three" width="auto" class="d-flex justify-center">
+                            <v-list-item
+                                title="Functionality in progress"
+                                subtitle="Coming soon ..."
+                                class="text-h4"
+                            >
+                                <template v-slot:prepend>
+                                    <v-icon icon="mdi-alert" color="red"></v-icon>
+                                </template>
+                            </v-list-item>
+                        </v-list>
+                        <!-- <div class="row text-center">
                             <div class="col-md-4 col-sm-4 col-xs-12 col-xs-6 text-center">
                                 <v-hover v-slot:default="{ isHovering, props }" open-delay="200">
                                     <v-card :elevation="isHovering ? 16 : 2" v-bind="props">
@@ -145,7 +160,7 @@
                                     </v-card>
                                 </v-hover>
                             </div>
-                        </div>
+                        </div> -->
                     </v-card-text>
                 </div>
             </div>
@@ -163,44 +178,14 @@ import { nextTick } from "vue";
 export default {
     data: () => ({
         product: new Product(),
+        cart: null,
+        wishList: null,
         noImageUrl: "@/assets/images/noImage.webp",
         quantity: 1,
         rating: 4.5,
         tab: null,
         breadcrums: [],
-        item: 5,
-        items: [
-            {
-                avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
-                title: "Lorem ipsum dolor?",
-                subtitle:
-                    "<span class='text--primary'>Ali Connors</span> &mdash; Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl tincidunt eget nullam non. Tincidunt arcu non sodales neque sodales ut etiam. Lectus arcu bibendum at varius vel pharetra. Morbi tristique senectus et netus et malesuada.\n" +
-                    "\n",
-            },
-            {
-                avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
-                title: 'Lorem ipsum dolor <span class="grey--text text--lighten-1">4</span>',
-                subtitle:
-                    "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",
-            },
-            {
-                avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
-                title: "Lorem ipsum dolor",
-                subtitle:
-                    "<span class='text--primary'>Sandra Adams</span> &mdash; Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            },
-            {
-                avatar: "https://cdn.vuetifyjs.com/images/lists/4.jpg",
-                title: "Lorem ipsum dolor",
-                subtitle: "",
-            },
-            {
-                avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-                title: "Lorem ipsum dolor",
-                subtitle:
-                    "<span class='text--primary'>Britta Holt</span> &mdash; Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            },
-        ],
+        indexShowImage: 0,
     }),
     props: ["baseURL", "products", "categories"],
     mixins: [mixinsProduct, sweetAlert, mixinsCart, mixinsWishList],
@@ -208,6 +193,8 @@ export default {
     async created() {
         const route = useRoute();
         if (route.params.id) {
+            this.cart = this.$store.state.data.cart;
+            this.wishList = this.$store.state.data.wishList;
             await this.getProductNoCofig(route.params.id);
 
             this.breadcrums = [

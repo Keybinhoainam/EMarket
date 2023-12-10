@@ -83,7 +83,7 @@
                         </template>
                     </v-table>
                     <div class="text-center">
-                        <v-btn class="white--text mt-5" color="primary">PROCEED TO PAY</v-btn>
+                        <v-btn class="white--text mt-5" color="primary" @click="proceedToPay()">PROCEED TO PAY</v-btn>
                     </div>
                 </v-col>
             </v-row>
@@ -97,6 +97,7 @@ import Cart from "@/models/cart";
 import mixinsProduct from "@/mixins/mixinsProduct";
 import sweetAlert from "@/mixins/sweetAlert";
 import { nextTick } from "vue";
+import mixinsOrder from '@/mixins/mixinsOrder';
 
 const axios = require("axios");
 export default {
@@ -109,8 +110,10 @@ export default {
     },
     name: "Cart",
     props: ["baseURL", "config", "products"],
-    mixins: [mixinsCart, mixinsProduct, sweetAlert],
-    methods: {},
+    mixins: [mixinsCart, mixinsProduct, sweetAlert,mixinsOrder],
+    methods: {
+        
+    },
     async created() {
         await this.getCart();
         // console.log(this.cart);

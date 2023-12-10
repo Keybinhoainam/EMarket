@@ -1,26 +1,21 @@
 <template>
     <section class="wrapper">
         <div class="container">
-            <div
-                class="col-sm-8 offset-sm-2 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3 text-center"
-            >
+            <div class="col-sm-8 offset-sm-2 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3 text-center">
                 <div class="logo">
-                    <img
-                        :src="require('@/assets/images/logo.png')"
-                        alt="logo"
-                        class="img-fluid"
-                    />
+                    <a href="/">
+                        <img
+                            :src="require('@/assets/images/logo.png')"
+                            alt="logo"
+                            class="img-fluid"
+                        />
+                    </a>
                 </div>
-                <form
-                    @submit.prevent="login()"
-                    class="rounded bg-white shadow p-5"
-                >
+                <form @submit.prevent="login()" class="rounded bg-white shadow p-5">
                     <h3 class="text-dark fw-bolder fs-4 mb-2">Sign In</h3>
                     <div class="fw-normal text-muted mb-4">
                         New Here?
-                        <a
-                            href="/register"
-                            class="text-primary fw-bold text-decoration-none"
+                        <a href="/register" class="text-primary fw-bold text-decoration-none"
                             >Create an Account</a
                         >
                     </div>
@@ -55,21 +50,14 @@
                         </div>
                     </div>
                     <div class="mt-2 text-end">
-                        <a
-                            href="#"
-                            class="text-primary fw-bold text-decoration-none"
+                        <a href="#" class="text-primary fw-bold text-decoration-none"
                             >Forget Password?</a
                         >
                     </div>
-                    <button
-                        type="submit"
-                        class="btn btn-primary submit_btn w-100 my-4"
-                    >
+                    <button type="submit" class="btn btn-primary submit_btn w-100 my-4">
                         Continue
                     </button>
-                    <div class="text-center text-muted text-uppercase mb-3">
-                        or
-                    </div>
+                    <div class="text-center text-muted text-uppercase mb-3">or</div>
                     <a href="#" class="btn btn-light login_with w-100 mb-3">
                         <img
                             :src="require('@/assets/images/google-icon.svg')"
@@ -119,7 +107,7 @@ export default {
             }
         },
     },
-    mixins: [validateAccount, sweetAlert, mixinsAuthen,mixinsFile],
+    mixins: [validateAccount, sweetAlert, mixinsAuthen, mixinsFile],
     props: ["baseURL"],
 };
 </script>

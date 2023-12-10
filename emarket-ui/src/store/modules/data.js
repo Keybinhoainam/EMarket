@@ -2,6 +2,8 @@ import categoryService from "@/services/category.service";
 import productService from "@/services/product.service";
 import User from "@/models/user";
 import Cookies from "js-cookie";
+import Cart from "@/models/cart";
+import WishList from "@/models/wishList";
 export const data = {
     namespaced: true,
     state: {
@@ -10,6 +12,8 @@ export const data = {
         categories: null,
         config: null,
         user:Cookies.get("user")?JSON.parse(Cookies.get("user")):new User(),
+        cart:JSON.parse(localStorage.getItem("cart"))?JSON.parse(localStorage.getItem("cart")):new Cart(),
+        wishList:JSON.parse(localStorage.getItem("wishList"))?JSON.parse(localStorage.getItem("wishList")):new WishList(),
         // avatarFile:null
     },
     actions: {
@@ -62,6 +66,14 @@ export const data = {
         changeUser(state,user){
             Cookies.set("user",JSON.stringify(user));
             state.user=user;
+        },
+        changeCart(state,cart){
+            localStorage.setItem("cart",JSON.stringify(cart));
+            state.cart=cart;
+        },
+        changeWishList(state,wishList){
+            localStorage.setItem("wishList",JSON.stringify(wishList));
+            state.wishList=wishList;
         },
 
     },

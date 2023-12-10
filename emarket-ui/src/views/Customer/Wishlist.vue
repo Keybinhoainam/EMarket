@@ -22,7 +22,7 @@ import { nextTick } from 'vue';
 export default {
     data() {
         return {
-            
+            wishList:null,
         };
     },
     props: ["baseURL"],

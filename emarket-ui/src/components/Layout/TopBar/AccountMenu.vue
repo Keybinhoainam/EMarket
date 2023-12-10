@@ -56,12 +56,13 @@ export default {
     data() {
         return {
             user: new User(),
+            cart: null,
             defaultAvatar: defaultAvatar,
             menus: {
                 loggedIn: [
                     { title: "Profile", icon: "mdi-account", link: "/profile" },
                     { title: "Change Password", icon: "mdi-key", link: "/security" },
-                    { title: "My Purchase", icon: "mdi-shopping", link:"/myPurchase"},
+                    { title: "My Purchase", icon: "mdi-shopping", link: "/myPurchase" },
                     { title: "Logout", icon: "mdi-logout", click: this.logout },
                 ],
                 notLogIn: [
@@ -72,10 +73,11 @@ export default {
         };
     },
     methods: {
-        logout() {
+        async logout() {
             this.user = new User();
-            this.mxLogout();
-            this.$router.push({ name: "home" });
+            await this.mxLogout();
+            // this.$router.push('/');
+            window.location.href="/";
         },
     },
     async created() {

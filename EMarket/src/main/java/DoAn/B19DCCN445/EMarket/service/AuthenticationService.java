@@ -60,7 +60,6 @@ public class AuthenticationService {
 		);
 		var user=accountRepository.findByUsername(acc.getUsername())
 				.orElseThrow(()->new UserNotFoundException("User not found!"));
-		
 		var jwtToken=jwtService.genarateToken(user);
 		UserDTO userDTO=new UserDTO();
 		BeanUtils.copyProperties(user, userDTO);
