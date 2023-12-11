@@ -1,5 +1,7 @@
 package DoAn.B19DCCN445.EMarket.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.BeanUtils;
@@ -14,6 +16,7 @@ import DoAn.B19DCCN445.EMarket.common.AuthenticationResponse;
 import DoAn.B19DCCN445.EMarket.dto.UserDTO;
 import DoAn.B19DCCN445.EMarket.exception.UserAlreadyExistException;
 import DoAn.B19DCCN445.EMarket.exception.UserNotFoundException;
+import DoAn.B19DCCN445.EMarket.model.Role;
 import DoAn.B19DCCN445.EMarket.model.User;
 import DoAn.B19DCCN445.EMarket.repository.AccountRepository;
 import DoAn.B19DCCN445.EMarket.service.AuthenticationService;
@@ -30,7 +33,9 @@ public class AuthenticationService {
 	private AuthenticationManager authenticationManager;
 	
 	public AuthenticationResponse register(UserDTO  acc) throws UserAlreadyExistException {
-		
+		Role role= Role.builder().name("CUSTOMER").build();
+		List<Role> roles= new ArrayList<>();
+		roles.add(role);
 		var user=User.builder().username(acc.getUsername())
 				.password(passwordEncoder.encode(acc.getPassword()))
 				.fullname(acc.getFullname())
@@ -38,6 +43,7 @@ public class AuthenticationService {
 				.birthday(acc.getBirthday())
 				.phone(acc.getPhone())
 				.email(acc.getEmail())
+				.roles(roles)
 				.build();
 		if(UserExists(user)) throw new UserAlreadyExistException("There is an account with that username: "
 	              											+ user.getUsername());

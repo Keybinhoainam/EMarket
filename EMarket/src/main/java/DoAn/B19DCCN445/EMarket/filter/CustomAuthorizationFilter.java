@@ -55,6 +55,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 				try {
 //					System.out.println(jwt);
 					username=jwtService.extractUsername(jwt);
+//					System.out.println(username);
 				} catch (Exception e) {
 					log.error("Error logging in: {}",e.getMessage());
 					response.setHeader("error", e.getMessage());
@@ -63,13 +64,14 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 				}
 				if(username !=null && SecurityContextHolder.getContext().getAuthentication()==null) {
 					UserDetails userDetails=this.userDetailsService.loadUserByUsername(username);
-//					System.out.println(userDetails);
+//					System.out.println(userDetails.getUsername());
 					if(jwtService.isTokenValid(jwt, userDetails)) {
 //						System.out.println(userDetails.getAuthorities());
 						UsernamePasswordAuthenticationToken authToken=new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 						authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 						SecurityContextHolder.getContext().setAuthentication(authToken);
 					}
+//					System.out.println("ok");
 					filterChain.doFilter(request, response);
 				}
 	}

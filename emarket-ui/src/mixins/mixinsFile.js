@@ -12,5 +12,18 @@ export default {
         //     this.user.avatar= await fileService.getImage(this.url, filename, "image/*");
         //     console.log(this.user.avatar);
         // },
+        convertImagePathToBlob(imagePath) {
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", imagePath, true);
+            xhr.responseType = "blob";
+      
+            xhr.onload = () => {
+              if (xhr.status === 200) {
+                return xhr.response;
+              }
+            };
+      
+            xhr.send();
+          },
     },
 };

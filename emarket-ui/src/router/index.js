@@ -103,6 +103,15 @@ const routes = [
                 props: { tab: "myPurchase" },
                 component: AccountSetting,
             },
+            {
+                path: "/myStore",
+                name: "MyStore",
+                meta: {
+                    requiresAuth: true,
+                },
+                props: { tab: "myStore" },
+                component: AccountSetting,
+            },
         ],
     },
     {

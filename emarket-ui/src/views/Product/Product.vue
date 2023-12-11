@@ -68,8 +68,8 @@ export default {
     props: ["baseURL", "products", "config"],
     mixins: [getFile, sweetAlert, mixinsProduct],
     async created() {
-        // this.$emit("fetchData");
-        // await nextTick();
+        this.$emit("fetchData");
+        await nextTick();
     },
 };
 </script>

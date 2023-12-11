@@ -64,6 +64,7 @@ export default {
         };
     },
     mixins: [validateCategory, sweetAlert,mixinsCategory],
+    emits: ["fetchData"],
     props: ["baseURL", "products", "categories", "config"],
     async created() {
         const route = useRoute();

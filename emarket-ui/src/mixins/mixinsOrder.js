@@ -74,24 +74,26 @@ export default {
         },
         async proceedToPay() {
             this.loadZaloPayOrder();
+            console.log(this.zaloPayOrder);
             let response = await ZaloPayService.createOrder(this.zaloPayOrder);
+            console.log(response);
             if (response.order_url) {
                 window.location.href = await response.order_url;
                 
-                let queryResponse=await ZaloPayService.queryOrder({app_id:this.zaloPayOrder.app_id,app_trans_id:this.zaloPayOrder.app_trans_id,mac:this.zaloPayOrder.mac})
+                // let queryResponse=await ZaloPayService.queryOrder({app_id:this.zaloPayOrder.app_id,app_trans_id:this.zaloPayOrder.app_trans_id,mac:this.zaloPayOrder.mac})
                 
-                let elapsedTime=0;
-                let totalDuration=15*60*1000;
-                window.location.href ="http://localhost:8080/"
-                let intervalId=setInterval(() => {
-                    if(elapsedTime>=totalDuration||queryResponse.return_code!=3){
-                        console.log(elapsedTime+": "+queryResponse.return_code);
-                        clearInterval(intervalId);
-                    }
-                    else{
-                        queryResponse=ZaloPayService.queryOrder({app_id:this.zaloPayOrder.app_id,app_trans_id:this.zaloPayOrder.app_trans_id,mac:this.zaloPayOrder.mac})
-                    }
-                }, 60 * 1000);
+                // let elapsedTime=0;
+                // let totalDuration=15*60*1000;
+                // // window.location.href ="http://localhost:8080/"
+                // let intervalId=setInterval(() => {
+                //     if(elapsedTime>=totalDuration||queryResponse.return_code!=3){
+                //         console.log(elapsedTime+": "+queryResponse.return_code);
+                //         clearInterval(intervalId);
+                //     }
+                //     else{
+                //         queryResponse=ZaloPayService.queryOrder({app_id:this.zaloPayOrder.app_id,app_trans_id:this.zaloPayOrder.app_trans_id,mac:this.zaloPayOrder.mac})
+                //     }
+                // }, 60 * 1000);
             }
         },
     },

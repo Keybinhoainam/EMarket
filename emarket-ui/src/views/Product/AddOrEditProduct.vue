@@ -212,6 +212,7 @@ import { getCurrentInstance } from "vue";
 import { nextTick } from "vue";
 export default {
     props: ["baseURL", "products", "categories", "config", "schema"],
+    emits: ["fetchData"],
     data() {
         return {
             product: new Product(),
@@ -244,7 +245,6 @@ export default {
             for (let i = 0; i < selectedFiles.length; i++) {
                 this.product.product_images.push(selectedFiles[i]);
             }
-            console.log(typeof this.product.product_images[0]);
             nextTick();
             this.applyImages();
         },
@@ -262,10 +262,12 @@ export default {
                 this.product.store = store;
 
                 this.config.headers["Accept"] = "application/json";
-
+                // console.log(this.config);
+                // console.log(this.product);
                 await productService.saveProduct(this.saveProductUrl, this.product, this.config);
                 await  this.saveProductImage();
                 this.alertSuccess("create/update an product successfully", "");
+                await this.$emit("fetchData");
                 this.$router.push({ name: "Product" });
             } catch (error) {
                 this.alertFail("Failed to create/update an product !", error.message);

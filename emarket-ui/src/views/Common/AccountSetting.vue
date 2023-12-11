@@ -3,6 +3,7 @@ import Profile from "@/components/AccountSetting/Profile.vue";
 import MyPurchase from "@/components/AccountSetting/MyPurchase.vue";
 import Security from "@/components/AccountSetting/Security.vue";
 import TopBar from "@/components/Layout/TopBar/TopBar.vue";
+import MyStore from "@/components/AccountSetting/MyStore.vue"
 export default {
     props: ["tab"],
     components: {
@@ -10,6 +11,7 @@ export default {
         MyPurchase,
         Security,
         TopBar,
+        MyStore
     },
     data() {
         return {
@@ -29,6 +31,11 @@ export default {
                     title: "My Purchase",
                     icon: "mdi-shopping",
                     tab: "myPurchase",
+                },
+                {
+                    title: "My Store",
+                    icon: "mdi-store",
+                    tab: "myStore",
                 },
             ],
         };
@@ -69,6 +76,9 @@ export default {
                 <!-- Notification -->
                 <VWindowItem value="myPurchase">
                     <MyPurchase />
+                </VWindowItem>
+                <VWindowItem value="myStore">
+                    <MyStore />
                 </VWindowItem>
             </VWindow>
         </v-main>

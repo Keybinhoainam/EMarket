@@ -27,6 +27,7 @@ public class SecurityConfiguration {
 		http.csrf((csrf)-> csrf.disable());
 		http.authorizeHttpRequests((authorizeHttpRequests)->{
 			authorizeHttpRequests.requestMatchers("/api/auth/**").permitAll()
+								.requestMatchers("/api/zaloPay/**").permitAll()
 								.requestMatchers("/api/data/**").permitAll()
 								.requestMatchers("/api/seller/**").hasAnyAuthority("SELLER","ADMIN")
 								.anyRequest().authenticated();

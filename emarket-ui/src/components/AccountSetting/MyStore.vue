@@ -1,7 +1,4 @@
 <script>
-import User from "@/models/user";
-import { ref } from "vue";
-import mixinsAccount from "@/mixins/mixinsAccount";
 import sweetAlert from "@/mixins/sweetAlert";
 import defaultAvatar from "@/assets/images/defaultAvatar.png";
 import mixinsFile from "@/mixins/mixinsFile";
@@ -9,35 +6,37 @@ import { nextTick } from "vue";
 import Cookies from "js-cookie";
 import fileService from "@/services/file.service";
 import Store from "@/models/store";
+import mixinsStore from "@/mixins/mixinsStore";
+import User from "@/models/user";
+import mixinsAccount from "@/mixins/mixinsAccount";
 export default {
-    mixins: [mixinsAccount, sweetAlert, mixinsFile],
+    mixins: [mixinsStore, sweetAlert, mixinsFile, mixinsAccount],
     data() {
         return {
             user: new User(),
             baseURL: "http://localhost:8080/api",
             config: this.$store.state.data.config,
             defaultAvatar: defaultAvatar,
-            isChangeAvatar: false,
+            isChangeImage: false,
             store:new Store(),
             isCreateStore:false,
         };
     },
     methods: {
         async resetAvatar() {
-            if (this.user.avatar) {
+            if (this.store.image) {
                 await this.getImage();
                 await this.applyImages();
             }
         },
         resetForm() {
-            this.user = new User();
+            this.store = new Store();
         },
-        async changeAvatar(file) {
-            this.isChangeAvatar = true;
+        async changeImage(file) {
+            this.isChangeImage = true;
             let files = file.target.files;
             if (files && files.length) {
-                this.user.avatarFile = files[0];
-                // this.user.avatar = files[0].name;
+                this.store.imageFile = files[0];
             }
             await nextTick();
             await this.applyImages();
@@ -47,10 +46,9 @@ export default {
             this.$refs.refInput.click();
         },
         async saveChange() {
-            await this.saveAccount(this.user);
-            this.$store.dispatch("data/changeUser", this.user);
-            if (this.isChangeAvatar && this.user.avatarFile) await this.applyImages();
-            this.isChangeAvatar = false;
+            await this.saveStore();
+            if (this.isChangeImage && this.store.imageFile) await this.applyImages();
+            this.isChangeImage = false;
         },
         goToStore(){
 
@@ -62,12 +60,12 @@ export default {
     },
     async created() {
         this.user = await this.$store.state.data.user;
-        if (this.user.avatar) {
-            await this.getImage();
-            await this.applyImages();
-        }
-        // console.log(this.user.roles);
-        // await this.user.avatar == defaultAvatar ? (this.avatar = defaultAvatar) : this.applyImages();
+        // this.store = await this.$store.state.data.user.store;
+        // if (this.store.image) {
+        //     await this.getImage();
+        //     await this.applyImages();
+        // }
+        
     },
 };
 </script>
@@ -75,13 +73,13 @@ export default {
 <template>
     <v-row>
         <v-col cols="12">
-            <v-card title="Account Details">
+            <v-card title="Create a new Store">
                 <v-cardText class="d-flex">
                     <v-avatar
                         ref="avatar"
                         size="120"
                         class="me-6"
-                        :image="user.avatarString ? user.avatarString : defaultAvatar"
+                        :image="store.imageString ? store.imageString : defaultAvatar"
                     >
                     </v-avatar>
                     <form class="d-flex flex-column justify-center gap-5">
@@ -96,7 +94,7 @@ export default {
                                 type="file"
                                 accept=".jpeg,.png,.jpg,GIF"
                                 hidden
-                                @input="changeAvatar"
+                                @input="changeImage"
                             />
 
                             <v-btn type="reset" color="error" variant="tonal" @click="resetAvatar">

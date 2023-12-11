@@ -1,5 +1,6 @@
 package DoAn.B19DCCN445.EMarket.dto;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import DoAn.B19DCCN445.EMarket.model.Role;
 import DoAn.B19DCCN445.EMarket.model.Store;
 import DoAn.B19DCCN445.EMarket.model.User;
 import jakarta.validation.constraints.NotBlank;
@@ -55,6 +57,7 @@ public class UserDTO {
 //	@Pattern(regexp = "[0-9]{10}")
 	private String phone;
 	private Store store;
+	private Collection<Role> roles;
 	
 	private String accessToken;
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

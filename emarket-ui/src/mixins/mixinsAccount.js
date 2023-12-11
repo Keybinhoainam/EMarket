@@ -26,7 +26,7 @@ export default {
             try {
                 // console.log(this.$store.state.data.user.avatar);
                 // console.log(this.user.avatar);
-                if(this.isChangeAvatar) await this.saveAvatarAccount(user);
+                if(this.isChangeAvatar&&this.user.avatarFile) await this.saveAvatarAccount(user);
 
                 const avatarFile=user.avatarFile;
                 let saveAccountUrl = `${this.baseURL}/account/saveAccount`;

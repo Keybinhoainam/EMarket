@@ -14,7 +14,8 @@ export default {
     methods: {
         async mxLogin() {
             
-            await this.mxLogout();
+            await this.$store.dispatch("data/changeUser", new User());
+            Cookies.remove("accessToken");
             try {
                 // console.log(this.$store.state.data.user);
                 let res = await authService.login(this.url, this.user, this.config);

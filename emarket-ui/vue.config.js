@@ -9,7 +9,7 @@ module.exports = defineConfig({
                     "^/zaloPay": "", // Loại bỏ tiền tố '/zaloPay' từ yêu cầu
                 },
             },
-            "": {
+            "^/api": {
                 target: "http://localhost:8085",
                 changeOrigin: true,
             },
@@ -44,4 +44,15 @@ module.exports = defineConfig({
             // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader
         },
     },
+    // chainWebpack: (config) => {
+    //     // Thêm cấu hình cho các định dạng tệp ảnh
+    //     config.module
+    //         .rule("images")
+    //         .test(/\.(png|jpe?g|gif|svg|webp)$/i)
+    //         .use("file-loader")
+    //         .loader("file-loader")
+    //         .options({
+    //             name: "images/[name].[hash:8].[ext]",
+    //         });
+    // },
 });

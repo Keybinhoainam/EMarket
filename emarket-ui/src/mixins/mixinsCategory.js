@@ -63,6 +63,7 @@ export default {
                 console.log(this.category);
                 await categoryService.saveCategory(this.urlSave, this.category, this.config);
                 this.alertSuccess("Category saved successfully");
+                await this.$emit("fetchData");
                 this.$router.push({ name: "Category" });
             } catch (error) {
                 this.alertFail(

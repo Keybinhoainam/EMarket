@@ -108,13 +108,13 @@
                         <input
                             type="email"
                             class="form-control"
-                            v-model="user.mail"
+                            v-model="user.email"
                             @blur="validateRegister()"
-                            v-bind:class="{ 'is-invalid': errors.mail }"
+                            v-bind:class="{ 'is-invalid': errors.email }"
                         />
                         <label>Mail</label>
                         <div class="invalid-feedback mt-1 mb-4 ms-1">
-                            {{ errors.mail }}
+                            {{ errors.email }}
                         </div>
                     </div>
                     <div class="form-floating mb-3">
