@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import DoAn.B19DCCN445.EMarket.model.Product;
+import DoAn.B19DCCN445.EMarket.model.Store;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,6 +36,7 @@ public class CategoryDTO {
 	private String category_name;
 	private String description;
 	private String image;
+	private Store store;
 	private Timestamp create_at;
 	private Timestamp update_at;
 }

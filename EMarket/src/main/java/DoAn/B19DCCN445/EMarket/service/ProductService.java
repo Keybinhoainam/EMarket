@@ -62,7 +62,7 @@ public class ProductService {
 //		p.setProduct_images(images);
 		ProductDTO pdto=new ProductDTO();
 		BeanUtils.copyProperties(p, pdto);
-		
+		pdto.setStore(p.getCategory().getStore());
 		List<Product_review> product_reviews=new ArrayList<>(p.getProduct_reviews());
 		List<Product_reviewDTO> product_reviewDTOs=new ArrayList<>();
 		Integer reviews=product_reviews.size();
@@ -128,6 +128,7 @@ public class ProductService {
 //			System.out.println(list.get(0).getImage());
 			ProductDTO pdto=new ProductDTO();
 			BeanUtils.copyProperties(product, pdto);
+			pdto.setStore(product.getCategory().getStore());
 //			List<Product_image> list2=new ArrayList<>(pdto.getProduct_images());
 //			System.out.println(list2.get(0).getImage());
 			return pdto;

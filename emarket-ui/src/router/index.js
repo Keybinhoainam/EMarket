@@ -15,6 +15,7 @@ import Checkout from "@/views/Checkout/Checkout.vue";
 import CustomerLayout from "@/components/Layout/CustomerLayout.vue";
 import AdminLayout from "@/components/Layout/AdminLayout.vue";
 import AccountSetting from "@/views/Common/AccountSetting.vue";
+import sweetAlert from "@/mixins/sweetAlert";
 const routes = [
     // {
     //   path:'/',
@@ -118,53 +119,39 @@ const routes = [
         path: "/seller",
         component: AdminLayout,
         props: { isCustomer: false },
+        meta: {
+            requiresAuth: true,
+            // requireSellerAuth: true,
+        },
         children: [
             {
                 path: "/seller/category/add",
                 name: "AddCategory",
-                meta: {
-                    requiresAuth: true,
-                },
                 component: AddOrEditCategory,
             },
             {
                 path: "/seller/category/edit/:id",
                 name: "EditCategory",
-                meta: {
-                    requiresAuth: true,
-                },
                 component: AddOrEditCategory,
             },
             {
                 path: "/seller/category",
                 name: "Category",
-                meta: {
-                    requiresAuth: true,
-                },
                 component: Category,
             },
             {
                 path: "/seller/product/add",
                 name: "AddProduct",
-                meta: {
-                    requiresAuth: true,
-                },
                 component: AddOrEditProduct,
             },
             {
                 path: "/seller/product/edit/:id",
                 name: "EditProduct",
-                meta: {
-                    requiresAuth: true,
-                },
                 component: AddOrEditProduct,
             },
             {
                 path: "/seller/product",
                 name: "Product",
-                meta: {
-                    requiresAuth: true,
-                },
                 component: Product,
             },
         ],
@@ -186,9 +173,20 @@ router.beforeEach((to, from, next) => {
             const path = window.location.pathname;
             next({ name: "login", query: { redirect: `${path}` } });
         } else {
-            next(); // go to wherever I'm going
+            next();
         }
-    } else {
+    }
+    // else if(to.matched.some((record) => record.meta.requireSellerAuth)){
+    //     console.log(JSON.parse(Cookies.get("user")).roles[0].name=="CUSTOMER");
+    //     if (Cookies.get("accessToken")&&Cookies.get("user")&&JSON.parse(Cookies.get("user")).roles[0].name!="CUSTOMER") {
+    //         next();
+    //     } else {
+    //         const path = window.location.pathname;
+
+    //         next({ name: "login", query: { redirect: `${path}` } });
+    //     }
+    // }
+    else {
         next(); // does not require auth, make sure to always call next()!
     }
 });

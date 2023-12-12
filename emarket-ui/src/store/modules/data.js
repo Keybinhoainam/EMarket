@@ -51,6 +51,9 @@ export const data = {
         },
         changeUser({commit},user){
             commit("changeUser",user)
+        },
+        changeStoreUser({commit},store){
+            commit("changeStoreUser",store)
         }
     },
     mutations: {
@@ -66,6 +69,16 @@ export const data = {
         changeUser(state,user){
             Cookies.set("user",JSON.stringify(user));
             state.user=user;
+        },
+        changeStoreUser(state,store){
+            store.imageString=null;
+            store.imageFile=null;
+            state.user.store=store;
+            Cookies.set("user",JSON.stringify(state.user));
+            console.log(JSON.parse(Cookies.get("user")).store);
+            // Cookies.set("user",JSON.stringify(state.user));
+            // console.log(JSON.parse(Cookies.get("user")).store);
+            
         },
         changeCart(state,cart){
             localStorage.setItem("cart",JSON.stringify(cart));

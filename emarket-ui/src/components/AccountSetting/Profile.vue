@@ -110,56 +110,6 @@ export default {
                 </v-cardText>
 
                 <VDivider />
-                <v-btn
-                class="ml-6"
-                    color="primary"
-                    @click="isCreateStore=!isCreateStore"
-                    v-if="user.roles[0] && user.roles[0].name == 'CUSTOMER'"
-                >
-                    <VIcon icon="bx-cloud-upload" class="d-sm-none" />
-                    <span class="d-none d-sm-block">create my store</span>
-                </v-btn>
-                <v-btn
-                class="ml-6"
-                    color="primary"
-                    @click="goToStore"
-                    v-else
-                >
-                    <VIcon icon="bx-cloud-upload" class="d-sm-none" />
-                    <span class="d-none d-sm-block">Go to my store</span>
-                </v-btn>
-                <v-cardText v-if="isCreateStore&&user.roles[0] && user.roles[0].name == 'CUSTOMER'">
-                    <v-form class="mt-6">
-                        <v-row>
-                            <v-col md="6" cols="12">
-                                <v-text-field
-                                    v-model="store.store_name"
-                                    placeholder="John"
-                                    label="Store Name"
-                                />
-                            </v-col>
-                            <v-col cols="12" md="6">
-                                <v-text-field
-                                    v-model="user.email"
-                                    label="E-mail"
-                                    placeholder="johndoe@gmail.com"
-                                    type="email"
-                                />
-                            </v-col>
-
-                            <!-- 👉 Organization -->
-                            <v-col cols="12" md="6">
-                                <v-text-field
-                                    type="date"
-                                    v-model="user.birthday"
-                                    label="Birthday"
-                                    placeholder="Date of Birth"
-                                />
-                            </v-col>
-                        </v-row>
-                    </v-form>
-                </v-cardText>
-                <VDivider />
 
                 <v-cardText>
                     <v-form class="mt-6">

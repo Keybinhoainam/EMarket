@@ -23,9 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import DoAn.B19DCCN445.EMarket.common.ApiResponse;
 import DoAn.B19DCCN445.EMarket.model.Order;
-import DoAn.B19DCCN445.EMarket.model.Payment_type;
 import DoAn.B19DCCN445.EMarket.service.OrderService;
-import DoAn.B19DCCN445.EMarket.service.PaymentTypeService;
 
 @RestController
 @RequestMapping("/api/zaloPay")
@@ -33,8 +31,6 @@ public class ZaloPayController {
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 	private String key2 = "eG4r0GcoNtRGbO8";
 	private Mac HmacSHA256;
-	@Autowired
-	private PaymentTypeService paymentTypeService;
 	@Autowired
 	private OrderService service;
 

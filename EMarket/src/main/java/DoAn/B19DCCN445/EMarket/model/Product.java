@@ -45,7 +45,6 @@ public class Product {
 	private Long id;
 	@Column(unique=true)
 	private String product_code;
-	@Column(unique=true)
 	private String product_name;
 	private String description;
 	private String short_description;
@@ -64,10 +63,7 @@ public class Product {
 	@JoinColumn(name = "category_id")
 	@JsonBackReference("category-products")
 	private Category category;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "store_id")
-	@JsonBackReference("store-products")
-	private Store store;
+	
 
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SUBSELECT)

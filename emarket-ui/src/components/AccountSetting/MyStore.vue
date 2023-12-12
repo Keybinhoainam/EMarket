@@ -8,9 +8,10 @@ import fileService from "@/services/file.service";
 import Store from "@/models/store";
 import mixinsStore from "@/mixins/mixinsStore";
 import User from "@/models/user";
-import mixinsAccount from "@/mixins/mixinsAccount";
+import mixinsValidation from "@/mixins/mixinsValidation";
+import * as VeeValidate from "vee-validate";
 export default {
-    mixins: [mixinsStore, sweetAlert, mixinsFile, mixinsAccount],
+    mixins: [mixinsStore, sweetAlert, mixinsFile, mixinsValidation],
     data() {
         return {
             user: new User(),
@@ -18,10 +19,11 @@ export default {
             config: this.$store.state.data.config,
             defaultAvatar: defaultAvatar,
             isChangeImage: false,
-            store:new Store(),
-            isCreateStore:false,
+            store: new Store(),
+            isCreateStore: false,
         };
     },
+    components: [VeeValidate],
     methods: {
         async resetAvatar() {
             if (this.store.image) {
@@ -45,27 +47,30 @@ export default {
         uploadFile() {
             this.$refs.refInput.click();
         },
-        async saveChange() {
-            await this.saveStore();
-            if (this.isChangeImage && this.store.imageFile) await this.applyImages();
-            this.isChangeImage = false;
+        goToStore() {
+            this.$router.push("/seller/product");
         },
-        goToStore(){
-
+        async createStore() {
+            if (this.store.store_name && this.store.description) {
+                await this.saveStore();
+                this.$store.dispatch("data/changeStoreUser", this.store);
+                if (this.isChangeImage && this.store.imageFile) await this.applyImages();
+                this.isChangeImage = false;
+            }
         },
-        createStore(){
-
-        }
-
     },
     async created() {
         this.user = await this.$store.state.data.user;
-        // this.store = await this.$store.state.data.user.store;
-        // if (this.store.image) {
-        //     await this.getImage();
-        //     await this.applyImages();
-        // }
-        
+        if (this.$store.state.data.user.store) {
+            this.store = this.$store.state.data.user.store;
+            console.log(this.store);
+            // console.log(JSON.parse(Cookies.get("user")).store);
+            // console.log(this.store);
+            if (this.store.image) {
+                await this.getImage();
+                await this.applyImages();
+            }
+        }
     },
 };
 </script>
@@ -75,13 +80,12 @@ export default {
         <v-col cols="12">
             <v-card title="Create a new Store">
                 <v-cardText class="d-flex">
-                    <v-avatar
-                        ref="avatar"
-                        size="120"
-                        class="me-6"
-                        :image="store.imageString ? store.imageString : defaultAvatar"
-                    >
-                    </v-avatar>
+                    <v-img
+                        max-width="600px"
+                        height="200px"
+                        aspect-ratio="16/9"
+                        :src="store.imageString ? store.imageString : defaultAvatar"
+                    ></v-img>
                     <form class="d-flex flex-column justify-center gap-5">
                         <div class="d-flex flex-wrap gap-2">
                             <v-btn color="primary" @click="uploadFile">
@@ -109,96 +113,48 @@ export default {
 
                 <VDivider />
                 <v-btn
-                class="ml-6"
-                    color="primary"
-                    @click="isCreateStore=!isCreateStore"
-                    v-if="user.roles[0] && user.roles[0].name == 'CUSTOMER'"
-                >
-                    <VIcon icon="bx-cloud-upload" class="d-sm-none" />
-                    <span class="d-none d-sm-block">create my store</span>
-                </v-btn>
-                <v-btn
-                class="ml-6"
+                    class="ml-6 mb-6"
                     color="primary"
                     @click="goToStore"
-                    v-else
+                    v-if="user.roles[0] && user.roles[0].name != 'CUSTOMER'"
                 >
                     <VIcon icon="bx-cloud-upload" class="d-sm-none" />
                     <span class="d-none d-sm-block">Go to my store</span>
                 </v-btn>
-                <v-cardText v-if="isCreateStore&&user.roles[0] && user.roles[0].name == 'CUSTOMER'">
-                    <v-form class="mt-6">
-                        <v-row>
+                <v-cardText v-if="user.roles[0] && user.roles[0].name == 'CUSTOMER'">
+                    <v-form validate-on="submit lazy" @submit.prevent="createStore()">
+                        <v-row class="mt-6">
                             <v-col md="6" cols="12">
                                 <v-text-field
                                     v-model="store.store_name"
-                                    placeholder="John"
+                                    placeholder="Store Name"
                                     label="Store Name"
-                                />
-                            </v-col>
-                            <v-col cols="12" md="6">
-                                <v-text-field
-                                    v-model="user.email"
-                                    label="E-mail"
-                                    placeholder="johndoe@gmail.com"
-                                    type="email"
+                                    :rules="required"
                                 />
                             </v-col>
 
-                            <!-- 👉 Organization -->
-                            <v-col cols="12" md="6">
+                            <!-- <v-col cols="12" md="6">
                                 <v-text-field
                                     type="date"
                                     v-model="user.birthday"
                                     label="Birthday"
                                     placeholder="Date of Birth"
                                 />
-                            </v-col>
+                            </v-col> -->
                         </v-row>
-                    </v-form>
-                </v-cardText>
-                <VDivider />
-
-                <v-cardText>
-                    <v-form class="mt-6">
                         <v-row>
-                            <v-col md="6" cols="12">
-                                <v-text-field
-                                    v-model="user.fullname"
-                                    placeholder="John"
-                                    label="Full Name"
-                                />
-                            </v-col>
                             <v-col cols="12" md="6">
-                                <v-text-field
-                                    v-model="user.email"
-                                    label="E-mail"
-                                    placeholder="johndoe@gmail.com"
-                                    type="email"
-                                />
+                                <v-textarea
+                                    v-model="store.description"
+                                    label="Description"
+                                    :rules="required"
+                                ></v-textarea>
                             </v-col>
-
-                            <!-- 👉 Organization -->
-                            <v-col cols="12" md="6">
-                                <v-text-field
-                                    type="date"
-                                    v-model="user.birthday"
-                                    label="Birthday"
-                                    placeholder="Date of Birth"
-                                />
-                            </v-col>
-
-                            <!-- 👉 Phone -->
-                            <v-col cols="12" md="6">
-                                <v-text-field
-                                    v-model="user.phone"
-                                    label="Phone Number"
-                                    placeholder="+84123456789"
-                                />
-                            </v-col>
-
                             <v-col cols="12" class="d-flex flex-wrap gap-4">
-                                <v-btn @click="saveChange()">Save changes</v-btn>
+                                <v-btn color="primary" type="submit">
+                                    <VIcon icon="bx-cloud-upload" class="d-sm-none" />
+                                    <span class="d-none d-sm-block">create my store</span>
+                                </v-btn>
 
                                 <v-btn
                                     color="secondary"

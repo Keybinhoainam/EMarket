@@ -25,7 +25,7 @@ public class CategoryController {
 	private CategoryService categoryService;
 	
 	@GetMapping("/data/category/get/{id}")
-	private ResponseEntity<Category> getCategory(@PathVariable Long id) {
+	private ResponseEntity<CategoryDTO> getCategory(@PathVariable Long id) {
 		return ResponseEntity.ok(categoryService.getCategory(id));
 	}
 	@PostMapping("/seller/category/save")
@@ -33,7 +33,7 @@ public class CategoryController {
 		return ResponseEntity.ok(categoryService.saveCategory(category));
 	}
 	@GetMapping("/data/category/getallcategories")
-	private ResponseEntity<List<Category>> getAllCategories() {
+	private ResponseEntity<List<CategoryDTO>> getAllCategories() {
 		return ResponseEntity.ok(categoryService.getAllCategories());
 	}
 	@DeleteMapping("/seller/category/delete/{id}")

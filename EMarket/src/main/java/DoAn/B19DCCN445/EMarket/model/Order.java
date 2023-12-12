@@ -55,9 +55,7 @@ public class Order {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_id")
 	private User user;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "payment_type_id")
-	private Payment_type payment_type;
+	private String payment_type;
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
 	private Collection<Order_detail>order_details;

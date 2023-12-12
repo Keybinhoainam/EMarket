@@ -13,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import DoAn.B19DCCN445.EMarket.config.StorageProperties;
 import DoAn.B19DCCN445.EMarket.model.Category;
-import DoAn.B19DCCN445.EMarket.model.Payment_type;
 import DoAn.B19DCCN445.EMarket.model.Role;
 import DoAn.B19DCCN445.EMarket.model.Store;
 import DoAn.B19DCCN445.EMarket.model.User;
@@ -51,11 +50,20 @@ public class EMarketApplication implements CommandLineRunner {
 //		roles.add(role1);
 //		em.persist(User.builder().username("admin").password(encoder.encode("123")).fullname("Bùi Hoài Nam").roles(roles).build());
 //		
-//		Category category= Category.builder().category_name("laptop").id(null).description("description").build();
-//		em.persist(category);
+//		roles= new ArrayList<>();
+//		roles.add(role3);
+//		roles.add(role2);
 //		Store store= Store.builder().store_code("BHN").store_name("BHN Store").description("Description").image(null).build();
 //		em.persist(store);
+//		em.persist(User.builder().username("bhn").password(encoder.encode("123")).fullname("Bùi Hoài Ninh").roles(roles).store(store).build());
 //		
+//		Category category= Category.builder().category_name("Laptop").id(null).description("description").store(store).build();
+//		em.persist(category);
+
+		
+		
+		
+		
 //		Payment_type payment_type1=Payment_type.builder().name("Pay Now").build();
 //		Payment_type payment_type2=Payment_type.builder().name("Buy Now, Pay Later").build();
 //		em.persist(payment_type1);

@@ -23,6 +23,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
@@ -56,14 +57,14 @@ public class Store {
 	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
 //	@JsonManagedReference("store-shop_imports")
 	private Set<Shop_import> shop_imports;
-	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
-//	@JsonManagedReference("store-users")
-	private Set<User>users;
+	@OneToOne(mappedBy = "store", cascade = CascadeType.REMOVE)
+	@JsonManagedReference("store-users")
+	private User user;
 	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
 //	@JsonManagedReference("store-shop_exports")
 	private Set<Shop_export>shop_exports;
 	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
-	@JsonManagedReference("store-products")
-	private Collection<Product>products;
+	@JsonManagedReference("store-categories")
+	private Collection<Category>categories;
 	
 }

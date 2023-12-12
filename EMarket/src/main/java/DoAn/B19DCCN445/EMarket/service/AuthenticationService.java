@@ -19,12 +19,15 @@ import DoAn.B19DCCN445.EMarket.exception.UserNotFoundException;
 import DoAn.B19DCCN445.EMarket.model.Role;
 import DoAn.B19DCCN445.EMarket.model.User;
 import DoAn.B19DCCN445.EMarket.repository.AccountRepository;
+import DoAn.B19DCCN445.EMarket.repository.RoleRepository;
 import DoAn.B19DCCN445.EMarket.service.AuthenticationService;
 
 @Service
 public class AuthenticationService {
 	@Autowired
 	private AccountRepository accountRepository;
+	@Autowired
+	private RoleRepository roleRepository;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	@Autowired
@@ -33,7 +36,7 @@ public class AuthenticationService {
 	private AuthenticationManager authenticationManager;
 	
 	public AuthenticationResponse register(UserDTO  acc) throws UserAlreadyExistException {
-		Role role= Role.builder().name("CUSTOMER").build();
+		Role role= roleRepository.findById((long) 3).get();
 		List<Role> roles= new ArrayList<>();
 		roles.add(role);
 		var user=User.builder().username(acc.getUsername())
@@ -73,20 +76,4 @@ public class AuthenticationService {
 		return userDTO;
 		
 	}
-	
-//	public Boolean checkLogin(AccountDTO accountDTO) {
-//		Optional<User> accCheckOpt = accountRepository.findByUsername(accountDTO.getUsername());
-//		if(accCheckOpt.isEmpty()) {
-//			return false;
-//		}
-//		else {
-//			User accCheck=accCheckOpt.get();
-//			return accountDTO.compareUsernamePassword(accCheck);
-//			
-//		}
-//	}
-	
-	
-	
-	
 }

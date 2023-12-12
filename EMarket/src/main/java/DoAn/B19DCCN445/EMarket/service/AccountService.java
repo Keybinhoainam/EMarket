@@ -15,6 +15,7 @@ import DoAn.B19DCCN445.EMarket.common.ApiResponse;
 import DoAn.B19DCCN445.EMarket.dto.UserDTO;
 import DoAn.B19DCCN445.EMarket.exception.StorageException;
 import DoAn.B19DCCN445.EMarket.model.Product;
+import DoAn.B19DCCN445.EMarket.model.Store;
 import DoAn.B19DCCN445.EMarket.model.User;
 import DoAn.B19DCCN445.EMarket.repository.AccountRepository;
 import DoAn.B19DCCN445.EMarket.service.AccountService;
@@ -41,6 +42,9 @@ public class AccountService {
 		uDto.setAvatar(u.getAvatar());
 		BeanUtils.copyProperties(uDto, u);
 //		System.out.println(u.getPassword());
+//		Store store=u.getStore();
+//		store.setDescription("nam test");
+//		u.setStore(store);
 		accountRepository.save(u);
 		uDto.setAvatarFile(null);
 		return uDto;

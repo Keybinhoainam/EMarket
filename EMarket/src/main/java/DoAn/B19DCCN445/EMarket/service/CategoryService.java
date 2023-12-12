@@ -1,6 +1,7 @@
 package DoAn.B19DCCN445.EMarket.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import DoAn.B19DCCN445.EMarket.common.ApiResponse;
 import DoAn.B19DCCN445.EMarket.dto.CategoryDTO;
+import DoAn.B19DCCN445.EMarket.dto.ProductDTO;
 import DoAn.B19DCCN445.EMarket.model.Category;
 import DoAn.B19DCCN445.EMarket.model.Product;
 import DoAn.B19DCCN445.EMarket.repository.CategoryRepository;
@@ -20,11 +22,14 @@ public class CategoryService {
 	@Autowired
 	private ProductRepository productRepository;
 
-	public Category getCategory(Long id) {
+	public CategoryDTO getCategory(Long id) {
 		// TODO Auto-generated method stub
 //		System.out.println("nam");
 //		System.out.println(repository.getReferenceById(id));
-		return repository.findById(id).get();
+		Category category=repository.findCategory(id);
+		CategoryDTO categoryDTO=new CategoryDTO();
+		BeanUtils.copyProperties(category, categoryDTO);
+		return categoryDTO;
 	}
 
 	public ApiResponse saveCategory(CategoryDTO categoryDto) {
@@ -35,9 +40,18 @@ public class CategoryService {
 		return ApiResponse.builder().message("save category successfully!").success(true).build();
 	}
 
-	public List<Category> getAllCategories() {
+	public List<CategoryDTO> getAllCategories() {
+		List<CategoryDTO> dtos=repository.findAllCategories().stream().map((category)->{
+//			List<Product_image> list=new ArrayList<>(product.getProduct_images());
+//			System.out.println(list.get(0).getImage());
+			CategoryDTO cdto=new CategoryDTO();
+			BeanUtils.copyProperties(category, cdto);
+//			List<Product_image> list2=new ArrayList<>(pdto.getProduct_images());
+//			System.out.println(list2.get(0).getImage());
+			return cdto;
+		}).collect(Collectors.toList());
 		// TODO Auto-generated method stub
-		return repository.findAll();
+		return dtos;
 	}
 
 	public ApiResponse getDeleteCategory(Long id) {
