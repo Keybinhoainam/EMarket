@@ -34,7 +34,7 @@
                                             ? getImageURL(
                                                   product.product_images[0].image
                                               )
-                                            : require('@/assets/images/noImage.webp')
+                                            : require('@/assets/images/noImage.png')
                                     "
                                 >
                                 </v-list-item>
@@ -57,7 +57,7 @@
 </template>
 <script>
 import ProductBox from "@/components/Product/ProductBox";
-import getFile from "@/mixins/mixinsFile";
+import mixinsFile from "@/mixins/mixinsFile";
 import sweetAlert from "@/mixins/sweetAlert";
 import { nextTick } from "vue";
 import mixinsProduct from '@/mixins/mixinsProduct';
@@ -65,11 +65,15 @@ export default {
     name: "Product",
     components: { ProductBox },
     emits: ["fetchData"],
-    props: ["baseURL", "products", "config"],
-    mixins: [getFile, sweetAlert, mixinsProduct],
+    props: ["baseURL", "config"],
+    mixins: [mixinsFile, sweetAlert, mixinsProduct],
+    data() {
+        return {
+            products:[]
+        }
+    },
     async created() {
-        this.$emit("fetchData");
-        await nextTick();
+        await this.getAllProductsStore();
     },
 };
 </script>
@@ -86,4 +90,3 @@ h4 {
     font-weight: 500;
 }
 </style>
-@/mixins/mixinFile@/mixins/mixinsFile

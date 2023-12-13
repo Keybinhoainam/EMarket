@@ -15,7 +15,7 @@ import Checkout from "@/views/Checkout/Checkout.vue";
 import CustomerLayout from "@/components/Layout/CustomerLayout.vue";
 import AdminLayout from "@/components/Layout/AdminLayout.vue";
 import AccountSetting from "@/views/Common/AccountSetting.vue";
-import sweetAlert from "@/mixins/sweetAlert";
+import MyStore from "@/components/AccountSetting/MyStore.vue";
 const routes = [
     // {
     //   path:'/',
@@ -106,7 +106,7 @@ const routes = [
             },
             {
                 path: "/myStore",
-                name: "MyStore",
+                name: "CreateMyStore",
                 meta: {
                     requiresAuth: true,
                 },
@@ -153,6 +153,11 @@ const routes = [
                 path: "/seller/product",
                 name: "Product",
                 component: Product,
+            },
+            {
+                path: "/seller/store",
+                name: "MyStore",
+                component: MyStore,
             },
         ],
     },

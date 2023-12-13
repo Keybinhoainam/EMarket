@@ -1,4 +1,5 @@
 import fileService from "@/services/file.service";
+import { nextTick } from "vue";
 
 // import FileService from "@/services/file.servi"
 export default {
@@ -16,14 +17,25 @@ export default {
             const xhr = new XMLHttpRequest();
             xhr.open("GET", imagePath, true);
             xhr.responseType = "blob";
-      
+
             xhr.onload = () => {
-              if (xhr.status === 200) {
-                return xhr.response;
-              }
+                if (xhr.status === 200) {
+                    return xhr.response;
+                }
             };
-      
+
             xhr.send();
-          },
+        },
+        // async applyImages(imageFile,imageString) {
+        //     await nextTick();
+        //     const fileReader = new FileReader();
+        //     fileReader.onload = () => {
+        //         imageString = fileReader.result;
+        //     };
+        //     await fileReader.readAsDataURL(imageFile);
+        // },
+        // async getImage(imageFile,image) {
+        //     imageFile = await fileService.getImage(image, "image/*");
+        // },
     },
 };

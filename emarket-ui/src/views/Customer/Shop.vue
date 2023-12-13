@@ -80,7 +80,7 @@
                 <div class="col-md-9 col-sm-9 col-xs-12">
                     <v-row dense>
                         <v-col cols="12" sm="8" class="pl-6 pt-6">
-                            <small>Showing 1-12 of 200 products</small>
+                            <!-- <small>Showing 1-12 of 200 products</small> -->
                         </v-col>
                         <v-col cols="12" sm="4">
                             <v-select
@@ -96,15 +96,18 @@
 
                     <v-divider></v-divider>
 
-                    <div class="row text-center">
-                        <div
-                            class="col-md-3 col-sm-6 col-xs-12"
-                            :key="product.id"
-                            v-for="product in shopProducts"
-                        >
-                            <ProductBox :product="product" :baseURL="baseURL"> </ProductBox>
+                    <v-data-table>
+                        <div class="row text-center">
+                            <div
+                                class="col-md-3 col-sm-6 col-xs-12"
+                                :key="product.id"
+                                v-for="product in shopProducts"
+                            >
+                                <ProductBox :product="product" :baseURL="baseURL"> </ProductBox>
+                            </div>
                         </div>
-                    </div>
+                    </v-data-table>
+
                     <div class="text-center mt-12">
                         <v-pagination v-model="page" :length="6"></v-pagination>
                     </div>
@@ -161,7 +164,7 @@ export default {
                 label: "1 & above",
             },
         ],
-        noImageUrl: "@/assets/images/noImage.webp",
+        noImageUrl: "@/assets/images/noImage.png",
         select: "Popularity",
         options: ["Default", "Popularity", "Relevance", "Price: Low to High", "Price: High to Low"],
         page: 1,
@@ -176,11 +179,11 @@ export default {
         },
     },
     async mounted() {
-        let tmp="";
-        if(this.textSearch)tmp=this.textSearch;
-        if(this.$route.query.textSearch) tmp=this.$route.query.textSearch;
+        let tmp = "";
+        if (this.textSearch) tmp = this.textSearch;
+        if (this.$route.query.textSearch) tmp = this.$route.query.textSearch;
         await this.findProductsLikeName(tmp);
-        
+
         // if(textSearch){
         //     await this.findProductsLikeName(textSearch);
         // }

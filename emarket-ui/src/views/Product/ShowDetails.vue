@@ -99,7 +99,7 @@ export default {
     data() {
         return {
             product: new Product(),
-            noImageUrl: "@/assets/images/noImage.webp",
+            noImageUrl: "@/assets/images/noImage.png",
             quantity: 1,
             getProductUrl: `${this.baseURL}/data/product/get/`,
         };

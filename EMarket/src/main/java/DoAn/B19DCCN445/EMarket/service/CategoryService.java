@@ -12,6 +12,7 @@ import DoAn.B19DCCN445.EMarket.dto.CategoryDTO;
 import DoAn.B19DCCN445.EMarket.dto.ProductDTO;
 import DoAn.B19DCCN445.EMarket.model.Category;
 import DoAn.B19DCCN445.EMarket.model.Product;
+import DoAn.B19DCCN445.EMarket.model.Store;
 import DoAn.B19DCCN445.EMarket.repository.CategoryRepository;
 import DoAn.B19DCCN445.EMarket.repository.ProductRepository;
 
@@ -64,6 +65,20 @@ public class CategoryService {
 //		List<Product> products=productRepository.findByCategory(category);
 //		category.setProducts(products);
 		return category;
+	}
+
+	public List<CategoryDTO> getAllCategoriesStore(Store store) {
+		List<CategoryDTO> dtos=repository.findAllCategoriesStore(store.getId()).stream().map((category)->{
+//			List<Product_image> list=new ArrayList<>(product.getProduct_images());
+//			System.out.println(list.get(0).getImage());
+			CategoryDTO cdto=new CategoryDTO();
+			BeanUtils.copyProperties(category, cdto);
+//			List<Product_image> list2=new ArrayList<>(pdto.getProduct_images());
+//			System.out.println(list2.get(0).getImage());
+			return cdto;
+		}).collect(Collectors.toList());
+		// TODO Auto-generated method stub
+		return dtos;
 	}
 
 }

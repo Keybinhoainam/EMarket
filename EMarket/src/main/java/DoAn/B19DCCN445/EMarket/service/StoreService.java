@@ -50,7 +50,6 @@ public class StoreService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(store.getImage());
 		return repository.save(store);
 	}
 	

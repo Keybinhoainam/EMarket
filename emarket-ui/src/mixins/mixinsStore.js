@@ -18,9 +18,11 @@ export default {
                 this.store.id=tmp.id;
                 if(this.isChangeImage&&this.store.imageFile) await this.saveImageStore();
                 
+                this.user.store=this.store;
                 let saveAccountUrl = `${this.baseURL}/account/saveAccount`;
-                await accountService.saveAccount(saveAccountUrl, this.user, this.config);
+                this.user=await accountService.saveAccount(saveAccountUrl, this.user, this.config);
                 
+                this.$store.dispatch("data/changeUser", this.user);
                 this.alertSuccess("Save Successfully");
             } catch (error) {
                 this.alertFail("Fail to save", error.message);

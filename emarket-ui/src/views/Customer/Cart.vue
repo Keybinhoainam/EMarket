@@ -29,7 +29,7 @@
                                                           cart_detail.product.product_images[0]
                                                               .image
                                                       )
-                                                    : require('@/assets/images/noImage.webp')
+                                                    : require('@/assets/images/noImage.png')
                                             "
                                         >
                                         </v-list-item>
@@ -104,7 +104,7 @@ export default {
     data() {
         return {
             cart: new Cart(),
-            noImageUrl: "@/assets/images/noImage.webp",
+            noImageUrl: "@/assets/images/noImage.png",
             totalcost: 0,
         };
     },

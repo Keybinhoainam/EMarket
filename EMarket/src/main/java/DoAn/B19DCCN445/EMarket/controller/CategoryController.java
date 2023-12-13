@@ -16,6 +16,7 @@ import DoAn.B19DCCN445.EMarket.common.ApiResponse;
 import DoAn.B19DCCN445.EMarket.dto.CategoryDTO;
 import DoAn.B19DCCN445.EMarket.model.Category;
 import DoAn.B19DCCN445.EMarket.model.Product;
+import DoAn.B19DCCN445.EMarket.model.Store;
 import DoAn.B19DCCN445.EMarket.service.CategoryService;
 
 @RestController
@@ -44,5 +45,9 @@ public class CategoryController {
 	private ResponseEntity<Category> getProductsCategory(@PathVariable("categoryId") Long categoryId) {
 		Category category=categoryService.getProductsCategory(categoryId);
 		return ResponseEntity.ok(category);
+	}
+	@PostMapping("/data/category/getAllCategoriesStore")
+	private ResponseEntity<List<CategoryDTO>> getAllCategoriesStore(@RequestBody Store store) {
+		return ResponseEntity.ok(categoryService.getAllCategoriesStore(store));
 	}
 }

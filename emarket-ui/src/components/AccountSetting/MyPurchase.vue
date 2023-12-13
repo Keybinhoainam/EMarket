@@ -56,7 +56,7 @@ export default {
                         order_detail.product.product_images.length > 0 &&
                         order_detail.product.product_images[0].image != null
                             ? getImageURL(order_detail.product.product_images[0].image)
-                            : require('@/assets/images/noImage.webp')
+                            : require('@/assets/images/noImage.png')
                     "
                 >
                     <template v-slot:append>

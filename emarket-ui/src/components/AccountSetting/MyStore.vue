@@ -1,6 +1,6 @@
 <script>
 import sweetAlert from "@/mixins/sweetAlert";
-import defaultAvatar from "@/assets/images/defaultAvatar.png";
+import defaultAvatar from "@/assets/images/dowload/defaultStoreImage.jpg";
 import mixinsFile from "@/mixins/mixinsFile";
 import { nextTick } from "vue";
 import Cookies from "js-cookie";
@@ -23,7 +23,6 @@ export default {
             isCreateStore: false,
         };
     },
-    components: [VeeValidate],
     methods: {
         async resetAvatar() {
             if (this.store.image) {
@@ -41,19 +40,19 @@ export default {
                 this.store.imageFile = files[0];
             }
             await nextTick();
-            await this.applyImages();
+                await this.applyImages();
             // console.log(this.avatar);
         },
         uploadFile() {
             this.$refs.refInput.click();
         },
         goToStore() {
-            this.$router.push("/seller/product");
+            this.$router.push("/seller/store");
         },
         async createStore() {
             if (this.store.store_name && this.store.description) {
                 await this.saveStore();
-                this.$store.dispatch("data/changeStoreUser", this.store);
+
                 if (this.isChangeImage && this.store.imageFile) await this.applyImages();
                 this.isChangeImage = false;
             }
@@ -63,9 +62,6 @@ export default {
         this.user = await this.$store.state.data.user;
         if (this.$store.state.data.user.store) {
             this.store = this.$store.state.data.user.store;
-            console.log(this.store);
-            // console.log(JSON.parse(Cookies.get("user")).store);
-            // console.log(this.store);
             if (this.store.image) {
                 await this.getImage();
                 await this.applyImages();
@@ -77,7 +73,19 @@ export default {
 
 <template>
     <v-row>
-        <v-col cols="12">
+        <v-col
+            cols="12"
+            v-if="
+                $route.path != '/seller/store' && user.roles[0] && user.roles[0].name != 'CUSTOMER'
+            "
+        >
+            <v-btn class="ml-6 mb-6" color="primary" @click="goToStore">
+                <VIcon icon="bx-cloud-upload" class="d-sm-none" />
+                <span class="d-none d-sm-block">Go to my store</span>
+            </v-btn>
+        </v-col>
+
+        <v-col cols="12" v-else>
             <v-card title="Create a new Store">
                 <v-cardText class="d-flex">
                     <v-img
@@ -112,16 +120,8 @@ export default {
                 </v-cardText>
 
                 <VDivider />
-                <v-btn
-                    class="ml-6 mb-6"
-                    color="primary"
-                    @click="goToStore"
-                    v-if="user.roles[0] && user.roles[0].name != 'CUSTOMER'"
-                >
-                    <VIcon icon="bx-cloud-upload" class="d-sm-none" />
-                    <span class="d-none d-sm-block">Go to my store</span>
-                </v-btn>
-                <v-cardText v-if="user.roles[0] && user.roles[0].name == 'CUSTOMER'">
+
+                <v-cardText>
                     <v-form validate-on="submit lazy" @submit.prevent="createStore()">
                         <v-row class="mt-6">
                             <v-col md="6" cols="12">
@@ -151,11 +151,14 @@ export default {
                                 ></v-textarea>
                             </v-col>
                             <v-col cols="12" class="d-flex flex-wrap gap-4">
-                                <v-btn color="primary" type="submit">
+                                <v-btn color="primary" type="submit" v-if="$route.path!='/seller/store'">
                                     <VIcon icon="bx-cloud-upload" class="d-sm-none" />
                                     <span class="d-none d-sm-block">create my store</span>
                                 </v-btn>
-
+                                <v-btn color="primary" type="submit" v-else>
+                                    <VIcon icon="bx-cloud-upload" class="d-sm-none" />
+                                    <span class="d-none d-sm-block">Save</span>
+                                </v-btn>
                                 <v-btn
                                     color="secondary"
                                     variant="tonal"

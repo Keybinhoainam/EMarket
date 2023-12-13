@@ -13,6 +13,7 @@ export default {
             deleteProductUrl: `${this.baseURL}/seller/product/delete/`,
             getAllProductsUrl:`${this.baseURL}/data/product/getallproducts`,
             getAllCategoriesUrl:`${this.baseURL}/data/category/getallcategories`,
+            getAllProductsStoreUrl:`${this.baseURL}/data/product/getAllProductsStore`,
             
         };
     },
@@ -180,5 +181,9 @@ export default {
                 }
             });
         },
+        async getAllProductsStore(){
+            this.products=await productService.getAllProductsStore(this.getAllProductsStoreUrl,this.$store.state.data.user.store,this.config);
+
+        }
     },
 };

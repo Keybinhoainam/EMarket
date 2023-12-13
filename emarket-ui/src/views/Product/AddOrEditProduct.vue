@@ -172,9 +172,9 @@
                             <div class="imagePreviewWrapper">
                                 <img
                                     :ref="'image'"
-                                    :src="require('@/assets/images/noImage.webp')"
+                                    :src="require('@/assets/images/noImage.png')"
                                     alt=""
-                                    :aria-placeholder="require('@/assets/images/noImage.webp')"
+                                    :aria-placeholder="require('@/assets/images/noImage.png')"
                                     class="image-holder"
                                     width="250"
                                     height="250"
@@ -211,25 +211,28 @@ import mixinsProduct from "@/mixins/mixinsProduct";
 import Cookies from "js-cookie";
 import { getCurrentInstance } from "vue";
 import { nextTick } from "vue";
+import mixinsCategory from "@/mixins/mixinsCategory";
 export default {
-    props: ["baseURL", "products", "categories", "config", "schema"],
+    props: ["baseURL", "config", "schema"],
     emits: ["fetchData"],
     data() {
         return {
             product: new Product(),
             saveProductUrl: `${this.baseURL}/seller/product/save`,
             saveProductImagesUrl: `${this.baseURL}/seller/product/images/save`,
-            noImageUrl: "@/assets/images/noImage.webp",
+            noImageUrl: "@/assets/images/noImage.png",
             previewImage: null,
             isEdit: false,
+            categories:[]
         };
     },
-    mixins: [sweetAlert, mixinsProduct],
+    mixins: [sweetAlert, mixinsProduct,mixinsCategory],
     components: { Form, ErrorMessage, Field },
     // components:{
     //   VueMultiImageUpload
     // },
     async created() {
+        this.categories=this.getAllCategoriesStore();
         const route = useRoute();
         if (route.params.id) {
             this.isEdit = true;

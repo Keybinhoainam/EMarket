@@ -103,7 +103,7 @@
                                 <v-list-item
                                     v-for="(review, i) in product.product_reviews"
                                     :key="i"
-                                    :prepend-avatar="review.user.avatar"
+                                    :prepend-avatar="review.user.avatar?getAvatar(review.user):defaultAvatar"
                                     :title="review.comment"
                                     color="primary"
                                 >
@@ -175,12 +175,14 @@ import sweetAlert from "@/mixins/sweetAlert";
 import mixinsCart from "@/mixins/mixinsCart";
 import mixinsWishList from "@/mixins/mixinsWishList";
 import { nextTick } from "vue";
+import fileService from "@/services/file.service";
+import defaultAvatar from "@/assets/images/noImage.png";
 export default {
     data: () => ({
         product: new Product(),
         cart: null,
         wishList: null,
-        noImageUrl: "@/assets/images/noImage.webp",
+        defaultAvatar: defaultAvatar,
         quantity: 1,
         rating: 4.5,
         tab: null,
@@ -189,7 +191,25 @@ export default {
     }),
     props: ["baseURL", "products", "categories"],
     mixins: [mixinsProduct, sweetAlert, mixinsCart, mixinsWishList],
-    methods: {},
+    methods: {
+        async getAvatar(user){
+            let avatarString=null;
+            let avatarFile=await fileService.getImage(user.avatar, "image/*");
+            console.log(avatarFile);
+            await nextTick();
+            const fileReader = new FileReader();
+            fileReader.onload = () => {
+                // this.user.avatarFile=fileReader.result;
+                avatarString = fileReader.result;
+
+                // console.log(this.avatar);
+            };
+            // await console.log(this.user.avatarFile);
+            await fileReader.readAsDataURL(avatarFile);
+            
+            return avatarString;
+        },
+    },
     async created() {
         const route = useRoute();
         if (route.params.id) {

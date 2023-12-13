@@ -24,6 +24,7 @@ import DoAn.B19DCCN445.EMarket.exception.StorageException;
 import DoAn.B19DCCN445.EMarket.model.Product;
 import DoAn.B19DCCN445.EMarket.model.Product_image;
 import DoAn.B19DCCN445.EMarket.model.Product_review;
+import DoAn.B19DCCN445.EMarket.model.Store;
 import DoAn.B19DCCN445.EMarket.repository.ProductImageRepository;
 import DoAn.B19DCCN445.EMarket.repository.ProductRepository;
 import DoAn.B19DCCN445.EMarket.repository.ProductReviewRepository;
@@ -150,6 +151,17 @@ public class ProductService {
 	public ApiResponse getDeleteProduct(Long id) {
 		repository.deleteById(id);
 		return ApiResponse.builder().message("delete Product successfully!").success(true).build();
+	}
+
+	public List<ProductDTO> getAllProductsStore(Store store) {
+		List<ProductDTO> products=repository.findAllProductsStore(store.getId()).stream().map((product)->{
+			ProductDTO pdto=new ProductDTO();
+			BeanUtils.copyProperties(product, pdto);
+			pdto.setStore(product.getCategory().getStore());
+			return pdto;
+		}).collect(Collectors.toList());
+		
+		return products;
 	}
 
 }

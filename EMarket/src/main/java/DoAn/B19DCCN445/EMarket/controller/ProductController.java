@@ -23,6 +23,7 @@ import DoAn.B19DCCN445.EMarket.common.ApiResponse;
 import DoAn.B19DCCN445.EMarket.dto.ProductDTO;
 import DoAn.B19DCCN445.EMarket.exception.ProductNotFoundException;
 import DoAn.B19DCCN445.EMarket.model.Product;
+import DoAn.B19DCCN445.EMarket.model.Store;
 import DoAn.B19DCCN445.EMarket.service.ProductService;
 
 @RestController
@@ -51,6 +52,10 @@ public class ProductController {
 	@GetMapping("/data/product/getallproducts")
 	private ResponseEntity<List<ProductDTO>> getAllProducts() {
 		return ResponseEntity.ok(productService.getAllProducts());
+	}
+	@PostMapping("/data/product/getAllProductsStore")
+	private ResponseEntity<List<ProductDTO>> getAllProductsStore(@RequestBody Store store) {
+		return ResponseEntity.ok(productService.getAllProductsStore(store));
 	}
 	@GetMapping("/data/product/getproductslikename")
 	private ResponseEntity<List<ProductDTO>> getProductsLikeName(@RequestParam("name") String name) {

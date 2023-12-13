@@ -73,7 +73,11 @@ export const data = {
         changeStoreUser(state,store){
             store.imageString=null;
             store.imageFile=null;
-            state.user.store=store;
+            state.user.store={...store};
+            state.user.store.imageString=null;
+            state.user.store.imageFile=null;
+            console.log(store);
+            console.log(state.user.store);
             Cookies.set("user",JSON.stringify(state.user));
             console.log(JSON.parse(Cookies.get("user")).store);
             // Cookies.set("user",JSON.stringify(state.user));

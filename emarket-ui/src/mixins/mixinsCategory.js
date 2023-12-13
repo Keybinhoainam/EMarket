@@ -7,6 +7,7 @@ export default {
             getProductsCategoryUrl: `${this.baseURL}/data/category/product/get/`,
             urlSave: `${this.baseURL}/seller/category/save`,
             urlGet: `${this.baseURL}/data/category/get/`,
+            getAllCategoriesStoreUrl:`${this.baseURL}/data/category/getAllCategoriesStore`,
         };
     },
     methods: {
@@ -61,6 +62,7 @@ export default {
         async saveCategory() {
             try {
                 console.log(this.category);
+                this.category.store=this.$store.state.data.user.store
                 await categoryService.saveCategory(this.urlSave, this.category, this.config);
                 this.alertSuccess("Category saved successfully");
                 await this.$emit("fetchData");
@@ -73,6 +75,9 @@ export default {
                 );
             }
         },
+        async getAllCategoriesStore(){
+            this.categories=await categoryService.getAllCategoriesStore(this.getAllCategoriesStoreUrl,this.$store.state.data.user.store,this.config);
+        }
         // async delete
     },
 };

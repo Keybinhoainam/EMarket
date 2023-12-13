@@ -1,5 +1,6 @@
 package DoAn.B19DCCN445.EMarket.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,9 +16,11 @@ import DoAn.B19DCCN445.EMarket.common.ApiResponse;
 import DoAn.B19DCCN445.EMarket.dto.UserDTO;
 import DoAn.B19DCCN445.EMarket.exception.StorageException;
 import DoAn.B19DCCN445.EMarket.model.Product;
+import DoAn.B19DCCN445.EMarket.model.Role;
 import DoAn.B19DCCN445.EMarket.model.Store;
 import DoAn.B19DCCN445.EMarket.model.User;
 import DoAn.B19DCCN445.EMarket.repository.AccountRepository;
+import DoAn.B19DCCN445.EMarket.repository.RoleRepository;
 import DoAn.B19DCCN445.EMarket.service.AccountService;
 
 @Service
@@ -30,21 +33,24 @@ public class AccountService {
 	private AuthenticationManager authenticationManager;
 	@Autowired
 	PasswordEncoder encoder;
+	@Autowired
+	private RoleRepository roleRepository;
 	public List<User> getAccounts() {
 		List<User> list=accountRepository.findAll();
 		return list;
 	}
 	public UserDTO saveAccount(UserDTO uDto) {
 		User u=accountRepository.findById(uDto.getId()).get();
-//		u.setAvatar(storeImageAccount(avatar));
-//		User u= new User();
 		uDto.setPassword(u.getPassword());
 		uDto.setAvatar(u.getAvatar());
+		List<Role> roles=new ArrayList<>(u.getRoles());
+		if(u.getStore().getId()!=null&&roles.get(0).getName().equals("CUSTOMER")) {
+			Role role= roleRepository.findById((long) 2).get();
+			roles.add(0,role);
+		}
+		uDto.setRoles(roles);
 		BeanUtils.copyProperties(uDto, u);
-//		System.out.println(u.getPassword());
-//		Store store=u.getStore();
-//		store.setDescription("nam test");
-//		u.setStore(store);
+		
 		accountRepository.save(u);
 		uDto.setAvatarFile(null);
 		return uDto;

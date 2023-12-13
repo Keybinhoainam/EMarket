@@ -70,5 +70,15 @@ class ProductService {
             }
         );
     }
+    getAllProductsStore(url,data, config) {
+        return axios.post(url,data, config).then(
+            (res) => {
+                return Promise.resolve(res.data);
+            },
+            (error) => {
+                return Promise.reject(error);
+            }
+        );
+    }
 }
 export default new ProductService();

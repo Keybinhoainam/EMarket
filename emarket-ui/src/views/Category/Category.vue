@@ -65,18 +65,19 @@ export default {
     data() {
         return {
             urlDelete: `${this.baseURL}/seller/category/delete/`,
+            categories:[],
         };
     },
     mixins: [sweetAlert,mixinsCategory],
-    props: ["baseURL", "products", "categories", "config"],
+    props: ["baseURL", "config"],
     methods: {
         forcesUpdate() {
             const instance = getCurrentInstance();
             instance.proxy.forceUpdate();
         },
     },
-    created() {
-        this.$emit("fetchData");
+    async created() {
+        await this.getAllCategoriesStore();
     },
     mounted() {
         // this.$emit("fetchData");
