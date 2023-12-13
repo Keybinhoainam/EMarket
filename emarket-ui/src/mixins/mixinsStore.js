@@ -39,18 +39,37 @@ export default {
             this.store.image=tmp.image
             this.config.headers["content-Type"] = undefined;
         },
-        async applyImages() {
+        // async applyImages() {
+        //     await nextTick();
+        //     const fileReader = new FileReader();
+        //     fileReader.onload = () => {
+        //         this.store.imageString = fileReader.result;
+
+        //     };
+        //     await fileReader.readAsDataURL(this.store.imageFile);
+            
+        // },
+        // async getImage() {
+        //     this.store.imageFile = await fileService.getImage(this.store.image, "image/*");
+           
+        // },
+        async applyImages(object) {
             await nextTick();
             const fileReader = new FileReader();
-            fileReader.onload = () => {
-                this.store.imageString = fileReader.result;
+             fileReader.onload =  () => {
+                object.imageString = fileReader.result;
+                console.log(object.imageString);
 
             };
-            await fileReader.readAsDataURL(this.store.imageFile);
+            // console.log(object.imageFile);
+            await fileReader.readAsDataURL(object.imageFile);
+            await nextTick();
+            console.log(object);
+            
             
         },
-        async getImage() {
-            this.store.imageFile = await fileService.getImage(this.store.image, "image/*");
+        async getImage(object) {
+            object.imageFile = await fileService.getImage(object.image, "image/*");
            
         },
     },

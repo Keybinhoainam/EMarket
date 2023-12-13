@@ -3,7 +3,7 @@
         <v-card>
             <v-img
                 height="140"
-                class="pa-4"
+                class="my-4"
                 cover
                 :src="store.imageString ? store.imageString : defaultAvatar"
                 v-if="!rail"

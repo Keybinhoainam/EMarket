@@ -26,8 +26,14 @@ export default {
     methods: {
         async resetAvatar() {
             if (this.store.image) {
-                await this.getImage();
-                await this.applyImages();
+                let object = {
+                    image: this.store.image,
+                    imageFile: this.store.imageFile,
+                    imageString: this.store.imageString,
+                };
+                await this.getImage(object);
+                await this.applyImages(object);
+                this.convert(object);
             }
         },
         resetForm() {
@@ -40,7 +46,13 @@ export default {
                 this.store.imageFile = files[0];
             }
             await nextTick();
-                await this.applyImages();
+            let object = {
+                image: this.store.image,
+                imageFile: this.store.imageFile,
+                imageString: this.store.imageString,
+            };
+            await this.applyImages(object);
+            this.convert(object);
             // console.log(this.avatar);
         },
         uploadFile() {
@@ -53,18 +65,43 @@ export default {
             if (this.store.store_name && this.store.description) {
                 await this.saveStore();
 
-                if (this.isChangeImage && this.store.imageFile) await this.applyImages();
+                if (this.isChangeImage && this.store.imageFile) {
+                    let object = {
+                        image: this.store.image,
+                        imageFile: this.store.imageFile,
+                        imageString: this.store.imageString,
+                    };
+                    await this.applyImages(object);
+                    this.convert(object);
+                }
+
                 this.isChangeImage = false;
             }
+        },
+        convert(object) {
+            this.store.image = object.image;
+            this.store.imageFile = object.imageFile;
+            this.store.imageString = object.imageString;
         },
     },
     async created() {
         this.user = await this.$store.state.data.user;
         if (this.$store.state.data.user.store) {
             this.store = this.$store.state.data.user.store;
+            // console.log(this.store);
             if (this.store.image) {
-                await this.getImage();
-                await this.applyImages();
+                let object = {
+                    image: this.store.image,
+                    imageFile: this.store.imageFile,
+                    imageString: this.store.imageString,
+                };
+                // console.log(object);
+                await this.getImage(object);
+                console.log(object.imageFile);
+                await this.applyImages(object);
+                console.log(object.imageString);
+                this.convert(object);
+                // console.log(this.store);
             }
         }
     },
@@ -151,7 +188,11 @@ export default {
                                 ></v-textarea>
                             </v-col>
                             <v-col cols="12" class="d-flex flex-wrap gap-4">
-                                <v-btn color="primary" type="submit" v-if="$route.path!='/seller/store'">
+                                <v-btn
+                                    color="primary"
+                                    type="submit"
+                                    v-if="$route.path != '/seller/store'"
+                                >
                                     <VIcon icon="bx-cloud-upload" class="d-sm-none" />
                                     <span class="d-none d-sm-block">create my store</span>
                                 </v-btn>
