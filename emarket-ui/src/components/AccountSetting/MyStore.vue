@@ -26,14 +26,14 @@ export default {
     methods: {
         async resetAvatar() {
             if (this.store.image) {
-                let object = {
-                    image: this.store.image,
-                    imageFile: this.store.imageFile,
-                    imageString: this.store.imageString,
-                };
-                await this.getImage(object);
-                await this.applyImages(object);
-                this.convert(object);
+                // let object = {
+                //     image: this.store.image,
+                //     imageFile: this.store.imageFile,
+                //     imageString: this.store.imageString,
+                // };
+                await this.getImage();
+                await this.applyImages();
+                //this.convert(object);
             }
         },
         resetForm() {
@@ -46,13 +46,13 @@ export default {
                 this.store.imageFile = files[0];
             }
             await nextTick();
-            let object = {
-                image: this.store.image,
-                imageFile: this.store.imageFile,
-                imageString: this.store.imageString,
-            };
-            await this.applyImages(object);
-            this.convert(object);
+            // let object = {
+            //     image: this.store.image,
+            //     imageFile: this.store.imageFile,
+            //     imageString: this.store.imageString,
+            // };
+            await this.applyImages();
+            //this.convert(object);
             // console.log(this.avatar);
         },
         uploadFile() {
@@ -66,23 +66,23 @@ export default {
                 await this.saveStore();
 
                 if (this.isChangeImage && this.store.imageFile) {
-                    let object = {
-                        image: this.store.image,
-                        imageFile: this.store.imageFile,
-                        imageString: this.store.imageString,
-                    };
-                    await this.applyImages(object);
-                    this.convert(object);
+                    // let object = {
+                    //     image: this.store.image,
+                    //     imageFile: this.store.imageFile,
+                    //     imageString: this.store.imageString,
+                    // };
+                    await this.applyImages();
+                    // //this.convert(object);
                 }
 
                 this.isChangeImage = false;
             }
         },
-        convert(object) {
-            this.store.image = object.image;
-            this.store.imageFile = object.imageFile;
-            this.store.imageString = object.imageString;
-        },
+        // convert(object) {
+        //     this.store.image = object.image;
+        //     this.store.imageFile = object.imageFile;
+        //     this.store.imageString = object.imageString;
+        // },
     },
     async created() {
         this.user = await this.$store.state.data.user;
@@ -96,11 +96,9 @@ export default {
                     imageString: this.store.imageString,
                 };
                 // console.log(object);
-                await this.getImage(object);
-                console.log(object.imageFile);
-                await this.applyImages(object);
-                console.log(object.imageString);
-                this.convert(object);
+                await this.getImage();
+                await this.applyImages();
+                //this.convert(object);
                 // console.log(this.store);
             }
         }

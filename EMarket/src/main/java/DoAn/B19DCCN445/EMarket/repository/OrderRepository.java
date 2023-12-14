@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import DoAn.B19DCCN445.EMarket.model.Order;
 @Repository
-public interface OrderRepository extends JpaRepository<Order, Long>{
-
+public interface OrderRepository extends JpaRepository<Order, String>{
+	
 }

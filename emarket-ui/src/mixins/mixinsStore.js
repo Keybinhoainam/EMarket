@@ -39,38 +39,38 @@ export default {
             this.store.image=tmp.image
             this.config.headers["content-Type"] = undefined;
         },
-        // async applyImages() {
-        //     await nextTick();
-        //     const fileReader = new FileReader();
-        //     fileReader.onload = () => {
-        //         this.store.imageString = fileReader.result;
-
-        //     };
-        //     await fileReader.readAsDataURL(this.store.imageFile);
-            
-        // },
-        // async getImage() {
-        //     this.store.imageFile = await fileService.getImage(this.store.image, "image/*");
-           
-        // },
-        async applyImages(object) {
+        async applyImages() {
             await nextTick();
             const fileReader = new FileReader();
-             fileReader.onload =  () => {
-                object.imageString = fileReader.result;
-                console.log(object.imageString);
+            fileReader.onload = () => {
+                this.store.imageString = fileReader.result;
 
             };
-            // console.log(object.imageFile);
-            await fileReader.readAsDataURL(object.imageFile);
-            await nextTick();
-            console.log(object);
-            
+            await fileReader.readAsDataURL(this.store.imageFile);
             
         },
-        async getImage(object) {
-            object.imageFile = await fileService.getImage(object.image, "image/*");
+        async getImage() {
+            this.store.imageFile = await fileService.getImage(this.store.image, "image/*");
            
         },
+        // async applyImages(object) {
+        //     await nextTick();
+        //     const fileReader = new FileReader();
+        //      fileReader.onload =  () => {
+        //         object.imageString = fileReader.result;
+        //         console.log(object.imageString);
+
+        //     };
+        //     // console.log(object.imageFile);
+        //     await fileReader.readAsDataURL(object.imageFile);
+        //     await nextTick();
+        //     console.log(object);
+            
+            
+        // },
+        // async getImage(object) {
+        //     object.imageFile = await fileService.getImage(object.image, "image/*");
+           
+        // },
     },
 };

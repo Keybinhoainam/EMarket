@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import DoAn.B19DCCN445.EMarket.model.Order;
 import DoAn.B19DCCN445.EMarket.model.Role;
 import DoAn.B19DCCN445.EMarket.model.Store;
 import DoAn.B19DCCN445.EMarket.model.User;
@@ -58,7 +59,7 @@ public class UserDTO {
 	private String phone;
 	private Store store;
 	private Collection<Role> roles;
-	
+	private Collection<Order> orders;
 	private String accessToken;
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String currentPassword;

@@ -1,20 +1,19 @@
-package DoAn.B19DCCN445.EMarket.model;
+package DoAn.B19DCCN445.EMarket.dto;
 
 
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import DoAn.B19DCCN445.EMarket.model.Order_detail;
+import DoAn.B19DCCN445.EMarket.model.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -33,16 +32,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 @Data
-@Entity
 @Builder
-@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "orders")
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Order {
+public class OrderDTO {
 	@Id
-	private String id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	private Date order_date;
 	private Date shipped_date;
 	private String note;
@@ -50,20 +46,11 @@ public class Order {
 	private Double ship_fee;
 	private Date paid_date;
 	private String order_status;
-	@CreatedDate
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date create_at;
-	@LastModifiedDate
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date update_at;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "customer_id")
-	@JsonBackReference("user-orders")
 	private User user;
 	private String payment_type;
-	
-	@JsonManagedReference("order-orderDetails")
-	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
 	private Collection<Order_detail>order_details;
 }

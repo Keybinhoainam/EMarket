@@ -62,7 +62,7 @@ public class ZaloPayController {
 				JSONObject data = new JSONObject(dataStr);
 				logger.info("update order's status = success where app_trans_id = " + data.getString("app_trans_id"));
 
-				result.put("return_code", 1);
+				result.put("return_code", 1000);
 				result.put("return_message", "success");
 			}
 		} catch (Exception ex) {
@@ -71,6 +71,8 @@ public class ZaloPayController {
 		}
 
 		// thông báo kết quả cho ZaloPay server
-		return result.toString();
+		return "-1";
+//		return result.toString();
+		
 	}
 }

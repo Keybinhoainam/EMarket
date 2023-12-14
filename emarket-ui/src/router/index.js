@@ -16,6 +16,7 @@ import CustomerLayout from "@/components/Layout/CustomerLayout.vue";
 import AdminLayout from "@/components/Layout/AdminLayout.vue";
 import AccountSetting from "@/views/Common/AccountSetting.vue";
 import MyStore from "@/components/AccountSetting/MyStore.vue";
+import CheckOut from "@/views/Customer/CheckOut.vue";
 const routes = [
     // {
     //   path:'/',
@@ -63,7 +64,11 @@ const routes = [
                 name: "Cart",
                 component: Cart,
             },
-
+            {
+                path: "/checkout",
+                name: "CheckOut",
+                component: CheckOut,
+            },
             {
                 path: "/wishList",
                 name: "WishList",

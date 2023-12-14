@@ -7,7 +7,7 @@ export default class ZaloPayOrder {
         bank_code = "",
         embed_data = JSON.stringify({redirecturl: "http://localhost:8080/myPurchase"}),
         item = JSON.stringify([]),
-        callback_url="http://localhost:8085/api/data/product/get/1",
+        callback_url="http://localhost:8085/api/zaloPay/callback",
         description,
         mac,
         key1 = "sdngKKJmqEMzvh5QQcdD2A9XBSKUNaYn",

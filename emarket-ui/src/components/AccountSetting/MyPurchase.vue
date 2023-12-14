@@ -5,7 +5,7 @@ export default {
     components: {},
     data() {
         return {
-            orders: [new Order(0), new Order(1), new Order(2)],
+            orders: [],
             headersTable: [
                 {
                     title: "ORDER NO",
@@ -32,6 +32,11 @@ export default {
             ],
             expanded: [],
         };
+    },
+    created() {
+        if(this.$route.query.status){
+            
+        }
     },
 };
 

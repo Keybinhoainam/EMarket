@@ -3,10 +3,12 @@ package DoAn.B19DCCN445.EMarket.service;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import DoAn.B19DCCN445.EMarket.common.ApiResponse;
+import DoAn.B19DCCN445.EMarket.dto.OrderDTO;
 import DoAn.B19DCCN445.EMarket.model.Order;
 import DoAn.B19DCCN445.EMarket.model.Order_detail;
 import DoAn.B19DCCN445.EMarket.model.Product;
@@ -54,5 +56,33 @@ public class OrderService {
 			orderDetailRepository.save(order_detail);
 		}
 		return ApiResponse.builder().message("CheckOut successfully!").success(true).build();
+	}
+
+	public OrderDTO saveOrder(Order order) {
+		Collection<Order_detail> order_details=order.getOrder_details();
+		order.setOrder_details(null);
+		order=repository.save(order);
+		for(Order_detail order_detail: order_details) {
+			Product product=productRepository.findById(order_detail.getProduct().getId()).get();
+			product.setStock(product.getStock()-order_detail.getQuantity());
+			productRepository.save(product);
+			order_detail.setOrder(order);
+			orderDetailRepository.save(order_detail);
+		}
+		order=repository.save(order);
+//		System.out.println(order.getOrder_details()!=null?order.getOrder_details().size():"null");
+		OrderDTO orderDTO=new OrderDTO();
+		BeanUtils.copyProperties(order, orderDTO);
+		return orderDTO;
+	}
+
+	public OrderDTO changeStatus(String id) {
+		OrderDTO orderDTO= new OrderDTO();
+		Order order= repository.findById(id).get();
+		order.setOrder_status("Order Placed");
+		repository.save(order);
+		BeanUtils.copyProperties(order, orderDTO);
+		
+		return orderDTO;
 	}
 }
