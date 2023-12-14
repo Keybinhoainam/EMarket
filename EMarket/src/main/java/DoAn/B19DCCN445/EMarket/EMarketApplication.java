@@ -51,8 +51,8 @@ public class EMarketApplication implements CommandLineRunner {
 //		em.persist(User.builder().username("admin").password(encoder.encode("123")).fullname("Bùi Hoài Nam").roles(roles).build());
 //		
 //		roles= new ArrayList<>();
-//		roles.add(role3);
 //		roles.add(role2);
+//		roles.add(role3);
 //		Store store= Store.builder().store_code("BHN").store_name("BHN Store").description("Description").image(null).build();
 //		em.persist(store);
 //		em.persist(User.builder().username("bhn").password(encoder.encode("123")).fullname("Bùi Hoài Ninh").roles(roles).store(store).build());

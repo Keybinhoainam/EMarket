@@ -76,13 +76,19 @@ public class OrderService {
 		return orderDTO;
 	}
 
-	public OrderDTO changeStatus(String id) {
+	public OrderDTO changeStatus(Order request) {
 		OrderDTO orderDTO= new OrderDTO();
-		Order order= repository.findById(id).get();
-		order.setOrder_status("Order Placed");
+		Order order= repository.findById(request.getId()).get();
+		order.setOrder_status(request.getOrder_status());
 		repository.save(order);
 		BeanUtils.copyProperties(order, orderDTO);
 		
 		return orderDTO;
+	}
+
+	public List<Order> getOrdersByUser(User user) {
+		// TODO Auto-generated method stub
+		
+		return repository.findByUser(user);
 	}
 }

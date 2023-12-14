@@ -18,14 +18,19 @@ export default {
         resetForm() {
             this.order = new Order();
         },
-        checkToPay(){
-          if(this.order.city&&this.order.district&&this.order.ward&&this.order.houseNo){
-            this.proceedToPay()
-          }
-        }
+        checkToPay() {
+            if (
+                this.order.city &&
+                this.order.district &&
+                this.order.ward &&
+                this.order.houseNo &&
+                this.order.payment_type
+            ) {
+                this.proceedToPay();
+            }
+        },
     },
-    async created() {
-    },
+    async created() {},
 };
 </script>
 
@@ -76,10 +81,7 @@ export default {
                                     label="Payment Type"
                                     v-model="order.payment_type"
                                     :rules="required"
-                                    :items="[
-                                        'Cash On Delivery(COD)',
-                                        'Pay Now',
-                                    ]"
+                                    :items="['Cash On Delivery(COD)', 'Online Payment Methods']"
                                 ></v-select>
                             </v-col>
 

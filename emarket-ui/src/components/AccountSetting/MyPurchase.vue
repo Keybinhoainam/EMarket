@@ -1,8 +1,10 @@
 <script>
 import Order from "@/models/order";
+import mixinsOrder from '@/mixins/mixinsOrder';
 
 export default {
     components: {},
+    mixins:[mixinsOrder],
     data() {
         return {
             orders: [],
@@ -23,7 +25,7 @@ export default {
                 },
                 {
                     title: "PAYMENT METHOD",
-                    key: "payment_type.name",
+                    key: "payment_type",
                 },
                 {
                     title: "ORDER STATUS",
@@ -33,10 +35,12 @@ export default {
             expanded: [],
         };
     },
-    created() {
-        if(this.$route.query.status){
-            
+    async created() {
+        if(this.$route.query.status&&this.$route.query.status==1){
+            await this.changeStatus();
         }
+        await this.getOrdersByUser();
+        console.log(this.orders);
     },
 };
 

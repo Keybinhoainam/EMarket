@@ -1,4 +1,5 @@
 import Cart from "@/models/cart";
+import Order from "@/models/order";
 import Order_detail from "@/models/order_detail";
 import ZaloPayOrder from "@/models/zaloPayOrder";
 import ZaloPayService from "@/services/ZaloPay.service";
@@ -11,6 +12,8 @@ export default {
             baseURL: "http://localhost:8080/api",
             urlCheckOut: `http://localhost:8080/api/order/checkout`,
             saveOrderUrl: `http://localhost:8080/api/order/saveOrder`,
+            changeStatusUrl: "http://localhost:8080/api/order/changeStatus",
+            getOrdersByUserUrl: `http://localhost:8080/api/order/getOrdersByUser`,
             cart: new Cart(),
             zaloPayOrder: new ZaloPayOrder(),
         };
@@ -76,25 +79,49 @@ export default {
             this.zaloPayOrder.mac = CryptoJS.enc.Hex.stringify(mac);
         },
         async saveOrder() {
-            this.addOrderDetails();
             this.order.id = this.zaloPayOrder.app_trans_id;
             this.order.ship_address = `${this.order.houseNo},${this.order.ward},${this.order.district},${this.order.city},`;
-            this.order.order_status = this.order.payment_type ? "Order Placed" : "Unpaid";
+            this.order.order_status = this.order.payment_type=="Online Payment Methods" ? "Unpaid":"Order Placed" ;
             this.order.user = this.$store.state.data.user;
-            this.order = await orderService.saveOrder(this.saveOrderUrl, this.order, this.config);
-            // this.$store.commit("data/changeCart", new Cart());
+            await orderService.saveOrder(
+                this.saveOrderUrl,
+                this.order,
+                this.$store.state.data.config
+            );
+            this.$store.commit("data/changeCart", new Cart());
         },
         async proceedToPay() {
+            this.addOrderDetails();
             this.loadZaloPayOrder();
             this.saveOrder();
-            if (this.order.payment_type == "Pay Now") {
+
+            if (this.order.payment_type == "Online Payment Methods") {
+                console.log(this.zaloPayOrder);
                 let response = await ZaloPayService.createOrder(this.zaloPayOrder);
+                console.log(response);
                 if (response.order_url) {
                     window.location.href = await response.order_url;
                 }
             } else {
                 this.$router.push("/myPurchase");
             }
+        },
+        async changeStatus() {
+            let order=new Order();
+            order.id=this.$route.query.apptransid;
+            order.order_status="Order Placed"
+            await orderService.changeStatus(
+                this.changeStatusUrl,
+                order,
+                this.$store.state.data.config
+            );
+        },
+        async getOrdersByUser() {
+            this.orders = await orderService.getOrdersByUser(
+                this.getOrdersByUserUrl,
+                this.$store.state.data.user,
+                this.$store.state.data.config
+            );
         },
     },
     created() {

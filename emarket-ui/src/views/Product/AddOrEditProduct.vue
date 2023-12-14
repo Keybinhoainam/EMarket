@@ -189,7 +189,6 @@
                             accept="image/*"
                             @change="uploadImages"
                             class="row"
-                            required
                         />
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>

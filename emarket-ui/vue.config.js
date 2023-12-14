@@ -9,13 +9,6 @@ module.exports = defineConfig({
                     "^/zaloPay": "", // Loại bỏ tiền tố '/zaloPay' từ yêu cầu
                 },
             },
-            "^/qcgateway": {
-                target: "https://qcgateway.zalopay.vn/openinapp",
-                changeOrigin: true,
-                pathRewrite: {
-                    "^/qcgateway": "",
-                },
-            },
             "^/api": {
                 target: "http://localhost:8085",
                 changeOrigin: true,

@@ -54,13 +54,13 @@
                         <!-- </template> -->
                     </v-table>
                 </v-col>
-                <v-col :cols="12" md="3" sm="12" style="background-color: lightgray">
+                <v-col :cols="12" md="3" sm="12" style="background-color: lightgray" v-if="totalcost>0">
                     <p class="headline">Order Summary</p>
                     <p class="overline">
                         Shipping and additional costs are calculated based on values you have
                         entered.
                     </p>
-                    <v-table>
+                    <v-table >
                         <template v-slot:default>
                             <tbody>
                                 <tr>
@@ -83,7 +83,7 @@
                         </template>
                     </v-table>
                     <div class="text-center">
-                        <v-btn class="white--text mt-5" color="primary" @click="checkout()">CHECKOUT</v-btn>
+                        <v-btn class="white--text mt-5" color="primary" @click="checkout()" >CHECKOUT</v-btn>
                     </div>
                 </v-col>
             </v-row>

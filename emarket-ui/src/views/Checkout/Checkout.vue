@@ -27,7 +27,7 @@
                 </option>
             </select>
 
-            <div v-if="order.payment_type.name == 'Pay Now'">
+            <div v-if="order.payment_type.name == 'Online Payment Methods'">
                 <p>Agribank Ha Noi</p>
                 <p>1500206098656</p>
                 <p>Please Pay To This Account</p>
