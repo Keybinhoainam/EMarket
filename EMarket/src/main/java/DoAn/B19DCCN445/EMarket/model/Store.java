@@ -10,6 +10,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -58,13 +59,13 @@ public class Store {
 //	@JsonManagedReference("store-shop_imports")
 	private Set<Shop_import> shop_imports;
 	@OneToOne(mappedBy = "store", cascade = CascadeType.REMOVE)
-	@JsonManagedReference("store-users")
+	@JsonBackReference("store-users")
 	private User user;
 	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
 //	@JsonManagedReference("store-shop_exports")
 	private Set<Shop_export>shop_exports;
 	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
-	@JsonManagedReference("store-categories")
+	@JsonBackReference("store-categories")
 	private Collection<Category>categories;
 	
 }

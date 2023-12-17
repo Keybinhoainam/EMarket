@@ -18,16 +18,34 @@ export default {
             Cookies.remove("accessToken");
             try {
                 // console.log(this.$store.state.data.user);
-                let res = await authService.login(this.url, this.user, this.config);
+                this.user = await authService.login(this.url, this.user, this.config);
                 // console.log(res.data.avatar);
                 // res.data.avatarFile = await fileService.getImage(this.urlGetImage, res.data.avatar, "image/*");
                 // console.log(res.data);
-                await this.$store.dispatch("data/changeUser", res.data);
-                if (res.data.accessToken) Cookies.set("accessToken", JSON.stringify(res.data.accessToken), { expires: 1 });
+                await this.$store.dispatch("data/changeUser", this.user);
+                if (this.user.accessToken) Cookies.set("accessToken", JSON.stringify(this.user.accessToken), { expires: 1 });
                 // console.log(this.$store.state.data.user);
                 this.alertSuccess("Login success !");
-
-                this.$router.push(this.$route.query.redirect || "/");
+                let redirect=this.$route.query.redirect;
+                if(this.user.roles[0].name=="ADMIN"){
+                    this.$router.push('/admin')
+                }
+                else if(redirect&&redirect.startsWith('/admin')&&!this.user.roles[0].name=="ADMIN"){
+                    this.alertFail(
+                        "Login Fail...",
+                        'Admin rights needed!'
+                    );
+                }
+                else if(redirect&&redirect.startsWith('/seller')&&!this.user.roles[0].name=="SELLER"){
+                    this.alertFail(
+                        "Login Fail...",
+                        'Seller rights needed!'
+                    );
+                }
+                else{
+                    this.$router.push(this.$route.query.redirect || "/");
+                }
+                
             } catch (error) {
                 this.alertFail(
                     "Login Fail...",

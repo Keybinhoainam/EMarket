@@ -59,7 +59,7 @@ public class UserDTO {
 	private String phone;
 	private Store store;
 	private Collection<Role> roles;
-	private Collection<Order> orders;
+//	private Collection<Order> orders;
 	private String accessToken;
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String currentPassword;

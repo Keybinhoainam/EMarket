@@ -10,7 +10,7 @@ class AuthService {
         Cookies.remove("user");
         return axios.post(url, user,config).then(
             (res) => {
-                return Promise.resolve(res);
+                return Promise.resolve(res.data);
             },
             (error) => {
                 return Promise.reject(error);

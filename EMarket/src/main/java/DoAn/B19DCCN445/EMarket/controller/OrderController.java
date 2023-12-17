@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import DoAn.B19DCCN445.EMarket.common.ApiResponse;
 import DoAn.B19DCCN445.EMarket.dto.OrderDTO;
 import DoAn.B19DCCN445.EMarket.model.Order;
+import DoAn.B19DCCN445.EMarket.model.Order_detail;
 import DoAn.B19DCCN445.EMarket.model.User;
 //import DoAn.B19DCCN445.EMarket.model.Payment_type;
 import DoAn.B19DCCN445.EMarket.service.OrderService;
@@ -53,6 +54,10 @@ public class OrderController{
 	@PostMapping("/order/getOrdersByUser")
 	public ResponseEntity<List<Order>> getOrdersByUser(@RequestBody User user){
 		return ResponseEntity.ok(service.getOrdersByUser(user));
+	}
+	@GetMapping("/order/getOrder/{id}")
+	public ResponseEntity<OrderDTO> getOrder(@PathVariable("id") String idOrder){
+		return ResponseEntity.ok(service.getOrder(idOrder));
 	}
 	
 }
