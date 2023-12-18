@@ -91,4 +91,17 @@ public class OrderService {
 		
 		return repository.findByUser(user);
 	}
+
+	public OrderDTO getOrder(String idOrder) {
+		Order order=repository.findById(idOrder).get();
+		OrderDTO dto=new OrderDTO();
+		BeanUtils.copyProperties(order, dto);
+		Double amount=(double) 0;
+		for(Order_detail order_detail : dto.getOrder_details()) {
+			amount+=order_detail.getUnit_price();
+		}
+		dto.setAmount(amount);
+		// TODO Auto-generated method stub
+		return dto;
+	}
 }

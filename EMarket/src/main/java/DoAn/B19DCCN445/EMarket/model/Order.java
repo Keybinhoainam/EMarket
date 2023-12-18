@@ -63,7 +63,6 @@ public class Order {
 	private User user;
 	private String payment_type;
 	
-//	@JsonManagedReference("order-orderDetails")
 	@JsonBackReference("order-orderDetails")
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
 	private Collection<Order_detail>order_details;

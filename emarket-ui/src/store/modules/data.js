@@ -67,7 +67,7 @@ export const data = {
             state.config=config;
         },
         changeUser(state,user){
-            Cookies.set("user",JSON.stringify(user));
+            Cookies.set("user",JSON.stringify(user), { expires: 1 });
             state.user=user;
         },
         changeStoreUser(state,store){

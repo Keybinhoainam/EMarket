@@ -9,7 +9,6 @@ import { format } from "date-fns";
 export default {
     data() {
         return {
-            baseURL: "http://localhost:8080/api",
             urlCheckOut: `http://localhost:8080/api/order/checkout`,
             saveOrderUrl: `http://localhost:8080/api/order/saveOrder`,
             changeStatusUrl: "http://localhost:8080/api/order/changeStatus",
@@ -19,6 +18,10 @@ export default {
         };
     },
     methods: {
+        async getOrder(){
+            let url=`${this.baseURL}/order/getOrder/${this.$route.params.id}`;
+            this.order= await orderService.getOrder(url,this.config);
+        },
         async checkOut() {
             try {
                 // console.log(this.order);

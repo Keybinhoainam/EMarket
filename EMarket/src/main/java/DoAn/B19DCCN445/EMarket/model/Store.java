@@ -60,13 +60,13 @@ public class Store {
 //	@JsonManagedReference("store-shop_imports")
 	private Set<Shop_import> shop_imports;
 	@OneToOne(mappedBy = "store", cascade = CascadeType.REMOVE)
-	@JsonManagedReference("store-users")
+	@JsonBackReference("store-users")
 	private User user;
 	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
 //	@JsonManagedReference("store-shop_exports")
 	private Set<Shop_export>shop_exports;
 	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
-//	@JsonManagedReference("store-categories")
+
 	@JsonBackReference("store-categories")
 	private Collection<Category>categories;
 	

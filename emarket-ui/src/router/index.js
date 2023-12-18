@@ -11,12 +11,12 @@ import Shop from "@/views/Customer/Shop.vue";
 import ProductsCategory from "@/views/Product/ProductsCategory.vue";
 import Cart from "@/views/Customer/Cart.vue";
 import WishList from "@/views/Customer/Wishlist.vue";
-import Checkout from "@/views/Checkout/Checkout.vue";
 import CustomerLayout from "@/components/Layout/CustomerLayout.vue";
 import AdminLayout from "@/components/Layout/AdminLayout.vue";
 import AccountSetting from "@/views/Common/AccountSetting.vue";
 import MyStore from "@/components/AccountSetting/MyStore.vue";
 import CheckOut from "@/views/Customer/CheckOut.vue";
+import ShowOrderDetailVue from "@/views/Customer/ShowOrderDetail.vue";
 const routes = [
     // {
     //   path:'/',
@@ -67,20 +67,15 @@ const routes = [
             {
                 path: "/checkout",
                 name: "CheckOut",
+                meta: {
+                    requiresAuth: true,
+                },
                 component: CheckOut,
             },
             {
                 path: "/wishList",
                 name: "WishList",
                 component: WishList,
-            },
-            {
-                path: "/checkout",
-                name: "Checkout",
-                meta: {
-                    requiresAuth: true,
-                },
-                component: Checkout,
             },
             {
                 path: "/profile",
@@ -108,6 +103,14 @@ const routes = [
                 },
                 props: { tab: "myPurchase" },
                 component: AccountSetting,
+            },
+            {
+                path: "/showOrderDetail/:id",
+                name: "ShowOrderDetail",
+                meta: {
+                    requiresAuth: true,
+                },
+                component: ShowOrderDetailVue,
             },
             {
                 path: "/myStore",
@@ -179,7 +182,7 @@ const router = createRouter({
 });
 router.beforeEach((to, from, next) => {
     if (to.matched.some((record) => record.meta.requiresAuth)) {
-        if (!Cookies.get("accessToken")) {
+        if (!Cookies.get("accessToken")||!Cookies.get("user")) {
             const path = window.location.pathname;
             next({ name: "login", query: { redirect: `${path}` } });
         } else {
