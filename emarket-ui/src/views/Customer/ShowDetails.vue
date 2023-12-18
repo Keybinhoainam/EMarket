@@ -3,7 +3,13 @@
         <v-container>
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-12">
-                    <v-carousel cycle v-model="indexShowImage">
+                    <v-carousel v-if="product.product_images.length <= 0">
+                        <v-carousel-item>
+                            <!-- <v-img :src="getImageURL(img.image)" class="fill-image" eager></v-img> -->
+                            <img :src="require('@/assets/images/noImage.png')" class="fill-image" />
+                        </v-carousel-item>
+                    </v-carousel>
+                    <v-carousel cycle v-model="indexShowImage" v-else>
                         <v-carousel-item
                             v-for="(img, key) in product.product_images"
                             :key="key"
@@ -103,8 +109,13 @@
                                 <v-list-item
                                     v-for="(review, i) in product.product_reviews"
                                     :key="i"
-                                    :prepend-avatar="review.user.avatar?getAvatar(review.user):defaultAvatar"
-                                    :title="review.comment"
+                                    :prepend-avatar="
+                                        review.user.avatar
+                                            ? review.user.avatarString
+                                            : defaultAvatar
+                                    "
+                                    :title="review.title"
+                                    :subtitle="review.subtitle"
                                     color="primary"
                                 >
                                     <v-list-item-title> </v-list-item-title>
@@ -188,26 +199,31 @@ export default {
         tab: null,
         breadcrums: [],
         indexShowImage: 0,
+        avatarString: null,
     }),
     props: ["baseURL", "products", "categories"],
     mixins: [mixinsProduct, sweetAlert, mixinsCart, mixinsWishList],
     methods: {
-        async getAvatar(user){
-            let avatarString=null;
-            let avatarFile=await fileService.getImage(user.avatar, "image/*");
-            console.log(avatarFile);
-            await nextTick();
-            const fileReader = new FileReader();
-            fileReader.onload = () => {
-                // this.user.avatarFile=fileReader.result;
-                avatarString = fileReader.result;
-
-                // console.log(this.avatar);
-            };
-            // await console.log(this.user.avatarFile);
-            await fileReader.readAsDataURL(avatarFile);
+        async getAvatar(user) {
             
-            return avatarString;
+            if (user.avatar) {
+                let avatarFile = await fileService.getImage(user.avatar, "image/*");
+                await nextTick();
+                const fileReader = new FileReader();
+                fileReader.onload = () => {
+                    // this.avatarString = fileReader.result;
+                    user.avatarString=fileReader.result;
+                };
+                await fileReader.readAsDataURL(avatarFile);
+            }
+        },
+        async loadImageString() {
+            for (let i=0 ;i< this.product.product_reviews.length;i++) {
+                let review=this.product.product_reviews[i];
+                await this.getAvatar(review.user);
+                await nextTick()
+                // review.user.avatarString = this.avatarString;
+            }
         },
     },
     async created() {
@@ -216,7 +232,7 @@ export default {
             this.cart = this.$store.state.data.cart;
             this.wishList = this.$store.state.data.wishList;
             await this.getProductNoCofig(route.params.id);
-
+            this.loadImageString();
             this.breadcrums = [
                 {
                     title: "Home",

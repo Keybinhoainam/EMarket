@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import DoAn.B19DCCN445.EMarket.common.ApiResponse;
+import DoAn.B19DCCN445.EMarket.dto.ZaloPayOrder;
 import DoAn.B19DCCN445.EMarket.model.Order;
 import DoAn.B19DCCN445.EMarket.service.OrderService;
+import DoAn.B19DCCN445.EMarket.zalopay.CreateOrder;
 
 @RestController
 @RequestMapping("/api/zaloPay")
@@ -39,6 +41,11 @@ public class ZaloPayController {
 		HmacSHA256.init(new SecretKeySpec(key2.getBytes(), "HmacSHA256"));
 	}
 
+	@PostMapping("/createOrder")
+	public String createOrder(@RequestBody ZaloPayOrder zaloPayOrder) throws Exception {
+		CreateOrder.main(zaloPayOrder);
+		return null;
+	}
 	@PostMapping("/callback")
 	public String callback(@RequestBody String jsonStr) {
 		JSONObject result = new JSONObject();

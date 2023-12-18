@@ -65,17 +65,17 @@ public class ProductService {
 		BeanUtils.copyProperties(p, pdto);
 		pdto.setStore(p.getCategory().getStore());
 		List<Product_review> product_reviews=new ArrayList<>(p.getProduct_reviews());
-		List<Product_reviewDTO> product_reviewDTOs=new ArrayList<>();
+//		List<Product_reviewDTO> product_reviewDTOs=new ArrayList<>();
 		Integer reviews=product_reviews.size();
 		Double rating;
 		rating=0.0;
 		
-		for(Product_review review : product_reviews) {
-			rating+=(double)(review.getRating());
-			Product_reviewDTO product_reviewDTO=new Product_reviewDTO();
-			BeanUtils.copyProperties(review, product_reviewDTO);
-			product_reviewDTOs.add(product_reviewDTO);
-		}
+//		for(Product_review review : product_reviews) {
+//			rating+=(double)(review.getRating());
+//			Product_reviewDTO product_reviewDTO=new Product_reviewDTO();
+//			BeanUtils.copyProperties(review, product_reviewDTO);
+//			product_reviewDTOs.add(product_reviewDTO);
+//		}
 		if(reviews>0) {
 			
 			rating/=reviews;
@@ -83,7 +83,7 @@ public class ProductService {
 		else {
 			rating=null;
 		}
-		pdto.setProduct_reviews(product_reviewDTOs);
+		pdto.setProduct_reviews(product_reviews);
 		pdto.setRating(rating);
 		pdto.setReviews(reviews);
 		return pdto;

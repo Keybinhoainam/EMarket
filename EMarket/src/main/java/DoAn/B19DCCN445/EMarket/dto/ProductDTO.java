@@ -30,9 +30,7 @@ public class ProductDTO {
 	private Double standard_cost;
 	private Double price;
 	private int stock;
-	private Boolean is_discontinued;
-	private Boolean is_featured;
-	private Boolean is_new;
+	private String product_status;
 	private Date create_at;
 	private Date update_at;
 	private Category category;
@@ -40,6 +38,6 @@ public class ProductDTO {
 	private Collection<Product_image> product_images;
 	private Double rating;
 	private Integer reviews;
-	private Collection<Product_reviewDTO> product_reviews;
+	private Collection<Product_review> product_reviews;
 	private Collection<Product_voucher> product_vouchers;
 }

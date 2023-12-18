@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
@@ -19,6 +20,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -39,7 +41,10 @@ public class Product_review {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private int rating;
-	private String comment;
+	private String title;
+	@Lob
+	@Column(length=512)
+	private String subtitle;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date create_at;
 	@Temporal(TemporalType.TIMESTAMP)
@@ -47,10 +52,10 @@ public class Product_review {
 	
 	@ManyToOne(fetch =FetchType.LAZY )
 	@JoinColumn(name = "product_id")
-	@JsonBackReference("product-product_reviews")
+//	@JsonBackReference("product-product_reviews")
 	private Product product;
 	@ManyToOne(fetch =FetchType.LAZY )
 	@JoinColumn(name = "customer_id")
-	@JsonBackReference("user-product_review")
+//	@JsonBackReference("user-product_review")
 	private User user;
 }

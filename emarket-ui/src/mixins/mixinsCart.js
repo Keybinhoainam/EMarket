@@ -99,6 +99,14 @@ export default {
                 console.log(error.message);
             }
         },
+        loadProductCartDetail(productCartDetail,product){
+            productCartDetail.id=product.id;
+            productCartDetail.product_name=product.product_name;
+            productCartDetail.price=product.price;
+
+            productCartDetail.stock=product.stock;
+            productCartDetail.product_images=product.product_images;
+        },
         addToCart(product, quantity) {
             if (quantity <= 0 || quantity == "") {
                 this.alertFail("Please re-fill quantity");
@@ -107,7 +115,8 @@ export default {
             this.getCart();
             let cartDetailTmp = new Cart_detail();
             cartDetailTmp.quantity = quantity;
-            cartDetailTmp.product = product;
+            this.loadProductCartDetail(cartDetailTmp.product,product)
+            // cartDetailTmp.product = product;
             let cartDetail = this.cart.cart_details.find((x) => x.product.id === product.id);
             if (cartDetail) {
                 cartDetailTmp.quantity += cartDetail.quantity;
@@ -120,6 +129,7 @@ export default {
             } else {
                 this.cart.cart_details.push(cartDetailTmp);
             }
+            // console.log(this.cart);
             this.$store.commit("data/changeCart", this.cart);
             // 
             this.alertSuccess("Add to Cart Successfully");

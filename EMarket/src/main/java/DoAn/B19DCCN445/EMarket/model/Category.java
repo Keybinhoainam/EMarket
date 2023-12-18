@@ -52,10 +52,11 @@ public class Category {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "store_id")
-	@JsonBackReference("store-categories")
+//	@JsonBackReference("store-categories")
 	private Store store;
 	
 	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JsonManagedReference("category-products")
+//	@JsonManagedReference("category-products")
+	@JsonBackReference("category-products")
 	private Collection<Product> products;
 }

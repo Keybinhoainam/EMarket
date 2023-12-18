@@ -69,7 +69,7 @@
                                 </tr>
                                 <tr>
                                     <td>Shipping Charges</td>
-                                    <td class="text-right" style="width: 50px">$10.00</td>
+                                    <td class="text-right" style="width: 50px">{{totalcost<300?'$10.00':'$0'}}</td>
                                 </tr>
                                 <tr>
                                     <td>Tax</td>
@@ -77,7 +77,7 @@
                                 </tr>
                                 <tr>
                                     <td><b>Total</b></td>
-                                    <td class="text-right" style="width: 50px"><b>${{ (totalcost+10).toFixed(2)}}</b></td>
+                                    <td class="text-right" style="width: 50px"><b>${{ totalcost<300?(totalcost+10).toFixed(2):totalcost.toFixed(2)}}</b></td>
                                 </tr>
                             </tbody>
                         </template>

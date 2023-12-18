@@ -1,10 +1,10 @@
 <script>
 import Order from "@/models/order";
-import mixinsOrder from '@/mixins/mixinsOrder';
+import mixinsOrder from "@/mixins/mixinsOrder";
 
 export default {
     components: {},
-    mixins:[mixinsOrder],
+    mixins: [mixinsOrder],
     data() {
         return {
             orders: [],
@@ -31,16 +31,17 @@ export default {
                     title: "ORDER STATUS",
                     key: "order_status",
                 },
+                { title: "Actions", key: "actions", sortable: false, align: "center" },
             ],
             expanded: [],
         };
     },
     async created() {
-        if(this.$route.query.status&&this.$route.query.status==1){
+        if (this.$route.query.status && this.$route.query.status == 1) {
             await this.changeStatus();
         }
         await this.getOrdersByUser();
-        console.log(this.orders);
+        // console.log(this.orders);
     },
 };
 
@@ -48,14 +49,13 @@ export default {
 </script>
 
 <template>
-    <v-data-table
-        v-model:expanded="expanded"
-        :headers="headersTable"
-        :items="orders"
-        item-value="id"
-        show-expand
-    >
-        <template v-slot:expanded-row="{ item }">
+    <v-data-table :headers="headersTable" :items="orders" item-value="id">
+        <template v-slot:[`item.actions`]="{ item }">
+            <v-btn v-if="item.order_status == 'Unpaid'" class="mr-2" color="red">Proceed to payment</v-btn>
+            <v-btn color="blue">View Details</v-btn>
+        </template>
+        <!-- <template v-slot:expanded-row="{ item }">
+            
             <v-list>
                 <v-list-item
                     v-for="order_detail in item.order_details"
@@ -77,7 +77,7 @@ export default {
                     </v-list-item-subtitle>
                 </v-list-item>
             </v-list>
-        </template>
+        </template> -->
     </v-data-table>
     <!-- <v-table>
         <thead>

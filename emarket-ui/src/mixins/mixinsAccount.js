@@ -21,17 +21,17 @@ export default {
                 }
             );
         },
-        async saveAccount(user) {
+        async saveAccount() {
             // console.log(this.config);
             try {
                 // console.log(this.$store.state.data.user.avatar);
                 // console.log(this.user.avatar);
                 if(this.isChangeAvatar&&this.user.avatarFile) await this.saveAvatarAccount(user);
 
-                const avatarFile=user.avatarFile;
+                // const avatarFile=this.user.avatarFile;
                 let saveAccountUrl = `${this.baseURL}/account/saveAccount`;
-                this.user = await accountService.saveAccount(saveAccountUrl, user, this.config);
-                this.user.avatarFile=avatarFile;
+                this.user = await accountService.saveAccount(saveAccountUrl, this.user, this.config);
+                // this.user.avatarFile=avatarFile;
                 this.alertSuccess("Save Successfully");
             } catch (error) {
                 this.alertFail("Fail to save", error.message);

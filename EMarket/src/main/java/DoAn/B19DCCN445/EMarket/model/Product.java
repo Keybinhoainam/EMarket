@@ -23,6 +23,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
@@ -43,17 +44,16 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(unique=true)
-	private String product_code;
+//	@Column(unique=true)
+//	private String product_code;
 	private String product_name;
+	@Lob
+	@Column(length=512)
 	private String description;
-	private String short_description;
 	private Double standard_cost;
 	private Double price;
 	private int stock;
-	private Boolean is_discontinued;
-	private Boolean is_featured;
-	private Boolean is_new;
+	private String product_status;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date create_at;
 	@Temporal(TemporalType.TIMESTAMP)
@@ -61,7 +61,7 @@ public class Product {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "category_id")
-	@JsonBackReference("category-products")
+//	@JsonBackReference("category-products")
 	private Category category;
 	
 
@@ -76,7 +76,8 @@ public class Product {
 	private Collection<Order_detail> order_details;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SUBSELECT)
-	@JsonManagedReference("product-product_reviews")
+//	@JsonManagedReference("product-product_reviews")
+	@JsonBackReference("product-product_reviews")
 	private Collection<Product_review> product_reviews;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SUBSELECT)

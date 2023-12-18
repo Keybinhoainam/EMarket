@@ -9,8 +9,9 @@ import { nextTick } from "vue";
 import Cookies from "js-cookie";
 import fileService from "@/services/file.service";
 import Store from "@/models/store";
+import mixinsValidation from "@/mixins/mixinsValidation";
 export default {
-    mixins: [mixinsAccount, sweetAlert, mixinsFile],
+    mixins: [mixinsAccount, sweetAlert, mixinsFile, mixinsValidation],
     data() {
         return {
             user: new User(),
@@ -18,8 +19,8 @@ export default {
             config: this.$store.state.data.config,
             defaultAvatar: defaultAvatar,
             isChangeAvatar: false,
-            store:new Store(),
-            isCreateStore:false,
+            store: new Store(),
+            isCreateStore: false,
         };
     },
     methods: {
@@ -49,16 +50,14 @@ export default {
         async saveChange() {
             await this.saveAccount(this.user);
             this.$store.dispatch("data/changeUser", this.user);
-            if (this.isChangeAvatar && this.user.avatarFile) await this.applyImages();
+            if (this.user.avatar) {
+                await this.getImage();
+                await this.applyImages();
+            }
             this.isChangeAvatar = false;
         },
-        goToStore(){
-
-        },
-        createStore(){
-
-        }
-
+        goToStore() {},
+        createStore() {},
     },
     async created() {
         this.user = await this.$store.state.data.user;
@@ -117,6 +116,7 @@ export default {
                             <v-col md="6" cols="12">
                                 <v-text-field
                                     v-model="user.fullname"
+                                    :rules="required"
                                     placeholder="John"
                                     label="Full Name"
                                 />
@@ -124,6 +124,7 @@ export default {
                             <v-col cols="12" md="6">
                                 <v-text-field
                                     v-model="user.email"
+                                    :rules="required"
                                     label="E-mail"
                                     placeholder="johndoe@gmail.com"
                                     type="email"
@@ -135,6 +136,7 @@ export default {
                                 <v-text-field
                                     type="date"
                                     v-model="user.birthday"
+                                    :rules="required"
                                     label="Birthday"
                                     placeholder="Date of Birth"
                                 />
@@ -146,9 +148,17 @@ export default {
                                     v-model="user.phone"
                                     label="Phone Number"
                                     placeholder="+84123456789"
+                                    :rules="required"
                                 />
                             </v-col>
-
+                            <v-col cols="12" md="6">
+                                <v-select
+                                    label="Payment Type"
+                                    v-model="user.gender"
+                                    :rules="required"
+                                    :items="['Male', 'Female', 'Other']"
+                                ></v-select>
+                            </v-col>
                             <v-col cols="12" class="d-flex flex-wrap gap-4">
                                 <v-btn @click="saveChange()">Save changes</v-btn>
 

@@ -1,4 +1,4 @@
-package DoAn.B19DCCN445.EMarket;
+package DoAn.B19DCCN445.EMarket.zalopay;
 
 import org.apache.http.NameValuePair; // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -11,7 +11,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject; // https://mvnrepository.com/artifact/org.json/json
 
-import DoAn.B19DCCN445.EMarket.HMACUtil; // tải về ở mục DOWNLOADS
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

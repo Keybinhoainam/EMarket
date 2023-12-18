@@ -34,7 +34,6 @@ public class ProductController {
 	
 	@GetMapping("/data/product/get/{id}")
 	private ResponseEntity<ProductDTO> Product(@PathVariable Long id) throws ProductNotFoundException {
-		System.out.println("ok");
 		return ResponseEntity.ok(productService.getProduct(id));
 	}
 	@PostMapping("/seller/product/save")

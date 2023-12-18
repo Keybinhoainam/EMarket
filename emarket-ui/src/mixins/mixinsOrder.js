@@ -50,7 +50,7 @@ export default {
                 this.order.order_details.push(order_detail);
                 this.order.amount = this.order.amount + order_detail.unit_price;
             }
-            this.order.amount = this.order.amount + 10; //phí ship
+            if(this.order.amount<300)this.order.amount = this.order.amount + 10; //phí ship
         },
         convertCartDetailToOrderDetail(cart_detail, order_detail) {
             order_detail.quantity = cart_detail.quantity;
@@ -83,25 +83,29 @@ export default {
             this.order.ship_address = `${this.order.houseNo},${this.order.ward},${this.order.district},${this.order.city},`;
             this.order.order_status = this.order.payment_type=="Online Payment Methods" ? "Unpaid":"Order Placed" ;
             this.order.user = this.$store.state.data.user;
+            if(this.order.amount>=300)this.order.ship_fee=0;
             await orderService.saveOrder(
                 this.saveOrderUrl,
                 this.order,
                 this.$store.state.data.config
             );
-            this.$store.commit("data/changeCart", new Cart());
+            // this.$store.commit("data/changeCart", new Cart());
         },
         async proceedToPay() {
             this.addOrderDetails();
             this.loadZaloPayOrder();
-            this.saveOrder();
+            // this.saveOrder();
 
             if (this.order.payment_type == "Online Payment Methods") {
                 console.log(this.zaloPayOrder);
-                let response = await ZaloPayService.createOrder(this.zaloPayOrder);
-                console.log(response);
-                if (response.order_url) {
-                    window.location.href = await response.order_url;
-                }
+                let order_url=ZaloPayService.createOrder(this.zaloPayOrder);
+                console.log(order_url);
+                // console.log(this.zaloPayOrder);
+                // let response = await ZaloPayService.createOrder(this.zaloPayOrder);
+                // console.log(response);
+                // if (response.order_url) {
+                //     // window.location.href = await response.order_url;
+                // }
             } else {
                 this.$router.push("/myPurchase");
             }
