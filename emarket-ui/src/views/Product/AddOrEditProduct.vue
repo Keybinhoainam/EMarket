@@ -103,6 +103,7 @@
                         <label>Standard Cost</label>
                         <input
                             type="number"
+                            step="0.01"
                             class="form-control"
                             v-model="product.standard_cost"
                             @blur="validateProduct()"
@@ -118,6 +119,7 @@
                         <label>Price</label>
                         <input
                             type="number"
+                            step="0.01"
                             class="form-control"
                             v-model="product.price"
                             @blur="validateProduct()"
@@ -231,7 +233,8 @@ export default {
     //   VueMultiImageUpload
     // },
     async created() {
-        this.categories=this.getAllCategoriesStore();
+        this.categories=this.getAllCategories();
+        this.product.category=this.categories[0];
         const route = useRoute();
         if (route.params.id) {
             this.isEdit = true;

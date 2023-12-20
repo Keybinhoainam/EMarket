@@ -63,19 +63,19 @@ public class ProductService {
 //		p.setProduct_images(images);
 		ProductDTO pdto=new ProductDTO();
 		BeanUtils.copyProperties(p, pdto);
-		pdto.setStore(p.getCategory().getStore());
+		pdto.setStore(p.getStore());
 		List<Product_review> product_reviews=new ArrayList<>(p.getProduct_reviews());
 //		List<Product_reviewDTO> product_reviewDTOs=new ArrayList<>();
 		Integer reviews=product_reviews.size();
 		Double rating;
 		rating=0.0;
 		
-//		for(Product_review review : product_reviews) {
-//			rating+=(double)(review.getRating());
+		for(Product_review review : product_reviews) {
+			rating+=(double)(review.getRating());
 //			Product_reviewDTO product_reviewDTO=new Product_reviewDTO();
 //			BeanUtils.copyProperties(review, product_reviewDTO);
 //			product_reviewDTOs.add(product_reviewDTO);
-//		}
+		}
 		if(reviews>0) {
 			
 			rating/=reviews;
@@ -129,7 +129,7 @@ public class ProductService {
 //			System.out.println(list.get(0).getImage());
 			ProductDTO pdto=new ProductDTO();
 			BeanUtils.copyProperties(product, pdto);
-			pdto.setStore(product.getCategory().getStore());
+			pdto.setStore(product.getStore());
 //			List<Product_image> list2=new ArrayList<>(pdto.getProduct_images());
 //			System.out.println(list2.get(0).getImage());
 			return pdto;
@@ -157,7 +157,7 @@ public class ProductService {
 		List<ProductDTO> products=repository.findAllProductsStore(store.getId()).stream().map((product)->{
 			ProductDTO pdto=new ProductDTO();
 			BeanUtils.copyProperties(product, pdto);
-			pdto.setStore(product.getCategory().getStore());
+			pdto.setStore(product.getStore());
 			return pdto;
 		}).collect(Collectors.toList());
 		

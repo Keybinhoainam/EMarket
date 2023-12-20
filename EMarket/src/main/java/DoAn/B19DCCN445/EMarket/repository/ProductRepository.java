@@ -12,13 +12,13 @@ import DoAn.B19DCCN445.EMarket.model.Product_image;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-	@Query("select distinct p from Product p " + "left join fetch p.category " )
+	@Query("select distinct p from Product p " + "left join fetch p.category " + "left join fetch p.store " )
 	List<Product> findAllProduct();
 	
-	@Query("select distinct p from Product p " + "left join fetch p.category c " + "where c.store.id=?1" )
+	@Query("select distinct p from Product p " + "left join fetch p.category c " + "left join fetch p.store " + "where p.store.id=?1" )
 	List<Product> findAllProductsStore(Long id);
 //	
-	@Query("select distinct p from Product p " + "left join fetch p.category c " 
+	@Query("select distinct p from Product p " + "left join fetch p.category c " + "left join fetch p.store "
 			+ "where p.id = ?1 ")
 	Product findProduct(Long id);
 
@@ -27,7 +27,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 //	@Query("select i from Product p " + "left join fetch p.product_images i " + "where p.id = ?1")
 //	Product_image findProductImage(Long id);
 
-	@Query("select p from Product p " + "left join fetch p.category " 
+	@Query("select p from Product p " + "left join fetch p.category " + "left join fetch p.store "
 			+ "where p.product_name like %?1%")
 	List<Product> findByLikeName(String name);
 	

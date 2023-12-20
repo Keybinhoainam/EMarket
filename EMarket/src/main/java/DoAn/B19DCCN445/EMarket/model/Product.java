@@ -63,12 +63,12 @@ public class Product {
 	@JoinColumn(name = "category_id")
 //	@JsonBackReference("category-products")
 	private Category category;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "store_id")
+//	@JsonBackReference("store-categories")
+	private Store store;
 	
-
-	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@Fetch(FetchMode.SUBSELECT)
-	@JsonBackReference("product-shop_export_details")
-	private Collection<Shop_export_detail> shop_export_details;
+	
 	@Fetch(FetchMode.SUBSELECT)
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //	@JsonManagedReference("product-order_details")
@@ -80,22 +80,14 @@ public class Product {
 	private Collection<Product_review> product_reviews;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SUBSELECT)
-	@JsonBackReference("product-product_vouchers")
-	private Collection<Product_voucher> product_vouchers;
-	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@Fetch(FetchMode.SUBSELECT)
 	@JsonManagedReference("product-product_images")
 	private Collection<Product_image> product_images;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Fetch(FetchMode.SUBSELECT)
 	@JsonBackReference("product-product_discounts")
 	private Collection<Product_discount> product_discounts;
-	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@Fetch(FetchMode.SUBSELECT)
-	@JsonBackReference("product-shop_import_details")
-	private Collection<Shop_import_detail> shop_import_details;
-	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@Fetch(FetchMode.SUBSELECT)
-	@JsonBackReference("product-cart_details")
-	private Collection<Cart_detail> cart_details;
+//	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//	@Fetch(FetchMode.SUBSELECT)
+//	@JsonBackReference("product-cart_details")
+//	private Collection<Cart_detail> cart_details;
 }

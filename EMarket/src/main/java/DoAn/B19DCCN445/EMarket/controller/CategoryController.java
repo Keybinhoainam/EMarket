@@ -33,7 +33,7 @@ public class CategoryController {
 	private ResponseEntity<ApiResponse> saveCategory(@RequestBody CategoryDTO category) {
 		return ResponseEntity.ok(categoryService.saveCategory(category));
 	}
-	@GetMapping("/data/category/getallcategories")
+	@GetMapping("/data/category/getAllCategories")
 	private ResponseEntity<List<CategoryDTO>> getAllCategories() {
 		return ResponseEntity.ok(categoryService.getAllCategories());
 	}
@@ -46,8 +46,8 @@ public class CategoryController {
 		Category category=categoryService.getProductsCategory(categoryId);
 		return ResponseEntity.ok(category);
 	}
-	@PostMapping("/data/category/getAllCategoriesStore")
-	private ResponseEntity<List<CategoryDTO>> getAllCategoriesStore(@RequestBody Store store) {
-		return ResponseEntity.ok(categoryService.getAllCategoriesStore(store));
-	}
+//	@PostMapping("/data/category/getAllCategoriesStore")
+//	private ResponseEntity<List<CategoryDTO>> getAllCategoriesStore(@RequestBody Store store) {
+//		return ResponseEntity.ok(categoryService.getAllCategoriesStore(store));
+//	}
 }

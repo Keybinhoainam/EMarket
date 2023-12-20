@@ -72,14 +72,6 @@ public class User implements UserDetails {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date update_at;
 
-	@Fetch(FetchMode.SUBSELECT)
-//	@JsonManagedReference
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
-	private Set<Shop_import> shop_imports;
-	@Fetch(FetchMode.SUBSELECT)
-//	@JsonManagedReference
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
-	private Set<Shop_export> shop_exports;
 //	@OneToMany(cascade = CascadeType.ALL,mappedBy = "users",fetch = FetchType.LAZY)
 //	private Collection<Acl_user_has_role> acl_user_has_roles;
 	@Fetch(FetchMode.SUBSELECT)
@@ -90,18 +82,10 @@ public class User implements UserDetails {
 	@JsonBackReference("user-product_review")
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Collection<Product_review> product_reviews;
-	@Fetch(FetchMode.SUBSELECT)
-//	@JsonManagedReference
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Customer_voucher> customer_vouchers;
-	@Fetch(FetchMode.SUBSELECT)
-//	@JsonManagedReference("user-cart_details")
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Collection<Cart_detail> cart_details;
-	@Fetch(FetchMode.SUBSELECT)
-//	@JsonManagedReference
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<User_address> user_addresses;
+//	@Fetch(FetchMode.SUBSELECT)
+////	@JsonManagedReference("user-cart_details")
+//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//	private Collection<Cart_detail> cart_details;
 
 	@OneToOne
     @JoinColumn(name = "store_id")

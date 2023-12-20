@@ -58,7 +58,7 @@ public class EMarketApplication implements CommandLineRunner {
 //		List<Role> roles = new ArrayList<>();
 //		roles.add(role1);
 //		User user1 = User.builder().username("admin").password(encoder.encode("123")).fullname("Bùi Hoài Nam")
-//				.birthday(faker.date().birthday()).phone(faker.phoneNumber().cellPhone()).roles(roles)
+//				.birthday(faker.date().birthday()).phone(faker.phoneNumber().cellPhone()).roles(roles).gender("Male")
 //				.email(faker.internet().emailAddress()).build();
 //		em.persist(user1);
 //
@@ -72,15 +72,22 @@ public class EMarketApplication implements CommandLineRunner {
 //				.phone(faker.phoneNumber().cellPhone()).roles(roles).birthday(faker.date().birthday()).store(store)
 //				.build();
 //		em.persist(user2);
-//
-//		Category category = Category.builder().category_name("Laptop").id(null).description("description").store(store)
+//		roles = new ArrayList<>();
+//		roles.add(role3);
+//		User user3 = User.builder().username("btk").password(encoder.encode("123"))
+//				.email(faker.internet().emailAddress()).fullname("Bùi Tuấn Kiệt").gender("Male")
+//				.phone(faker.phoneNumber().cellPhone()).roles(roles).birthday(faker.date().birthday())
+//				.build();
+//		em.persist(user3);
+//		
+//		Category category = Category.builder().category_name("Laptop").id(null).description("description")
 //				.build();
 //		em.persist(category);
 //		Category category2 = Category.builder().category_name("Smart Phone").id(null).description("description")
-//				.store(store).build();
+//				.build();
 //		em.persist(category2);
 //
-//		Category category3 = Category.builder().category_name("Test").id(null).description("description").store(store)
+//		Category category3 = Category.builder().category_name("Test").id(null).description("description")
 //				.build();
 //		em.persist(category3);
 //		for (int i = 0; i < 30; i++) {
@@ -88,7 +95,7 @@ public class EMarketApplication implements CommandLineRunner {
 //			String description = faker.lorem().paragraphs(10).stream().reduce("", (s1, s2) -> s1 + "\n" + s2);
 //			Product p = Product.builder().product_name(faker.commerce().productName()).description(description)
 //					.standard_cost(cost).price(Double.parseDouble(faker.commerce().price(1, cost))).stock(100)
-//					.product_status("featured").category(category3).build();
+//					.product_status("featured").category(category3).store(store).build();
 //			em.persist(p);
 //			Product_review pr1 = Product_review.builder().rating(faker.number().numberBetween(1, 6))
 //					.title(faker.lorem().sentence()).subtitle(faker.lorem().sentence()).product(p).user(user1).build();

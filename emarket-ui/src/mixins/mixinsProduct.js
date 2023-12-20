@@ -12,7 +12,7 @@ export default {
             getProductsLikeNameUrl: `${this.baseURL}/data/product/getproductslikename`,
             deleteProductUrl: `${this.baseURL}/seller/product/delete/`,
             getAllProductsUrl:`${this.baseURL}/data/product/getallproducts`,
-            getAllCategoriesUrl:`${this.baseURL}/data/category/getallcategories`,
+            getAllCategoriesUrl:`${this.baseURL}/data/category/getAllCategories`,
             getAllProductsStoreUrl:`${this.baseURL}/data/product/getAllProductsStore`,
             
         };
@@ -92,7 +92,7 @@ export default {
             }
         },
         validateCategoryProduct() {
-            if (!this.product.category.id) {
+            if (this.product.category&&!this.product.category.id) {
                 this.errors.category.id = "Category is required";
                 this.isValid = false;
             }

@@ -77,7 +77,7 @@ export default {
         },
     },
     async created() {
-        await this.getAllCategoriesStore();
+        await this.getAllCategories();
     },
     mounted() {
         // this.$emit("fetchData");

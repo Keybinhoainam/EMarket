@@ -30,17 +30,18 @@ export default {
                 if(this.user.roles[0].name=="ADMIN"){
                     this.$router.push('/admin')
                 }
-                else if(redirect&&redirect.startsWith('/admin')&&!this.user.roles[0].name=="ADMIN"){
+                else if(redirect&&redirect.startsWith('/admin')&&this.user.roles[0].name!="ADMIN"){
                     this.alertFail(
                         "Login Fail...",
                         'Admin rights needed!'
                     );
                 }
-                else if(redirect&&redirect.startsWith('/seller')&&!this.user.roles[0].name=="SELLER"){
+                else if(redirect&&redirect.startsWith('/seller')&&this.user.roles[0].name!="SELLER"){
                     this.alertFail(
                         "Login Fail...",
                         'Seller rights needed!'
                     );
+                    
                 }
                 else{
                     this.$router.push(this.$route.query.redirect || "/");

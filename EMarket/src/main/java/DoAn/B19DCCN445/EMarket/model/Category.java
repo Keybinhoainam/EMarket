@@ -50,11 +50,6 @@ public class Category {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Timestamp update_at;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "store_id")
-//	@JsonBackReference("store-categories")
-	private Store store;
-	
 	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //	@JsonManagedReference("category-products")
 	@JsonBackReference("category-products")

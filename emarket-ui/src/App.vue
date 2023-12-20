@@ -53,7 +53,7 @@ export default {
         async fetchData() {
             // console.log(this.getAllProductsUrl);
             // await this.$store.dispatch('data/fetchProductsData',{url:`${this.baseURL}/data/product/getallproducts`,config:this.config})
-            // await this.$store.dispatch('data/fetchCategoriesData',{url:`${this.baseURL}/data/category/getallcategories`,config:this.config})
+            // await this.$store.dispatch('data/fetchCategoriesData',{url:`${this.baseURL}/data/category/getAllCategories`,config:this.config})
             // console.log(this.$store.state.data.products);
             // this.products=this.$store.state.data.products;
             // this.categories=this.$store.state.data.categories;
@@ -73,7 +73,7 @@ export default {
 
             //fetch categories
             await categoryService
-                .getAllCategories(`${this.baseURL}/data/category/getallcategories`, this.config)
+                .getAllCategories(`${this.baseURL}/data/category/getAllCategories`, this.config)
                 .then(
                     (res) => {
                         this.categories = res.data;

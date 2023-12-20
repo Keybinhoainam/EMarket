@@ -67,18 +67,18 @@ public class CategoryService {
 		return category;
 	}
 
-	public List<CategoryDTO> getAllCategoriesStore(Store store) {
-		List<CategoryDTO> dtos=repository.findAllCategoriesStore(store.getId()).stream().map((category)->{
-//			List<Product_image> list=new ArrayList<>(product.getProduct_images());
-//			System.out.println(list.get(0).getImage());
-			CategoryDTO cdto=new CategoryDTO();
-			BeanUtils.copyProperties(category, cdto);
-//			List<Product_image> list2=new ArrayList<>(pdto.getProduct_images());
-//			System.out.println(list2.get(0).getImage());
-			return cdto;
-		}).collect(Collectors.toList());
-		// TODO Auto-generated method stub
-		return dtos;
-	}
+//	public List<CategoryDTO> getAllCategoriesStore(Store store) {
+//		List<CategoryDTO> dtos=repository.findAllCategoriesStore(store.getId()).stream().map((category)->{
+////			List<Product_image> list=new ArrayList<>(product.getProduct_images());
+////			System.out.println(list.get(0).getImage());
+//			CategoryDTO cdto=new CategoryDTO();
+//			BeanUtils.copyProperties(category, cdto);
+////			List<Product_image> list2=new ArrayList<>(pdto.getProduct_images());
+////			System.out.println(list2.get(0).getImage());
+//			return cdto;
+//		}).collect(Collectors.toList());
+//		// TODO Auto-generated method stub
+//		return dtos;
+//	}
 
 }

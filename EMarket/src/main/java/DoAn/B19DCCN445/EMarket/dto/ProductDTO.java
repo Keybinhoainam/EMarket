@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import DoAn.B19DCCN445.EMarket.model.Category;
 import DoAn.B19DCCN445.EMarket.model.Product_image;
 import DoAn.B19DCCN445.EMarket.model.Product_review;
-import DoAn.B19DCCN445.EMarket.model.Product_voucher;
 import DoAn.B19DCCN445.EMarket.model.Store;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
@@ -39,5 +38,4 @@ public class ProductDTO {
 	private Double rating;
 	private Integer reviews;
 	private Collection<Product_review> product_reviews;
-	private Collection<Product_voucher> product_vouchers;
 }

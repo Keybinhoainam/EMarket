@@ -7,7 +7,7 @@ export default {
             getProductsCategoryUrl: `${this.baseURL}/data/category/product/get/`,
             urlSave: `${this.baseURL}/seller/category/save`,
             urlGet: `${this.baseURL}/data/category/get/`,
-            getAllCategoriesStoreUrl:`${this.baseURL}/data/category/getAllCategoriesStore`,
+            getAllCategoriesUrl:`${this.baseURL}/data/category/getAllCategories`,
         };
     },
     methods: {
@@ -75,8 +75,8 @@ export default {
                 );
             }
         },
-        async getAllCategoriesStore(){
-            this.categories=await categoryService.getAllCategoriesStore(this.getAllCategoriesStoreUrl,this.$store.state.data.user.store,this.config);
+        async getAllCategories(){
+            this.categories=await categoryService.getAllCategories(this.getAllCategoriesUrl,this.$store.state.data.user.store,this.config);
         }
         // async delete
     },

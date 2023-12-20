@@ -124,6 +124,7 @@
                                         class=""
                                         background-color="warning lighten-3"
                                         color="warning"
+                                        readonly
                                     >
                                     </v-rating>
                                     <v-list-item-subtitle></v-list-item-subtitle>

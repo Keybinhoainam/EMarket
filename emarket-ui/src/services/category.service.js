@@ -34,7 +34,7 @@ class CategoryService {
     getAllCategories(url,config) {
         return axios.get(url,config).then(
             (categories) => {
-                return Promise.resolve(categories);
+                return Promise.resolve(categories.data);
             },
             (error) => {
                 return Promise.reject(error);
