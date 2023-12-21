@@ -36,8 +36,6 @@ public class Order_detail {
 	private Double unit_price;
 	private Double discount_percentage;
 	private Double discount_amount;
-	private String order_detail_status;
-	private Date date_allocated;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "order_id")

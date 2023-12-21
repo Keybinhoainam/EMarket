@@ -19,6 +19,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,13 +36,11 @@ public class Product_discount {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String discount_name;
 	private Double discount_amount;
-	private Boolean is_fixed;
 	private Timestamp start_date;
 	private Timestamp end_date;
 	
-	@ManyToOne(fetch =FetchType.LAZY )
+	@OneToOne(fetch =FetchType.LAZY )
 	@JoinColumn(name = "product_id")
 	@JsonBackReference("product-Product_discount")
 	private Product product;

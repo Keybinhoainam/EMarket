@@ -82,10 +82,7 @@ public class User implements UserDetails {
 	@JsonBackReference("user-product_review")
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Collection<Product_review> product_reviews;
-//	@Fetch(FetchMode.SUBSELECT)
-////	@JsonManagedReference("user-cart_details")
-//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//	private Collection<Cart_detail> cart_details;
+
 
 	@OneToOne
     @JoinColumn(name = "store_id")

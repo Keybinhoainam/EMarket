@@ -26,6 +26,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
@@ -82,12 +83,14 @@ public class Product {
 	@Fetch(FetchMode.SUBSELECT)
 	@JsonManagedReference("product-product_images")
 	private Collection<Product_image> product_images;
-	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@Fetch(FetchMode.SUBSELECT)
-	@JsonBackReference("product-product_discounts")
-	private Collection<Product_discount> product_discounts;
+	
 //	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //	@Fetch(FetchMode.SUBSELECT)
 //	@JsonBackReference("product-cart_details")
 //	private Collection<Cart_detail> cart_details;
+	
+	@OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@Fetch(FetchMode.SUBSELECT)
+	@JsonBackReference("product-product_discounts")
+	private Product_discount product_discounts;
 }
