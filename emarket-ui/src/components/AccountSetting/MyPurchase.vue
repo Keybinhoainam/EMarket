@@ -1,6 +1,7 @@
 <script>
 import Order from "@/models/order";
 import mixinsOrder from "@/mixins/mixinsOrder";
+import { nextTick } from 'vue';
 
 export default {
     components: {},
@@ -41,6 +42,7 @@ export default {
             await this.changeStatus();
         }
         await this.getOrdersByUser();
+        nextTick()
         // console.log(this.orders);
     },
 };
@@ -52,7 +54,7 @@ export default {
     <v-data-table :headers="headersTable" :items="orders" item-value="id">
         <template v-slot:[`item.actions`]="{ item }">
             <v-btn v-if="item.order_status == 'Unpaid'" class="mr-2" color="red">Proceed to payment</v-btn>
-            <v-btn color="blue">View Details</v-btn>
+            <v-btn color="blue" @click="$router.push('/showOrderDetail/'+item.id)">View Details</v-btn>
         </template>
         <!-- <template v-slot:expanded-row="{ item }">
             

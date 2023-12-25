@@ -97,7 +97,7 @@ export default {
         async proceedToPay() {
             this.addOrderDetails();
             this.loadZaloPayOrder();
-            // this.saveOrder();
+            this.saveOrder();
 
             if (this.order.payment_type == "Online Payment Methods") {
                 console.log(this.zaloPayOrder);

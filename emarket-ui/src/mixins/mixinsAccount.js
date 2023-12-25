@@ -26,7 +26,7 @@ export default {
             try {
                 // console.log(this.$store.state.data.user.avatar);
                 // console.log(this.user.avatar);
-                if(this.isChangeAvatar&&this.user.avatarFile) await this.saveAvatarAccount(user);
+                if(this.isChangeAvatar&&this.user.avatarFile) await this.saveAvatarAccount(this.user);
 
                 // const avatarFile=this.user.avatarFile;
                 let saveAccountUrl = `${this.baseURL}/account/saveAccount`;
@@ -38,9 +38,6 @@ export default {
             }
         },
         async saveAvatarAccount(user) {
-            // console.log(typeof user.avatarFile);
-            // console.log(user.avatarFile);
-            console.log("saveAvatarAccount");
             let formData = new FormData();
             formData.append("avatar", user.avatarFile);
             // formData.append("avatar",user.avatarFile,user.avatar);

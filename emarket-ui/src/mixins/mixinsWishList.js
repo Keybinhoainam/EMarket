@@ -16,6 +16,8 @@ export default {
         addToWishList(product) {
             this.getWishList();
             // console.log(product);
+            product.store=null;
+            product.product_reviews=null;
             let tmp = this.wishList.products.find((x) => x.id === product.id);
             if (!tmp) {
                 this.wishList.products.push(product);

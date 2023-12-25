@@ -90,7 +90,6 @@ public class Product {
 //	private Collection<Cart_detail> cart_details;
 	
 	@OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@Fetch(FetchMode.SUBSELECT)
-	@JsonBackReference("product-product_discounts")
-	private Product_discount product_discounts;
+	@JsonBackReference("product-product_discount")
+	private Product_discount product_discount;
 }
