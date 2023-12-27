@@ -17,6 +17,7 @@ import AccountSetting from "@/views/Common/AccountSetting.vue";
 import MyStore from "@/components/AccountSetting/MyStore.vue";
 import CheckOut from "@/views/Customer/CheckOut.vue";
 import ShowOrderDetailVue from "@/views/Customer/ShowOrderDetail.vue";
+
 const routes = [
     // {
     //   path:'/',
