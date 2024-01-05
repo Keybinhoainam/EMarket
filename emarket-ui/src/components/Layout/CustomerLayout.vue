@@ -1,6 +1,6 @@
 <template>
     <v-app id="inspire">
-        <TopBar @search="search" :isCustomer="isCustomer" />
+        <TopBar @search="search" :role="role" />
         <v-app-bar class="pb-0" >
             <v-bottom-navigation color="primary" horizontal style="position: relative">
                 <v-btn href="/">
@@ -134,7 +134,7 @@ import { nextTick, shallowRef } from "vue";
 import WishList from "@/models/wishList";
 import TopBar from "@/components/Layout/TopBar/TopBar.vue";
 export default {
-    props: ["products", "baseURL", "categories", "config", "isCustomer"],
+    props: ["products", "baseURL", "categories", "config", "role"],
     mixins: [mixinsProduct, sweetAlert],
     components: { TopBar },
     data() {

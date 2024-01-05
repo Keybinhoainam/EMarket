@@ -85,7 +85,7 @@ export default {
                 this.alertWarning("Not have any Category!", "Do you add category?", "Yes!").then(
                     (result) => {
                         if (result.isConfirmed) {
-                            this.$router.push("/seller/category/add");
+                            this.$router.push("/admin/category/add");
                         }
                     }
                 );

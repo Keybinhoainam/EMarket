@@ -2,7 +2,7 @@
     <v-app id="inspire">
         <v-layout>
             <Sidebar :drawer="drawer" />
-            <TopBar @drawerEvent="drawerEvent" :isCustomer="isCustomer"/>
+            <TopBar @drawerEvent="drawerEvent" :role="role"/>
             <v-main style="background: #f5f5f540">
                 <v-container class="py-8 px-6" fluid>
                     <router-view
@@ -30,7 +30,7 @@ export default {
             lgAndUp,
         };
     },
-    props: ["products", "baseURL", "categories", "config","isCustomer"],
+    props: ["products", "baseURL", "categories", "config","role"],
     emits:["fetchData"],
     // mixins: [mixinsCart, mixinsProduct, sweetAlert],
     components: { TopBar, Sidebar },
@@ -38,7 +38,7 @@ export default {
         return {
             cartItemsQuantity: 0,
             textSearch: "",
-            drawer: true,
+            drawer: false,
         };
     },
     methods: {

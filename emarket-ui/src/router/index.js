@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/Customer/HomeView.vue";
-import AddOrEditCategory from "@/views/Category/AddOrEditCategory.vue";
-import Category from "@/views/Category/Category";
-import AddOrEditProduct from "@/views/Product/AddOrEditProduct.vue";
-import Product from "@/views/Product/Product";
+import AddOrEditCategory from "@/views/Admin/AddOrEditCategory.vue";
+import Category from "@/views/Admin/Category";
+import AddOrEditProduct from "@/views/Seller/AddOrEditProduct.vue";
+import Product from "@/views/Seller/Product";
 import PageNotFound from "@/views/PageNotFound.vue";
 import Cookies from "js-cookie";
 import ShowDetails from "@/views/Customer/ShowDetails.vue";
@@ -12,7 +12,7 @@ import ProductsCategory from "@/views/Product/ProductsCategory.vue";
 import Cart from "@/views/Customer/Cart.vue";
 import WishList from "@/views/Customer/Wishlist.vue";
 import CustomerLayout from "@/components/Layout/CustomerLayout.vue";
-import AdminLayout from "@/components/Layout/AdminLayout.vue";
+import SellerLayout from "@/components/Layout/SellerLayout.vue";
 import AccountSetting from "@/views/Common/AccountSetting.vue";
 import MyStore from "@/components/AccountSetting/MyStore.vue";
 import CheckOut from "@/views/Customer/CheckOut.vue";
@@ -37,7 +37,7 @@ const routes = [
     {
         path: "/customer",
         component: CustomerLayout,
-        props: { isCustomer: true },
+        props: { role: "customer" },
         children: [
             {
                 path: "/",
@@ -126,28 +126,14 @@ const routes = [
     },
     {
         path: "/seller",
-        component: AdminLayout,
-        props: { isCustomer: false },
+        component: SellerLayout,
+        props: { role: "seller" },
         meta: {
             requiresAuth: true,
             // requireSellerAuth: true,
         },
         children: [
-            {
-                path: "/seller/category/add",
-                name: "AddCategory",
-                component: AddOrEditCategory,
-            },
-            {
-                path: "/seller/category/edit/:id",
-                name: "EditCategory",
-                component: AddOrEditCategory,
-            },
-            {
-                path: "/seller/category",
-                name: "Category",
-                component: Category,
-            },
+            
             {
                 path: "/seller/product/add",
                 name: "AddProduct",
@@ -170,7 +156,33 @@ const routes = [
             },
         ],
     },
-
+    {
+        path: "/admin",
+        component: SellerLayout,
+        props: { role: "admin" },
+        meta: {
+            requiresAuth: true,
+            // requireSellerAuth: true,
+        },
+        children: [
+            {
+                path: "/admin/category/add",
+                name: "AddCategory",
+                component: AddOrEditCategory,
+            },
+            {
+                path: "/admin/category/edit/:id",
+                name: "EditCategory",
+                component: AddOrEditCategory,
+            },
+            {
+                path: "/admin/category",
+                name: "Category",
+                component: Category,
+            },
+            
+        ],
+    },
     {
         path: "/:notFound",
         component: PageNotFound,

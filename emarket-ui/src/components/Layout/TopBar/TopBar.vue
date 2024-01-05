@@ -1,6 +1,6 @@
 <template>
     <div >
-        <v-app-bar :clipped-left="lgAndUp" app color="primary" dark v-if="isCustomer" >
+        <v-app-bar :clipped-left="lgAndUp" app color="primary" dark v-if="role=='customer'" >
             <!--      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />-->
 
             <v-toolbar-title style="width: 350px">
@@ -98,7 +98,7 @@ export default {
             lgAndUp,
         };
     },
-    props:["isCustomer"],
+    props:["role"],
     emits: ["drawerEvent","search"],
     components: { AccountMenu, Notification },
     data() {

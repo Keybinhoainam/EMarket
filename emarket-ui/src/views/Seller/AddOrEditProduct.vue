@@ -202,7 +202,6 @@
 </template>
 
 <script>
-// import { VueMultiImageUpload } from '@zakerxa/vue-multiple-image-upload';
 import { Form, ErrorMessage, Field } from "vee-validate";
 import { useRoute } from "vue-router";
 import Product from "@/models/product";
@@ -259,7 +258,7 @@ export default {
             this.product.product_images.splice(index, 1);
 
             this.applyImages();
-            //this.$refs.image[index].src = "" // You are hidding the 3rd one that is now in index 1.
+            //this.$refs.image[index].src = "" // You are hiding the 3rd one that is now in index 1.
         },
         async saveProduct() {
             try {

@@ -27,7 +27,6 @@ import Category from "@/models/category";
 import mixinsCategory from '@/mixins/mixinsCategory';
 import { useRoute } from 'vue-router';
 export default {
-    name: "Home",
     components: { ProductBox, CategoryBox },
     props: ["baseURL", "products", "categories"],
     mixins:[mixinsCategory],

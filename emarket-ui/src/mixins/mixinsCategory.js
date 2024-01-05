@@ -5,7 +5,7 @@ export default {
     data() {
         return {
             getProductsCategoryUrl: `${this.baseURL}/data/category/product/get/`,
-            urlSave: `${this.baseURL}/seller/category/save`,
+            urlSave: `${this.baseURL}/admin/category/save`,
             urlGet: `${this.baseURL}/data/category/get/`,
             getAllCategoriesUrl:`${this.baseURL}/data/category/getAllCategories`,
         };

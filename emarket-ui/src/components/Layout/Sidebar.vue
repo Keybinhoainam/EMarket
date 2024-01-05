@@ -41,7 +41,7 @@ export default {
             rail: false,
             links: [
                 ["mdi-microsoft-windows", "Dashboard"],
-                ["mdi-format-list-bulleted-type", "Categories", "/seller/category"],
+                ["mdi-format-list-bulleted-type", "Categories", "/admin/category"],
                 ["mdi-clipboard-list-outline", "Products", "/seller/product"],
                 ["mdi-card-account-details-outline", "Orders"],
                 ["mdi-store", "My Store", "/seller/store"],

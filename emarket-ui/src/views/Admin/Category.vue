@@ -64,7 +64,7 @@ export default {
     name: "Category",
     data() {
         return {
-            urlDelete: `${this.baseURL}/seller/category/delete/`,
+            urlDelete: `${this.baseURL}/admin/category/delete/`,
             categories:[],
         };
     },
