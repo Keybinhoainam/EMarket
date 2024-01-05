@@ -47,6 +47,7 @@ export default {
                 this.cart = new Cart();
             }
             const cart_details = this.cart.cart_details;
+            this.order.amount=0;
             for (let i = 0; i < cart_details.length; i++) {
                 let order_detail = new Order_detail();
                 this.convertCartDetailToOrderDetail(cart_details[i], order_detail);
@@ -60,26 +61,30 @@ export default {
             order_detail.product = cart_detail.product;
             order_detail.unit_price = cart_detail.product.price;
         },
-        loadZaloPayOrder() {
+        async loadZaloPayOrder() {
             this.zaloPayOrder.app_user = "ZaloPayDemo";
             let currentDate = new Date();
-            this.zaloPayOrder.app_time = currentDate.getTime();
+            this.zaloPayOrder.app_time = await currentDate.getTime();
 
             this.zaloPayOrder.amount = this.order.amount * 24000;
-            this.zaloPayOrder.app_trans_id = this.order.id
-                ? this.order.id
-                : format(currentDate, "yyMMdd") + "_" + this.zaloPayOrder.app_time;
+            // this.zaloPayOrder.app_trans_id = this.order.id
+            //     ? this.order.id
+            //     : format(currentDate, "yyMMdd") + "_" + this.zaloPayOrder.app_time;
+            this.zaloPayOrder.app_trans_id = format(currentDate, "yyMMdd") + "_" + this.zaloPayOrder.app_time;
 
             let item = [];
             this.zaloPayOrder.item = JSON.stringify(item);
             // this.zaloPayOrder.callback_url = callback_url;
             this.zaloPayOrder.description =
                 "ZaloPayDemo - Thanh toán cho đơn hàng #" + this.zaloPayOrder.app_trans_id;
-
+                
+            // this.zaloPayOrder.embed_data=`{\"redirecturl\":\"http://localhost:8080/myPurchase\"}`;
+            // console.log(this.zaloPayOrder.embed_data);
             let hmac_input = `${this.zaloPayOrder.app_id}|${this.zaloPayOrder.app_trans_id}|${this.zaloPayOrder.app_user}|${this.zaloPayOrder.amount}|${this.zaloPayOrder.app_time}|${this.zaloPayOrder.embed_data}|${this.zaloPayOrder.item}`;
-
+            console.log(hmac_input);
             let mac = CryptoJS.HmacSHA256(hmac_input, this.zaloPayOrder.key1);
             this.zaloPayOrder.mac = CryptoJS.enc.Hex.stringify(mac);
+            // console.log(this.zaloPayOrder);
         },
         async saveOrder() {
             this.order.id = this.zaloPayOrder.app_trans_id;
@@ -95,17 +100,19 @@ export default {
             // this.$store.commit("data/changeCart", new Cart());
         },
         async proceedToPay() {
-            this.addOrderDetails();
-            this.loadZaloPayOrder();
-            this.saveOrder();
+            await this.addOrderDetails();
+            await this.loadZaloPayOrder();
+            await this.saveOrder();
 
             if (this.order.payment_type == "Online Payment Methods") {
-                console.log(this.zaloPayOrder);
-                let order_url=ZaloPayService.createOrder(this.zaloPayOrder);
-                console.log(order_url);
+                // console.log(this.zaloPayOrder);
+                // let order_url=await ZaloPayService.createOrder(this.zaloPayOrder);
+                // console.log(order_url);
+
                 // console.log(this.zaloPayOrder);
                 // let response = await ZaloPayService.createOrder(this.zaloPayOrder);
                 // console.log(response);
+                
                 // if (response.order_url) {
                 //     // window.location.href = await response.order_url;
                 // }
@@ -118,6 +125,7 @@ export default {
             order.id=this.$route.query.apptransid;
             order.order_status="Order Placed"
             await orderService.changeStatus(
+
                 this.changeStatusUrl,
                 order,
                 this.$store.state.data.config
