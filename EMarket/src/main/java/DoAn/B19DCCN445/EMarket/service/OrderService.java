@@ -1,6 +1,10 @@
 package DoAn.B19DCCN445.EMarket.service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -17,6 +21,7 @@ import DoAn.B19DCCN445.EMarket.repository.AccountRepository;
 import DoAn.B19DCCN445.EMarket.repository.OrderDetailRepository;
 import DoAn.B19DCCN445.EMarket.repository.OrderRepository;
 import DoAn.B19DCCN445.EMarket.repository.ProductRepository;
+import DoAn.B19DCCN445.EMarket.zalopay.GetZaloOrderStatus;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -61,6 +66,7 @@ public class OrderService {
 	public OrderDTO saveOrder(Order order) {
 		Collection<Order_detail> order_details=order.getOrder_details();
 		order.setOrder_details(null);
+		order.setOrder_date(new Date());;
 		order=repository.save(order);
 		for(Order_detail order_detail: order_details) {
 			Product product=productRepository.findById(order_detail.getProduct().getId()).get();
@@ -76,8 +82,14 @@ public class OrderService {
 		return orderDTO;
 	}
 
-	public OrderDTO changeStatus(Order request) {
+	public OrderDTO changeStatus(OrderDTO request) {
 		OrderDTO orderDTO= new OrderDTO();
+		Collection<Order_detail> order_details=request.getOrder_details();
+		for(Order_detail order_detail: order_details) {
+			Product product=productRepository.findById(order_detail.getProduct().getId()).get();
+			product.setStock(product.getStock()+order_detail.getQuantity());
+			productRepository.save(product);
+		}
 		Order order= repository.findById(request.getId()).get();
 		order.setOrder_status(request.getOrder_status());
 		repository.save(order);
@@ -85,11 +97,41 @@ public class OrderService {
 		
 		return orderDTO;
 	}
-
-	public List<Order> getOrdersByUser(User user) {
+	public void changeQuantityProductOrder(Order order) {
+		Collection<Order_detail> order_details=order.getOrder_details();
+		for(Order_detail order_detail: order_details) {
+			Product product=productRepository.findById(order_detail.getProduct().getId()).get();
+			product.setStock(product.getStock()+order_detail.getQuantity());
+			productRepository.save(product);
+		}
+	}
+	public List<Order> getOrdersByUser(User user) throws Exception {
 		// TODO Auto-generated method stub
-		
-		return repository.findByUser(user);
+		List<Order> orders=repository.findByUser(user);
+		LocalDateTime currentDateTime = LocalDateTime.now();
+		for(Order order :orders  ) {
+//			System.out.println(order.getOrder_details().size());
+			LocalDateTime time = order.getOrder_date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+			if( order.getOrder_status().equals("Unpaid")) {
+				int zaloOrderStatus=GetZaloOrderStatus.main(order);
+				if(ChronoUnit.MINUTES.between(time, currentDateTime) >= 15) {
+					order.setOrder_status("Cancelled");
+					changeQuantityProductOrder(order);
+					
+				}
+				else if(zaloOrderStatus==1){
+					order.setOrder_status("Order Placed");
+					order.setPaid_date(new Date());
+				}
+				else if(zaloOrderStatus==2){
+					order.setOrder_status("Cancelled");
+					changeQuantityProductOrder(order);
+					
+				}
+				repository.save(order);
+			}
+		}
+		return orders;
 	}
 
 	public OrderDTO getOrder(String idOrder) {

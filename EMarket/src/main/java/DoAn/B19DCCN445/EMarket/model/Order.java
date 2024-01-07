@@ -10,6 +10,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -43,6 +44,7 @@ import lombok.NoArgsConstructor;
 public class Order {
 	@Id
 	private String id;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd HH:mm:ss",timezone = "GMT+7")
 	private Date order_date;
 	private Date shipped_date;
 	private String note;
@@ -56,6 +58,7 @@ public class Order {
 	@LastModifiedDate
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date update_at;
+	private String paymentLink;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_id")

@@ -38,9 +38,9 @@ export default {
         };
     },
     async created() {
-        if (this.$route.query.status && this.$route.query.status == 1) {
-            await this.changeStatus();
-        }
+        // if (this.$route.query.status && this.$route.query.status == 1) {
+        //     await this.changeStatus();
+        // }
         await this.getOrdersByUser();
         nextTick()
         // console.log(this.orders);
@@ -53,7 +53,7 @@ export default {
 <template>
     <v-data-table :headers="headersTable" :items="orders" item-value="id">
         <template v-slot:[`item.actions`]="{ item }">
-            <v-btn v-if="item.order_status == 'Unpaid'" class="mr-2" color="red">Proceed to payment</v-btn>
+            
             <v-btn color="blue" @click="$router.push('/showOrderDetail/'+item.id)">View Details</v-btn>
         </template>
         <!-- <template v-slot:expanded-row="{ item }">

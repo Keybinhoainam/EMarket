@@ -25,7 +25,7 @@ import DoAn.B19DCCN445.EMarket.common.ApiResponse;
 import DoAn.B19DCCN445.EMarket.dto.ZaloPayOrder;
 import DoAn.B19DCCN445.EMarket.model.Order;
 import DoAn.B19DCCN445.EMarket.service.OrderService;
-import DoAn.B19DCCN445.EMarket.zalopay.CreateOrder;
+import DoAn.B19DCCN445.EMarket.zalopay.CreateZaloPayOrder;
 
 @RestController
 @RequestMapping("/api/zaloPay")
@@ -43,8 +43,7 @@ public class ZaloPayController {
 
 	@PostMapping("/createOrder")
 	public String createOrder(@RequestBody ZaloPayOrder zaloPayOrder) throws Exception {
-		CreateOrder.main(zaloPayOrder);
-		return null;
+		return CreateZaloPayOrder.main(zaloPayOrder);
 	}
 	@PostMapping("/callback")
 	public String callback(@RequestBody String jsonStr) {

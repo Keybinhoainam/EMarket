@@ -57,4 +57,5 @@ public class OrderDTO {
 	private String payment_type;
 	private Collection<Order_detail>order_details;
 	private Double amount;
+	private String paymentLink;
 }

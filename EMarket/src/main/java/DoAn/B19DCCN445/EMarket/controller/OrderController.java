@@ -41,10 +41,11 @@ public class OrderController{
 	
 	@PostMapping("/order/saveOrder")
 	public ResponseEntity<OrderDTO> saveOrder(@RequestBody Order order){
+//		System.out.println(order);
 		return ResponseEntity.ok(service.saveOrder(order));
 	}
 	@PostMapping("/order/changeStatus")
-	public ResponseEntity<OrderDTO> changeStatus(@RequestBody Order order){
+	public ResponseEntity<OrderDTO> changeStatus(@RequestBody OrderDTO order){
 		return ResponseEntity.ok(service.changeStatus(order));
 	}
 	@PostMapping("/order/checkout")
@@ -52,7 +53,7 @@ public class OrderController{
 		return ResponseEntity.ok(service.checkOut(order,authorization));
 	}
 	@PostMapping("/order/getOrdersByUser")
-	public ResponseEntity<List<Order>> getOrdersByUser(@RequestBody User user){
+	public ResponseEntity<List<Order>> getOrdersByUser(@RequestBody User user) throws Exception{
 		return ResponseEntity.ok(service.getOrdersByUser(user));
 	}
 	@GetMapping("/order/getOrder/{id}")

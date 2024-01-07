@@ -56,10 +56,10 @@
                             <v-radio label="L" value="l"></v-radio>
                             <v-radio label="XL" value="xl"></v-radio>
                         </v-radio-group> -->
+                        
                         <p class="title">ITEMS</p>
-
-                        <div v-if="product.stock > 0"></div>
-                        <div v-else class="text-red bold">Out of stock</div>
+                        
+                        <div v-if="product.stock <= 0" class="text-red bold">Out of stock</div>
                         <v-text-field
                             :disabled="product.stock <= 0"
                             variant="outlined"
@@ -69,6 +69,10 @@
                             :max="product.stock"
                             type="number"
                         ></v-text-field>
+                        <p class=" font-weight-light font-italic" v-if="product.stock > 0">
+                            {{ product.stock }} pieces available
+                            
+                        </p>
                         <v-btn
                             :disabled="product.stock <= 0 || quantity > product.stock"
                             class="white--text"
@@ -88,7 +92,7 @@
                 <div class="col-sm-12 col-xs-12 col-md-12">
                     <v-tabs v-model="tab">
                         <v-tab value="description">Description</v-tab>
-                        <v-tab value="materials">Materials</v-tab>
+                        <!-- <v-tab value="materials">Materials</v-tab> -->
                         <v-tab value="reviews">REVIEWS</v-tab>
                     </v-tabs>
                     <v-window v-model="tab">
@@ -98,11 +102,11 @@
                             </p>
                         </v-window-item>
 
-                        <v-window-item value="materials">
+                        <!-- <v-window-item value="materials">
                             <p class="pt-10 subtitle-1 font-weight-thin">
                                 {{ product.description }}
                             </p>
-                        </v-window-item>
+                        </v-window-item> -->
 
                         <v-window-item value="reviews">
                             <v-list lines="three" height="300px">
@@ -206,23 +210,22 @@ export default {
     mixins: [mixinsProduct, sweetAlert, mixinsCart, mixinsWishList],
     methods: {
         async getAvatar(user) {
-            
             if (user.avatar) {
                 let avatarFile = await fileService.getImage(user.avatar, "image/*");
                 await nextTick();
                 const fileReader = new FileReader();
                 fileReader.onload = () => {
                     // this.avatarString = fileReader.result;
-                    user.avatarString=fileReader.result;
+                    user.avatarString = fileReader.result;
                 };
                 await fileReader.readAsDataURL(avatarFile);
             }
         },
         async loadImageString() {
-            for (let i=0 ;i< this.product.product_reviews.length;i++) {
-                let review=this.product.product_reviews[i];
+            for (let i = 0; i < this.product.product_reviews.length; i++) {
+                let review = this.product.product_reviews[i];
                 await this.getAvatar(review.user);
-                await nextTick()
+                await nextTick();
                 // review.user.avatarString = this.avatarString;
             }
         },

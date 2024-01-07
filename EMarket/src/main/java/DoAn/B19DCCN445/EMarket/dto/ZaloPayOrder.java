@@ -14,7 +14,7 @@ public class ZaloPayOrder {
 	private String app_user;
 	private Long app_time;
 	private String app_trans_id;
-	private Double amount;
+	private Long amount;
 	private String bank_code;
 	private String embed_data;
 	private String item;

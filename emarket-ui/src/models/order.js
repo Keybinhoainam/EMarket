@@ -6,7 +6,7 @@ export default class Order {
     constructor(
         id = null,
         note,
-        order_date = new Date(),
+        order_date = null,
         shipped_date,
         ship_address,
         city="Ha Noi",
@@ -20,6 +20,7 @@ export default class Order {
         payment_type,
         order_details = [],
         amount=0,
+        paymentLink
     ) {
         Object.assign(this, {
             id,
@@ -38,6 +39,7 @@ export default class Order {
             payment_type,
             order_details,
             amount,
+            paymentLink
         });
     }
 }

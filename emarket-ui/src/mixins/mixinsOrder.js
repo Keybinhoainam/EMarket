@@ -18,9 +18,9 @@ export default {
         };
     },
     methods: {
-        async getOrder(){
-            let url=`${this.baseURL}/order/getOrder/${this.$route.params.id}`;
-            this.order= await orderService.getOrder(url,this.config);
+        async getOrder() {
+            let url = `${this.baseURL}/order/getOrder/${this.$route.params.id}`;
+            this.order = await orderService.getOrder(url, this.config);
         },
         async checkOut() {
             try {
@@ -47,14 +47,14 @@ export default {
                 this.cart = new Cart();
             }
             const cart_details = this.cart.cart_details;
-            this.order.amount=0;
+            this.order.amount = 0;
             for (let i = 0; i < cart_details.length; i++) {
                 let order_detail = new Order_detail();
                 this.convertCartDetailToOrderDetail(cart_details[i], order_detail);
                 this.order.order_details.push(order_detail);
                 this.order.amount = this.order.amount + order_detail.unit_price;
             }
-            if(this.order.amount<300)this.order.amount = this.order.amount + 10; //phí ship
+            if (this.order.amount < 300) this.order.amount = this.order.amount + 10; //phí ship
         },
         convertCartDetailToOrderDetail(cart_detail, order_detail) {
             order_detail.quantity = cart_detail.quantity;
@@ -70,18 +70,20 @@ export default {
             // this.zaloPayOrder.app_trans_id = this.order.id
             //     ? this.order.id
             //     : format(currentDate, "yyMMdd") + "_" + this.zaloPayOrder.app_time;
-            this.zaloPayOrder.app_trans_id = format(currentDate, "yyMMdd") + "_" + this.zaloPayOrder.app_time;
+            let user = this.$store.state.data.user;
+            this.zaloPayOrder.app_trans_id =
+                format(currentDate, "yyMMdd") + "_" + this.zaloPayOrder.app_time + user.id;
 
             let item = [];
             this.zaloPayOrder.item = JSON.stringify(item);
             // this.zaloPayOrder.callback_url = callback_url;
             this.zaloPayOrder.description =
                 "ZaloPayDemo - Thanh toán cho đơn hàng #" + this.zaloPayOrder.app_trans_id;
-                
+
             // this.zaloPayOrder.embed_data=`{\"redirecturl\":\"http://localhost:8080/myPurchase\"}`;
             // console.log(this.zaloPayOrder.embed_data);
             let hmac_input = `${this.zaloPayOrder.app_id}|${this.zaloPayOrder.app_trans_id}|${this.zaloPayOrder.app_user}|${this.zaloPayOrder.amount}|${this.zaloPayOrder.app_time}|${this.zaloPayOrder.embed_data}|${this.zaloPayOrder.item}`;
-            console.log(hmac_input);
+
             let mac = CryptoJS.HmacSHA256(hmac_input, this.zaloPayOrder.key1);
             this.zaloPayOrder.mac = CryptoJS.enc.Hex.stringify(mac);
             // console.log(this.zaloPayOrder);
@@ -89,47 +91,60 @@ export default {
         async saveOrder() {
             this.order.id = this.zaloPayOrder.app_trans_id;
             this.order.ship_address = `${this.order.houseNo},${this.order.ward},${this.order.district},${this.order.city},`;
-            this.order.order_status = this.order.payment_type=="Online Payment Methods" ? "Unpaid":"Order Placed" ;
+            this.order.order_status =
+                this.order.payment_type == "Online Payment Methods" ? "Unpaid" : "Order Placed";
             this.order.user = this.$store.state.data.user;
-            if(this.order.amount>=300)this.order.ship_fee=0;
+            if (this.order.amount >= 300) this.order.ship_fee = 0;
             await orderService.saveOrder(
                 this.saveOrderUrl,
                 this.order,
                 this.$store.state.data.config
             );
-            // this.$store.commit("data/changeCart", new Cart());
+            this.$store.commit("data/changeCart", new Cart());
         },
         async proceedToPay() {
             await this.addOrderDetails();
             await this.loadZaloPayOrder();
-            await this.saveOrder();
 
             if (this.order.payment_type == "Online Payment Methods") {
-                // console.log(this.zaloPayOrder);
-                // let order_url=await ZaloPayService.createOrder(this.zaloPayOrder);
+                let order_url = await ZaloPayService.createOrder(this.zaloPayOrder);
+
+                this.order.paymentLink = order_url;
+                await this.saveOrder();
                 // console.log(order_url);
+                window.location.href = order_url;
 
                 // console.log(this.zaloPayOrder);
                 // let response = await ZaloPayService.createOrder(this.zaloPayOrder);
                 // console.log(response);
-                
+
                 // if (response.order_url) {
                 //     // window.location.href = await response.order_url;
                 // }
             } else {
                 this.$router.push("/myPurchase");
+                await this.saveOrder();
             }
         },
-        async changeStatus() {
-            let order=new Order();
-            order.id=this.$route.query.apptransid;
-            order.order_status="Order Placed"
-            await orderService.changeStatus(
-
-                this.changeStatusUrl,
-                order,
-                this.$store.state.data.config
-            );
+        async changeStatus(status) {
+            this.alertWarning(
+                "Are you sure?",
+                "You won't be able to revert this!",
+                "Yes, cancel Order"
+            ).then((result) => {
+                if (result.isConfirmed) {
+                    try {
+                        this.order.order_status = status;
+                        orderService.changeStatus(
+                            this.changeStatusUrl,
+                            this.order,
+                            this.$store.state.data.config
+                        );
+                    } catch (error) {
+                        this.alertFail("Cancel Order Fail", error.message);
+                    }
+                }
+            });
         },
         async getOrdersByUser() {
             this.orders = await orderService.getOrdersByUser(
@@ -137,6 +152,9 @@ export default {
                 this.$store.state.data.user,
                 this.$store.state.data.config
             );
+        },
+        proceedToPayment() {
+            window.location.href = this.order.paymentLink;
         },
     },
     created() {

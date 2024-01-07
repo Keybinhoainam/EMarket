@@ -55,31 +55,46 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Payment Type: </td>
-                                    <td class="text-right" >{{order.payment_type}}</td>
+                                    <td>Payment Type:</td>
+                                    <td class="text-right">{{ order.payment_type }}</td>
                                 </tr>
 
                                 <tr>
-                                    <td>Order Status: </td>
-                                    <td class="text-right" >{{order.order_status}}</td>
+                                    <td>Order Status:</td>
+                                    <td class="text-right">{{ order.order_status }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Ship Address: </td>
-                                    <td class="text-right" >{{order.ship_address}}</td>
+                                    <td>Ship Address:</td>
+                                    <td class="text-right">{{ order.ship_address }}</td>
                                 </tr>
                                 <tr v-if="order.note">
-                                    <td>Note: </td>
-                                    <td class="text-right" >{{order.note}}</td>
+                                    <td>Note:</td>
+                                    <td class="text-right">{{ order.note }}</td>
                                 </tr>
                                 <tr>
                                     <td>Amount</td>
-                                    <td class="text-right">
-                                        ${{order.amount}}
-                                    </td>
+                                    <td class="text-right">${{ order.amount }}</td>
                                 </tr>
                             </tbody>
                         </template>
                     </v-table>
+                </v-col>
+                <v-col :cols="12" md="8" sm="12"></v-col>
+                <v-col :cols="12" md="4" sm="12">
+                    <v-btn
+                        v-if="order.order_status == 'Unpaid'"
+                        class="m-2"
+                        color="blue"
+                        @click="proceedToPayment()"
+                        >Continue payment</v-btn
+                    >
+                    <v-btn
+                        v-if="order.order_status == 'Unpaid' || order.order_status=='Order Placed'"
+                        class="m-0"
+                        color="red"
+                        @click="changeStatus('Cancelled')"
+                        >Cancel Order</v-btn
+                    >
                 </v-col>
             </v-row>
         </v-container>
@@ -107,7 +122,6 @@ export default {
     },
     async created() {
         await this.getOrder();
-        // console.log(this.cart);
     },
 };
 </script>
