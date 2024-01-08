@@ -1,49 +1,49 @@
 <template>
     <div>
         <v-carousel cycle hide-delimiters>
-            <v-carousel-item cover :src="require('@/assets/img/home/slider4.jpg')">
+            <v-carousel-item cover :src="require('@/assets/images/dowload/backGround/1.png')">
                 <v-row class="fill-height" align="center" justify="center">
-                    <div class="display-2 text-white pl-5 pr-5 hidden-sm-only">
+                    <!-- <div class="display-2 text-white pl-5 pr-5 hidden-sm-only">
                         <strong>Upto 60% + Extra 10%</strong>
                     </div>
-                    <br />
+                    <br /> -->
                 </v-row>
             </v-carousel-item>
-            <v-carousel-item cover :src="require('@/assets/img/home/slider2.jpg')">
+            <v-carousel-item cover :src="require('@/assets/img/home/slider4.jpg')">
                 <v-row class="fill-height" align="center" justify="center">
-                    <div class="display-2 text-white pl-5 pr-5 hidden-sm-only">
+                    <!-- <div class="display-2 text-white pl-5 pr-5 hidden-sm-only">
                         <strong>Upto 60% + Extra 10%</strong>
                     </div>
-                    <br />
+                    <br /> -->
                 </v-row>
             </v-carousel-item>
             <v-carousel-item cover :src="require('@/assets/img/home/slider3.jpg')">
                 <v-row class="fill-height" align="center" justify="center">
-                    <div class="display-2 text-white pl-5 pr-5 hidden-sm-only">
+                    <!-- <div class="display-2 text-white pl-5 pr-5 hidden-sm-only">
                         <strong>Upto 60% + Extra 10%</strong>
                     </div>
-                    <br />
+                    <br /> -->
                 </v-row>
             </v-carousel-item>
             <v-carousel-item cover :src="require('@/assets/img/home/slider1.jpg')">
                 <v-row class="fill-height" align="center" justify="center">
-                    <div class="display-2 text-white pl-5 pr-5 hidden-sm-only">
+                    <!-- <div class="display-2 text-white pl-5 pr-5 hidden-sm-only">
                         <strong>Upto 60% + Extra 10%</strong>
                     </div>
-                    <br />
+                    <br /> -->
                 </v-row>
             </v-carousel-item>
         </v-carousel>
         <div class="pl-4 pr-4 row">
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <v-card>
-                    <v-img cover
-                        :src="require('@/assets/img/home/slider2.jpg')"
+                    <v-img 
+                        :src="require('@/assets/images/dowload/backGround/flashsale2.png')"
                         class="text-white align-center"
                         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                         height="400px"
                     >
-                        <h1 class="text-center font-size">Top Picks</h1>
+                        <!-- <h1 class="text-center font-size">Top Picks</h1> -->
                         <div class="text-center">
                             <v-btn href="/shop" class="text-white" variant="outlined">SHOP NOW</v-btn>
                         </div>
@@ -66,7 +66,7 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <v-card>
                     <v-img cover
-                        :src="require('@/assets/img/home/slider3.jpg')"
+                        :src="require('@/assets/img/home/slider1.jpg')"
                         class="text-white align-center"
                         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                         height="400px"
@@ -79,8 +79,8 @@
                 </v-card>
             </div>
         </div>
-        <div class="pl-4 pr-4 row">
-            <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="pl-4 pr-4 row mt-3">
+            <div class="col-md-4 col-sm-4 col-xs-12 mt-1" v-for="category in categories" :key="category.id">
                 <v-card variant="outlined">
                     <v-img cover
                         :src="require('@/assets/img/home/deal2.jpg')"
@@ -88,7 +88,7 @@
                         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                         height="300px"
                     >
-                        <h1 class="text-center font-size">Lorem & Ipsum</h1>
+                        <h1 class="text-center font-size">{{ category.category_name }}</h1>
                         <div class="text-center mt-2" >
                             <v-btn class="text-white caption" href="/shop" text :style="{ backgroundColor: 'transparent' }"
                                 >SHOP NOW
@@ -98,51 +98,16 @@
                     </v-img>
                 </v-card>
             </div>
-            <div class="col-md-4 col-sm-4 col-xs-12">
-                <v-card variant="outlined">
-                    <v-img cover
-                        :src="require('@/assets/img/home/deal3.jpg')"
-                        class="text-white align-center"
-                        gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                        height="300px"
-                    >
-                        <h1 class="text-center font-size">Lorem & Ipsum</h1>
-                        <div class="text-center mt-2">
-                            <v-btn class="text-white caption " href="/shop" text :style="{ backgroundColor: 'transparent' }"
-                                >SHOP NOW
-                                <v-icon class="text-white caption">mdi-arrow-right</v-icon></v-btn
-                            >
-                        </div>
-                    </v-img>
-                </v-card>
-            </div>
-            <div class="col-md-4 col-sm-4 col-xs-12">
-                <v-card variant="outlined">
-                    <v-img cover
-                        :src="require('@/assets/img/home/deal4.jpg')"
-                        class="text-white align-center"
-                        gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                        height="300px"
-                    >
-                        <h1 class="text-center font-size">Lorem & Ipsum</h1>
-                        <div class="text-center mt-2">
-                            <v-btn class="text-white caption" href="/shop" text :style="{ backgroundColor: 'transparent' }"
-                                >SHOP NOW
-                                <v-icon class="text-white caption">mdi-arrow-right</v-icon></v-btn
-                            >
-                        </div>
-                    </v-img>
-                </v-card>
-            </div>
+            
         </div>
         <v-container>
             <v-row no-gutters>
                 <v-col :cols="12">
                     <v-card-text class="" tile variant="outlined">
-                        <v-card-title class="subheading">Deals of the Day</v-card-title>
+                        <v-card-title class="subheading">Categories</v-card-title>
                         <v-divider></v-divider>
                         <div class="row">
-                            <div class="col-12 col-md-3 col-sm-6  text-center">
+                            <div class="col-12 col-md-3 col-sm-6  text-center" v-for="category in categories" :key="category.id">
                                 <v-hover v-slot="{ isHovering, props}" open-delay="200">
                                     <v-card :elevation="isHovering ? 16 : 2" v-bind="props">
                                         <v-img cover
@@ -292,11 +257,13 @@ import Cart from "@/models/cart";
 export default {
     name: "Home",
     components: { ProductBox, CategoryBox },
-    props: ["baseURL", "products", "categories"],
+    props: ["baseURL","products","categories"],
     data() {
         return {
             category_size: 0,
             product_size: 0,
+            // products:null,
+            // categories:null,
             items: [
                     { title: 'Click Me' },
                     { title: 'Click Me' },
@@ -321,6 +288,10 @@ export default {
         };
     },
     mounted() {
+        // console.log(this.categories);
+        // console.log(this.products);
+        // this.products=this.$store.state.data.products;
+        // this.categories=this.$store.state.data.categories;
         // this.category_size = this.categories.length;
         // this.category_size = Math.min(6, this.category_size);
         // this.product_size = this.products.length;

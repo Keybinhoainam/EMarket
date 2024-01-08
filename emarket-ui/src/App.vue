@@ -29,6 +29,7 @@ import * as Yup from "yup";
 import Cookies from "js-cookie";
 import Cart from "./models/cart";
 import User from "./models/user";
+import { nextTick } from 'vue';
 // import Navbar from './components/Navbar.vue';
 // import Footer from './components/Footer.vue';
 export default {
@@ -64,6 +65,8 @@ export default {
                 .then(
                     (res) => {
                         this.products = res.data;
+                        // this.$store.commit('data/changeProducts',res.data);
+                        // console.log(this.$store.state.data.products);
                     },
                     (error) => {
                         console.log(error.message);
@@ -76,7 +79,8 @@ export default {
                 .getAllCategories(`${this.baseURL}/data/category/getAllCategories`, this.config)
                 .then(
                     (res) => {
-                        this.categories = res.data;
+                        this.categories = res;
+                        this.$store.commit('data/changeCategories',res);
                     },
                     (error) => {
                         console.log(error.message);
@@ -105,6 +109,7 @@ export default {
         this.config = authHeader();
         this.$store.dispatch("data/changeConfig",this.config);
         await this.fetchData();
+        await nextTick();
     },
      mounted() {
         // this.token = localStorage.getItem("token");

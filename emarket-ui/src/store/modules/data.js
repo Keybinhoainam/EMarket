@@ -36,7 +36,6 @@ export const data = {
                 .getAllCategories(url, config)
                 .then(
                     (res) => {
-                        console.log("load Products");
                         commit("fetchCategoriesData",res.data)
                         // this.products = res.data;
                     },
@@ -62,6 +61,14 @@ export const data = {
         },
         fetchCategoriesData(state,categories){
             state.categories=categories;
+        },
+        changeProducts(state,products){
+            state.products=products
+
+        },
+        changeCategories(state,categories){
+            state.categories=categories
+
         },
         changeConfig(state,config){
             state.config=config;
