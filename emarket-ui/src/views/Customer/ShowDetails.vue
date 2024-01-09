@@ -208,6 +208,7 @@ export default {
     }),
     props: ["baseURL", "products", "categories"],
     mixins: [mixinsProduct, sweetAlert, mixinsCart, mixinsWishList],
+    
     methods: {
         async getAvatar(user) {
             if (user.avatar) {

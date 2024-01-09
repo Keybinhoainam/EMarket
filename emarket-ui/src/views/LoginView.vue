@@ -3,7 +3,7 @@
         <div class="container">
             <div class="col-sm-8 offset-sm-2 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3 text-center">
                 <div class="logo">
-                    <a href="/">
+                    <a @click="$router.push('/')">
                         <img
                             :src="require('@/assets/images/logo.png')"
                             alt="logo"
@@ -15,7 +15,7 @@
                     <h3 class="text-dark fw-bolder fs-4 mb-2">Sign In</h3>
                     <div class="fw-normal text-muted mb-4">
                         New Here?
-                        <a href="/register" class="text-primary fw-bold text-decoration-none"
+                        <a @click="$router.push('/register')"  class="text-primary fw-bold text-decoration-none"
                             >Create an Account</a
                         >
                     </div>
@@ -84,6 +84,7 @@
 <script>
 import mixinsAccount from "@/mixins/mixinsAccount";
 import mixinsAuthen from "@/mixins/mixinsAuthen";
+import mixinsData from "@/mixins/mixinsData";
 import mixinsFile from "@/mixins/mixinsFile";
 import sweetAlert from "@/mixins/sweetAlert";
 import validateAccount from "@/mixins/validateAccount";
@@ -107,7 +108,7 @@ export default {
             }
         },
     },
-    mixins: [validateAccount, sweetAlert, mixinsAuthen, mixinsFile],
+    mixins: [validateAccount, sweetAlert, mixinsAuthen, mixinsFile,mixinsData],
     props: ["baseURL"],
 };
 </script>

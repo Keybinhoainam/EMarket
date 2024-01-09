@@ -21,7 +21,7 @@
                     <div class="fw-normal text-muted mb-4">
                         Already have an account?
                         <a
-                            href="/login"
+                        @click="$router.push('/login')"
                             class="text-primary fw-bold text-decoration-none"
                             >Sign in here</a
                         >

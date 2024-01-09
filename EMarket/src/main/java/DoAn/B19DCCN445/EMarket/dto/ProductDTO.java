@@ -38,4 +38,5 @@ public class ProductDTO {
 	private Double rating;
 	private Integer reviews;
 	private Collection<Product_review> product_reviews;
+	private Integer quantitySold;
 }

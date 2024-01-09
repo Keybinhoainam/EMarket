@@ -13,7 +13,6 @@
             :config="config"
             :schema="schema"
             @fetchData="fetchData"
-            
         >
         </router-view>
     </div>
@@ -22,14 +21,9 @@
 
 <script>
 import sweetAlert from "./mixins/sweetAlert";
+import mixinsData from "./mixins/mixinsData";
 import authHeader from "./services/authHeader";
-import categoryService from "./services/category.service";
-import productService from "./services/product.service";
-import * as Yup from "yup";
-import Cookies from "js-cookie";
 import Cart from "./models/cart";
-import User from "./models/user";
-import { nextTick } from 'vue';
 // import Navbar from './components/Navbar.vue';
 // import Footer from './components/Footer.vue';
 export default {
@@ -37,85 +31,22 @@ export default {
         return {
             cart: new Cart(),
             baseURL: "http://localhost:8080/api",
-            products: null,
-            categories: null,
-            config: null,
+            products: this.$store.state.data.products,
+            categories: this.$store.state.data.categories,
+            config: this.$store.state.data.config,
             schema: null,
-            
-            // key: 0,
-            // token: null,
-            // cartCount: 0,
         };
     },
 
     // components: { Layout },
-    mixins: [sweetAlert],
-    methods: {
-        async fetchData() {
-            // console.log(this.getAllProductsUrl);
-            // await this.$store.dispatch('data/fetchProductsData',{url:`${this.baseURL}/data/product/getallproducts`,config:this.config})
-            // await this.$store.dispatch('data/fetchCategoriesData',{url:`${this.baseURL}/data/category/getAllCategories`,config:this.config})
-            // console.log(this.$store.state.data.products);
-            // this.products=this.$store.state.data.products;
-            // this.categories=this.$store.state.data.categories;
-
-
-            await productService
-                .getAllProducts(`${this.baseURL}/data/product/getallproducts`, this.config)
-                .then(
-                    (res) => {
-                        this.products = res.data;
-                        // this.$store.commit('data/changeProducts',res.data);
-                        // console.log(this.$store.state.data.products);
-                    },
-                    (error) => {
-                        console.log(error.message);
-                        this.alertFail("Failed to load all products", error.message);
-                    }
-                );
-
-            //fetch categories
-            await categoryService
-                .getAllCategories(`${this.baseURL}/data/category/getAllCategories`, this.config)
-                .then(
-                    (res) => {
-                        this.categories = res;
-                        this.$store.commit('data/changeCategories',res);
-                    },
-                    (error) => {
-                        console.log(error.message);
-                        this.alertFail("Failed to load all categories", error.message);
-                    }
-                );
-
-            
-        },
-        // resetCartCount() {
-        //     this.cartCount = 0;
-        // },
-    },
+    mixins: [sweetAlert, mixinsData],
+    methods: {},
     async created() {
-        // this.schema = Yup.object().shape({
-        //     name: Yup.string().required(),
-        //     email: Yup.string().email().required(),
-        //     password: Yup.string().min(6).required(),
-        //     confirm_password: Yup.string()
-        //         .required()
-        //         .oneOf([Yup.ref("password")], "Passwords do not match"),
-        // });
-        // console.log(this.categories);
-        // console.log(this.$store);
-        // this.$store.dispatch("data/changeUser",new User());
-        this.config = authHeader();
-        this.$store.dispatch("data/changeConfig",this.config);
+        this.config = await authHeader();
+        await this.$store.dispatch("data/changeConfig", this.config);
         await this.fetchData();
-        await nextTick();
     },
-     mounted() {
-        // this.token = localStorage.getItem("token");
-
-        
-    },
+    async mounted() {},
 };
 </script>
 

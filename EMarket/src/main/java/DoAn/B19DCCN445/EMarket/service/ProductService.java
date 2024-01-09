@@ -21,10 +21,12 @@ import DoAn.B19DCCN445.EMarket.dto.ProductDTO;
 import DoAn.B19DCCN445.EMarket.dto.Product_reviewDTO;
 import DoAn.B19DCCN445.EMarket.exception.ProductNotFoundException;
 import DoAn.B19DCCN445.EMarket.exception.StorageException;
+import DoAn.B19DCCN445.EMarket.model.Order_detail;
 import DoAn.B19DCCN445.EMarket.model.Product;
 import DoAn.B19DCCN445.EMarket.model.Product_image;
 import DoAn.B19DCCN445.EMarket.model.Product_review;
 import DoAn.B19DCCN445.EMarket.model.Store;
+import DoAn.B19DCCN445.EMarket.repository.OrderDetailRepository;
 import DoAn.B19DCCN445.EMarket.repository.ProductImageRepository;
 import DoAn.B19DCCN445.EMarket.repository.ProductRepository;
 import DoAn.B19DCCN445.EMarket.repository.ProductReviewRepository;
@@ -41,6 +43,8 @@ public class ProductService {
 	FilesStorageService storageService;
 	@Autowired
 	ProductReviewRepository productReviewRepository;
+	@Autowired
+	OrderDetailRepository orderDetailRepository;
 //	private Product findProduct(Long id) {
 //		// TODO Auto-generated method stub
 //		Product p = repository.findProduct(id);
@@ -130,8 +134,29 @@ public class ProductService {
 			ProductDTO pdto=new ProductDTO();
 			BeanUtils.copyProperties(product, pdto);
 			pdto.setStore(product.getStore());
-//			List<Product_image> list2=new ArrayList<>(pdto.getProduct_images());
-//			System.out.println(list2.get(0).getImage());
+			int quantitySold=0;
+			List<Order_detail> order_details=orderDetailRepository.findByProduct(product);
+			for(Order_detail order_detail: order_details) {
+				quantitySold+=order_detail.getQuantity();
+			}
+			List<Product_review> product_reviews=new ArrayList<>(product.getProduct_reviews());
+			Integer reviews=product_reviews.size();
+			Double rating;
+			rating=0.0;
+			
+			for(Product_review review : product_reviews) {
+				rating+=(double)(review.getRating());
+			}
+			if(reviews>0) {
+				
+				rating/=reviews;
+			}
+			else {
+				rating=null;
+			}
+			pdto.setRating(rating);
+			pdto.setReviews(reviews);
+			pdto.setQuantitySold(quantitySold);
 			return pdto;
 		}).collect(Collectors.toList());
 		

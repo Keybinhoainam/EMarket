@@ -8,8 +8,8 @@ export const data = {
     namespaced: true,
     state: {
         baseURL: "http://localhost:8080/api",
-        products: null,
-        categories: null,
+        products: [0,1],
+        categories: [0,1],
         config: null,
         user:Cookies.get("user")?JSON.parse(Cookies.get("user")):new User(),
         cart:JSON.parse(localStorage.getItem("cart"))?JSON.parse(localStorage.getItem("cart")):new Cart(),

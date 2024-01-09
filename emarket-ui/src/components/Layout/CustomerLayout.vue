@@ -3,10 +3,10 @@
         <TopBar @search="search" :role="role" />
         <v-app-bar class="pb-0" >
             <v-bottom-navigation color="primary" horizontal style="position: relative">
-                <v-btn href="/">
+                <v-btn @click="$router.push('/')">
                     <span>Home</span>
                 </v-btn>
-                <v-btn href="/shop">
+                <v-btn @click="$router.push('/shop')">
                     <span>Shop</span>
                 </v-btn>
                 <v-menu open-on-hover offset-y>
@@ -17,7 +17,7 @@
                         <v-list-item
                             v-for="(product, index) in products"
                             :key="index"
-                            :href="'/product/show/' + product.id"
+                            @click="$router.push('/product/show/' + product.id)"
                         >
                             <v-list-item-title>{{ product.product_name }}</v-list-item-title>
                         </v-list-item>

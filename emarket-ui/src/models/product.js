@@ -17,9 +17,10 @@ export default class Product {
         product_images=[],
         category=new Category(),
         store=new Store(),
-        rating=4.5,
-        reviews=20,
-        product_reviews=null
+        rating,
+        reviews,
+        product_reviews=null,
+        quantitySold
     ) {
         Object.assign(this, {
             id,
@@ -36,7 +37,8 @@ export default class Product {
             store,
             rating,
             reviews,
-            product_reviews
+            product_reviews,
+            quantitySold
         });
     }
 }

@@ -6,7 +6,7 @@
                 :aspect-ratio="1"
                 height="300px"
                 :src="
-                    product.product_images.length > 0 && product.product_images[0].image != null
+                    product.product_images&&product.product_images.length > 0 && product.product_images[0].image != null
                         ? getImageURL(product.product_images[0].image)
                         : require('@/assets/images/noImage.png')
                 "
@@ -20,7 +20,7 @@
                         class="d-flex justify-center flex-column transition-fast-in-fast-out v-card--reveal display-3 text-white bg-grey-lighten-1"
                         style="height: 100%"
                     >
-                        <v-btn :href="'/product/show/' + product.id" class="my-1">VIEW</v-btn>
+                        <v-btn @click="$router.push('/product/show/' + product.id)" class="my-1 text-red">VIEW </v-btn>
                         
                         <v-btn v-if="$route.name=='WishList'" @click="removeWishListItem(product)" class="text-white my-1" color="red">Remove Item</v-btn>
                     </div>
@@ -28,7 +28,7 @@
             </v-img>
             <v-card-text class="text-primary">
                 <div>
-                    <a href="/product" style="text-decoration: none">{{ product.product_name }}</a>
+                    <a @click="$router.push('/product')" style="text-decoration: none">{{ product.rating }}  {{ product.product_name }}</a>
                 </div>
                 <div>${{ product.price }}</div>
             </v-card-text>

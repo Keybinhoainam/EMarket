@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import fileService from "@/services/file.service";
 import Cart from "@/models/cart";
 import WishList from "@/models/wishList";
+import authHeader from "@/services/authHeader";
 export default {
     data() {
         return {
@@ -44,6 +45,7 @@ export default {
                     
                 }
                 else{
+                    
                     this.$router.push(this.$route.query.redirect || "/");
                 }
                 

@@ -6,28 +6,33 @@
                     <v-card class="px-5">
                         <v-card-title>Filters</v-card-title>
                         <v-divider></v-divider>
-                        <v-list>
-                            <v-list-group v-for="category in categories" :key="category.id">
-                                <template v-slot:activator="{ props }">
-                                    <v-list-item
-                                        v-bind="props"
-                                        :title="category.category_name"
-                                    ></v-list-item>
-                                </template>
 
-                                <v-list-item
-                                    v-for="product in category.products"
-                                    :key="product.id"
-                                    :title="product.product_name"
-                                    :value="product.id"
-                                ></v-list-item>
-                            </v-list-group>
-                        </v-list>
+                        <v-card-title class="pb-0">Category</v-card-title>
+                        <v-container class="pt-0" fluid>
+                            <v-checkbox
+                                v-model="filters.category"
+                                :value="0"
+                                label="All"
+                                hide-details
+                                dense
+                            >
+                            </v-checkbox>
+                            <v-checkbox
+                                v-for="c in categories"
+                                :key="c.id"
+                                v-model="filters.category"
+                                :value="c.id"
+                                :label="c.category_name"
+                                hide-details
+                                dense
+                            >
+                            </v-checkbox>
+                        </v-container>
 
                         <v-divider></v-divider>
                         <v-card-title>Price</v-card-title>
                         <v-range-slider
-                            v-model="range"
+                            v-model="filters.range"
                             :min="min"
                             :max="max"
                             :step="1"
@@ -37,24 +42,26 @@
                         <v-row class="pa-2" dense>
                             <v-col cols="12" sm="5">
                                 <v-text-field
-                                    v-model="range[0]"
+                                    v-model="filters.range[0]"
                                     label="Min"
                                     type="number"
                                     variant="outlined"
                                     density="compact"
-                                ></v-text-field>
+                                    >$</v-text-field
+                                >
                             </v-col>
                             <v-col cols="12" sm="1">
                                 <p class="pt-2 text-center">-</p>
                             </v-col>
                             <v-col cols="12" sm="6">
                                 <v-text-field
-                                    v-model="range[1]"
+                                    v-model="filters.range[1]"
                                     label="Max"
                                     type="number"
                                     variant="outlined"
                                     density="compact"
-                                ></v-text-field>
+                                    >$</v-text-field
+                                >
                             </v-col>
                         </v-row>
                         <v-divider></v-divider>
@@ -64,7 +71,7 @@
                             <v-checkbox
                                 v-for="r in ratings"
                                 :key="r"
-                                v-model="rating"
+                                v-model="filters.rating"
                                 :value="r.ratingAbove"
                                 :label="r.label"
                                 hide-details
@@ -85,7 +92,7 @@
                         <v-col cols="12" sm="4">
                             <v-select
                                 class="pa-0"
-                                v-model="select"
+                                v-model="filters.select"
                                 :items="options"
                                 style="margin-bottom: -20px"
                                 outlined
@@ -96,20 +103,22 @@
 
                     <v-divider></v-divider>
 
-                    <v-data-table>
-                        <div class="row text-center">
-                            <div
-                                class="col-md-3 col-sm-6 col-xs-12"
-                                :key="product.id"
-                                v-for="product in shopProducts"
-                            >
-                                <ProductBox :product="product" :baseURL="baseURL"> </ProductBox>
-                            </div>
+                    <div class="row text-center">
+                        <div
+                            class="col-md-3 col-sm-6 col-xs-12"
+                            :key="product.id"
+                            v-for="product in paginatedProducts"
+                        >
+                            <ProductBox :product="product" :baseURL="baseURL"> </ProductBox>
                         </div>
-                    </v-data-table>
+                    </div>
 
                     <div class="text-center mt-12">
-                        <v-pagination v-model="page" :length="6"></v-pagination>
+                        <v-pagination
+                            v-model="currentPage"
+                            :length="totalPages"
+                            rounded="circle"
+                        ></v-pagination>
                     </div>
                 </div>
             </div>
@@ -136,8 +145,6 @@ export default {
     mixins: [mixinsProduct, sweetAlert],
     components: { ProductBox },
     data: () => ({
-        range: [0, 10000],
-        rating: 0,
         ratings: [
             {
                 ratingAbove: 0,
@@ -165,24 +172,75 @@ export default {
             },
         ],
         noImageUrl: "@/assets/images/noImage.png",
-        select: "Popularity",
-        options: ["Default", "Popularity", "Relevance", "Price: Low to High", "Price: High to Low"],
-        page: 1,
+
+        options: [
+            "Default",
+            "Popularity",
+            "On Sale",
+            "New Arrivals",
+            "Price: Low to High",
+            "Price: High to Low",
+        ],
         min: 0,
         max: 10000,
         shopProducts: null,
+        filters: {
+            category: 0,
+            range: [0, 10000],
+            rating: 0,
+            select: "Default",
+        },
+        itemsPerPage: 12,
+        currentPage: 1,
     }),
-    watch: {
-        async textSearch(textSearch) {
-            await this.findProductsLikeName(textSearch);
-            await nextTick();
+    computed: {
+        totalPages() {
+            return Math.ceil(this.filteredProducts.length / this.itemsPerPage);
+        },
+        paginatedProducts() {
+            const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+            const endIndex = startIndex + this.itemsPerPage;
+            return this.filteredProducts.slice(startIndex, endIndex);
+        },
+        filteredProducts() {
+            let filterProducts = this.products.slice();
+            if(this.textSearch!="")filterProducts=filterProducts.filter(product => product.product_name.toLowerCase().includes(this.textSearch));
+            if (this.filters.category != 0)
+                filterProducts = filterProducts.filter(
+                    (product) => product.category.id == this.filters.category
+                );
+            if (this.filters.range != [0, 10000])
+                filterProducts = filterProducts.filter(
+                    (product) =>
+                        product.price >= this.filters.range[0] &&
+                        product.price <= this.filters.range[1]
+                );
+            if (this.filters.rating != 0)
+                filterProducts = filterProducts.filter(
+                    (product) => product.rating >= this.filters.rating
+                );
+            if (this.filters.select != "Default") {
+                if (this.filters.select == "Popularity")
+                    filterProducts = filterProducts.sort((a, b) => b.quantitySold - a.quantitySold);
+                if (this.filters.select == "On Sale" || this.filters.select == "New Arrivals")
+                    filterProducts = filterProducts.filter(
+                        (product) => product.product_status == this.filters.select
+                    );
+                if (this.filters.select == "Price: Low to High")
+                    filterProducts = filterProducts.sort((a, b) => a.price - b.price);
+                if (this.filters.select == "Price: High to Low")
+                    filterProducts = filterProducts.sort((a, b) => b.price - a.price);
+            }
+            
+            return filterProducts;
         },
     },
-    async mounted() {
-        let tmp = "";
-        if (this.textSearch) tmp = this.textSearch;
-        if (this.$route.query.textSearch) tmp = this.$route.query.textSearch;
-        await this.findProductsLikeName(tmp);
+    methods: {
+        changePage(page) {
+            this.currentPage = page;
+        },
+    },
+    async created() {
 
         // if(textSearch){
         //     await this.findProductsLikeName(textSearch);
