@@ -93,7 +93,8 @@
                                             "
                                             class="text-white align-center"
                                             gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                                            height="300px"
+                                            height="150px"
+                                            width="1500x"
                                         >
                                             <h1 class="text-center font-size">
                                                 {{ category.category_name }}
@@ -127,7 +128,7 @@
                         <v-divider></v-divider>
                         <div class="row">
                             <div
-                                class="col-12 col-md-3 col-sm-6 text-center"
+                                class="col-12 col-md-3 col-sm-6 text-center mb-10"
                                 v-for="product in products"
                                 :key="product.id"
                             >
