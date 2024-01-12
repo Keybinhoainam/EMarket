@@ -57,7 +57,7 @@
                         >
                             <option value="Male" selected>Male</option>
                             <option value="Female">Female</option>
-                            <option value="Orther">Orther</option>
+                            <option value="Other">Other</option>
                         </select>
                         <label>Gender</label>
                         <div class="invalid-feedback mt-1 mb-4 ms-1">

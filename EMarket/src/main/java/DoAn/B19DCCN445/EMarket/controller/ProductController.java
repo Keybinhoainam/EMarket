@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import DoAn.B19DCCN445.EMarket.common.ApiResponse;
 import DoAn.B19DCCN445.EMarket.dto.ProductDTO;
+import DoAn.B19DCCN445.EMarket.dto.Product_reviewDTO;
 import DoAn.B19DCCN445.EMarket.exception.ProductNotFoundException;
 import DoAn.B19DCCN445.EMarket.model.Product;
 import DoAn.B19DCCN445.EMarket.model.Store;
@@ -64,5 +65,9 @@ public class ProductController {
 	@DeleteMapping("/seller/product/delete/{id}")
 	private ResponseEntity<ApiResponse> getDeleteProduct(@PathVariable Long id) {
 		return ResponseEntity.ok(productService.getDeleteProduct(id));
+	}
+	@PostMapping("/product/saveReivew")
+	private ResponseEntity<ApiResponse> saveReivew(@RequestBody Product_reviewDTO dto) {
+		return ResponseEntity.ok(productService.saveReivew(dto));
 	}
 }

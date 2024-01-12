@@ -13,7 +13,7 @@ export default class Product {
         standard_cost=0,
         price=null,
         stock=null,
-        product_status,
+        product_status="Normal",
         product_images=[],
         category=new Category(),
         store=new Store(),

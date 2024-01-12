@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import DoAn.B19DCCN445.EMarket.model.Order_detail;
 import DoAn.B19DCCN445.EMarket.model.Product;
 import DoAn.B19DCCN445.EMarket.model.User;
 import jakarta.persistence.Column;
@@ -45,4 +46,5 @@ public class Product_reviewDTO {
 	private Date update_at;
 	private Product product;
 	private User user;
+	private Order_detail order_detail;
 }

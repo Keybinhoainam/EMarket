@@ -17,6 +17,32 @@ export default {
         return {
             activeTab: this.tab,
             tabs: [
+                
+            ],
+        };
+    },
+    methods: {
+        search(textSearch) {
+            this.$router.push({ name: "shop" ,query: {textSearch:textSearch} });
+        },
+    },
+    mounted() {
+        if(this.$route.path.includes('seller')||this.$route.path.includes('admin')){
+            this.tabs= [
+                {
+                    title: "Profile",
+                    icon: "mdi-account",
+                    tab: "profile",
+                },
+                {
+                    title: "Security",
+                    icon: "mdi-lock-open",
+                    tab: "security",
+                },
+            ]
+        }
+        else{
+            this.tabs= [
                 {
                     title: "Profile",
                     icon: "mdi-account",
@@ -37,13 +63,8 @@ export default {
                     icon: "mdi-store",
                     tab: "myStore",
                 },
-            ],
-        };
-    },
-    methods: {
-        search(textSearch) {
-            this.$router.push({ name: "shop" ,query: {textSearch:textSearch} });
-        },
+            ]
+        }
     },
 };
 

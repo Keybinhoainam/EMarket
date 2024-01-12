@@ -56,88 +56,6 @@ export default {
         this.user.username = this.$store.state.data.user.username;
     },
 };
-
-// const recentDevicesHeaders = [
-//     {
-//         title: "BROWSER",
-//         key: "browser",
-//     },
-//     {
-//         title: "DEVICE",
-//         key: "device",
-//     },
-//     {
-//         title: "LOCATION",
-//         key: "location",
-//     },
-//     {
-//         title: "RECENT ACTIVITY",
-//         key: "recentActivity",
-//     },
-// ];
-
-// const recentDevices = [
-//     {
-//         browser: "Chrome on Windows",
-//         device: "HP Spectre 360",
-//         location: "New York, NY",
-//         recentActivity: "28 Apr 2022, 18:20",
-//         deviceIcon: {
-//             icon: "bxl-windows",
-//             color: "primary",
-//         },
-//     },
-//     {
-//         browser: "Chrome on iPhone",
-//         device: "iPhone 12x",
-//         location: "Los Angeles, CA",
-//         recentActivity: "20 Apr 2022, 10:20",
-//         deviceIcon: {
-//             icon: "bx-mobile",
-//             color: "error",
-//         },
-//     },
-//     {
-//         browser: "Chrome on Android",
-//         device: "Oneplus 9 Pro",
-//         location: "San Francisco, CA",
-//         recentActivity: "16 Apr 2022, 04:20",
-//         deviceIcon: {
-//             icon: "bxl-android",
-//             color: "success",
-//         },
-//     },
-//     {
-//         browser: "Chrome on MacOS",
-//         device: "Apple iMac",
-//         location: "New York, NY",
-//         recentActivity: "28 Apr 2022, 18:20",
-//         deviceIcon: {
-//             icon: "bxl-apple",
-//             color: "secondary",
-//         },
-//     },
-//     {
-//         browser: "Chrome on Windows",
-//         device: "HP Spectre 360",
-//         location: "Los Angeles, CA",
-//         recentActivity: "20 Apr 2022, 10:20",
-//         deviceIcon: {
-//             icon: "bxl-windows",
-//             color: "primary",
-//         },
-//     },
-//     {
-//         browser: "Chrome on Android",
-//         device: "Oneplus 9 Pro",
-//         location: "San Francisco, CA",
-//         recentActivity: "16 Apr 2022, 04:20",
-//         deviceIcon: {
-//             icon: "bxl-android",
-//             color: "success",
-//         },
-//     },
-// ];
 </script>
 
 <template>
@@ -193,7 +111,7 @@ export default {
                         </v-row>
                     </v-card-text>
                     <v-card-text>
-                        <p class="text-base font-weight-medium mt-2">Password Requirements:</p>
+                        <p class="text-base font-weight-medium mt-2">Password Suggestions:</p>
 
                         <ul class="d-flex flex-column gap-y-3">
                             <li v-for="item in passwordRequirements" :key="item" class="d-flex">
@@ -213,7 +131,7 @@ export default {
             </v-card>
         </v-col>
 
-        <v-col cols="12">
+        <!-- <v-col cols="12">
             <v-card title="Two-steps verification">
                 <v-card-text>
                     <p class="font-weight-semibold">
@@ -297,7 +215,7 @@ export default {
                     </div>
                 </v-card-text>
             </v-card>
-        </v-col>
+        </v-col> -->
 
         <!-- <v-col cols="12">
             <v-card title="Recent Devices">

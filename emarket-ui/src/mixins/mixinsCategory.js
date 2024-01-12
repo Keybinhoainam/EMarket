@@ -61,8 +61,9 @@ export default {
         },
         async saveCategory() {
             try {
-                console.log(this.category);
-                this.category.store=this.$store.state.data.user.store
+                // console.log(this.category);
+                // console.log(this.config);
+                // this.config=this.$store.state.data.config
                 await categoryService.saveCategory(this.urlSave, this.category, this.config);
                 this.alertSuccess("Category saved successfully");
                 await this.$emit("fetchData");

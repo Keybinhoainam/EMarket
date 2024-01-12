@@ -37,7 +37,7 @@ export default {
             expanded: [],
         };
     },
-    async created() {
+    async mounted() {
         // if (this.$route.query.status && this.$route.query.status == 1) {
         //     await this.changeStatus();
         // }

@@ -51,6 +51,7 @@ public class CategoryService {
 //			System.out.println(list2.get(0).getImage());
 			return cdto;
 		}).collect(Collectors.toList());
+//		System.out.println(dtos.size());
 		// TODO Auto-generated method stub
 		return dtos;
 	}

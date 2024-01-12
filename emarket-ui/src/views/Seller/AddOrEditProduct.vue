@@ -15,7 +15,7 @@
                         <label>Category</label>
                         <select
                             class="form-control"
-                            v-model="product.category"
+                            v-model="categoryProductId"
                             @blur="validateProduct()"
                             v-bind:class="{
                                 'is-invalid': errors.category.id,
@@ -23,8 +23,8 @@
                         >
                             <option
                                 v-for="category of categories"
-                                :key="category"
-                                :value="category"
+                                :key="category.id"
+                                :value="category.id"
                             >
                                 {{ category.category_name }}
                             </option>
@@ -71,30 +71,27 @@
                     </div>
                     <div class="form-group">
                         <label>Description</label>
-                        <input
-                            type="text"
-                            class="form-control"
+                        <v-textarea
                             v-model="product.description"
                             @blur="validateProduct()"
                             v-bind:class="{
                                 'is-invalid': errors.description,
                             }"
-                        />
+                        >
+                        </v-textarea>
                         <div class="invalid-feedback mt-1 mb-4 ms-1">
                             {{ errors.description }}
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Short Description</label>
-                        <input
-                            type="text"
-                            class="form-control"
+                        <v-textarea
                             v-model="product.short_description"
                             @blur="validateProduct()"
                             v-bind:class="{
                                 'is-invalid': errors.short_description,
                             }"
-                        />
+                        ></v-textarea>
                         <div class="invalid-feedback mt-1 mb-4 ms-1">
                             {{ errors.short_description }}
                         </div>
@@ -132,38 +129,18 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Is new ?</label>
+                        <label>Status Product</label>
                         <select
-                            class="form-select"
-                            aria-label="Select an option"
-                            v-model="product.is_new"
+                            class="form-control"
+                            v-model="product.product_status"
+                            @blur="validateProduct()"
                         >
-                            <option value="true" selected>True</option>
-                            <option value="false">False</option>
+                            <option v-for="status in statuses" :key="status" :value="status">
+                                {{status}}
+                            </option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>Is featured ?</label>
-                        <select
-                            class="form-select"
-                            aria-label="Select an option"
-                            v-model="product.is_featured"
-                        >
-                            <option value="true" selected>True</option>
-                            <option value="false">False</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Is discontinued ?</label>
-                        <select
-                            class="form-select"
-                            aria-label="Select an option"
-                            v-model="product.is_discontinued"
-                        >
-                            <option value="true" selected>True</option>
-                            <option value="false">False</option>
-                        </select>
-                    </div>
+
                     <div class="form-group">
                         <label>Image</label>
                         <div
@@ -212,6 +189,7 @@ import Cookies from "js-cookie";
 import { getCurrentInstance } from "vue";
 import { nextTick } from "vue";
 import mixinsCategory from "@/mixins/mixinsCategory";
+import Category from '@/models/category';
 export default {
     props: ["baseURL", "config", "schema"],
     emits: ["fetchData"],
@@ -223,26 +201,32 @@ export default {
             noImageUrl: "@/assets/images/noImage.png",
             previewImage: null,
             isEdit: false,
-            categories:[]
+            categories: [],
+            categoryProductId:1,
+            statuses:[
+                'Normal',
+                'On Sale',
+                'New Arrivals'
+            ]
         };
     },
-    mixins: [sweetAlert, mixinsProduct,mixinsCategory],
+    mixins: [sweetAlert, mixinsProduct, mixinsCategory],
     components: { Form, ErrorMessage, Field },
     // components:{
     //   VueMultiImageUpload
     // },
     async created() {
-        this.categories=this.getAllCategories();
-        this.product.category=this.categories[0];
-        const route = useRoute();
+        const route = this.$route;
         if (route.params.id) {
             this.isEdit = true;
             await this.getProduct(route.params.id);
             // console.log(this.product);
         }
-
         this.applyImages();
         this.checkCategoryEmpty();
+    },
+    async mounted(){
+        await this.getAllCategories();
     },
     methods: {
         uploadImages(e) {
@@ -263,14 +247,16 @@ export default {
         async saveProduct() {
             try {
                 let store = this.$store.state.data.user.store;
-
                 this.product.store = store;
+                if(this.product.category&&!this.product.category.id){
+                    this.product.category.id=this.categoryProductId;
+                }
 
                 this.config.headers["Accept"] = "application/json";
                 // console.log(this.config);
                 // console.log(this.product);
                 await productService.saveProduct(this.saveProductUrl, this.product, this.config);
-                await  this.saveProductImage();
+                if(this.product.product_images.length>0)await this.saveProductImage();
                 this.alertSuccess("create/update an product successfully", "");
                 await this.$emit("fetchData");
                 this.$router.push({ name: "Product" });
@@ -287,7 +273,11 @@ export default {
             formData.append("product_name", this.product.product_name);
             this.config.headers["content-Type"] = "multipart/form-data";
 
-            await productService.saveProductImages(this.saveProductImagesUrl, formData, this.config);
+            await productService.saveProductImages(
+                this.saveProductImagesUrl,
+                formData,
+                this.config
+            );
             this.config.headers["content-Type"] = undefined;
         },
         async save() {

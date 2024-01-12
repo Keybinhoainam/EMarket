@@ -9,6 +9,7 @@
                         <thead>
                             <tr>
                                 <th >ITEM</th>
+                                <th>STORE</th>
                                 <th >PRICE</th>
                                 <th >QUANTITY</th>
                                 <th >TOTAL</th>
@@ -35,8 +36,10 @@
                                         </v-list-item>
                                     </v-list-item>
                                 </td>
+                                <td>{{ cart_detail.product.store.store_name }}</td>
                                 <td >
                                     ${{ cart_detail.product.price }}
+                                
                                 </td>
                                 <td>
                                     <v-text-field
@@ -114,7 +117,21 @@ export default {
     mixins: [mixinsCart, mixinsProduct, sweetAlert],
     methods: {
         checkout(){
-            this.$router.push("/checkout")
+            if(this.beforeCheckOut()) this.$router.push("/checkout");
+            else{
+                this.alertFail("Failed to check out !", "Please Check out products from the same store ");
+            }
+        },
+        beforeCheckOut(){
+            console.log(this.cart);
+            let tmp=this.cart.cart_details[0].product.store.id;
+            for(let i=0;i< this.cart.cart_details.length;i++){
+                
+                let cartDetail=this.cart.cart_details[i];
+                console.log(cartDetail);
+                if(tmp!=cartDetail.product.store.id) return false;
+            }
+            return true;
         }
     },
     async created() {

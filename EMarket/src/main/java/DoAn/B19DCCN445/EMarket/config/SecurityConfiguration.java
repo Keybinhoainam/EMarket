@@ -30,6 +30,7 @@ public class SecurityConfiguration {
 								.requestMatchers("/api/zaloPay/**").permitAll()
 								.requestMatchers("/api/data/**").permitAll()
 								.requestMatchers("/api/seller/**").hasAnyAuthority("SELLER","ADMIN")
+								.requestMatchers("/api/admin/**").hasAnyAuthority("ADMIN")
 								.anyRequest().authenticated();
 								
 		});	

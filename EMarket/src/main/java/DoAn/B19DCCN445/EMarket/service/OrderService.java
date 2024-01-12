@@ -16,6 +16,7 @@ import DoAn.B19DCCN445.EMarket.dto.OrderDTO;
 import DoAn.B19DCCN445.EMarket.model.Order;
 import DoAn.B19DCCN445.EMarket.model.Order_detail;
 import DoAn.B19DCCN445.EMarket.model.Product;
+import DoAn.B19DCCN445.EMarket.model.Store;
 import DoAn.B19DCCN445.EMarket.model.User;
 import DoAn.B19DCCN445.EMarket.repository.AccountRepository;
 import DoAn.B19DCCN445.EMarket.repository.OrderDetailRepository;
@@ -92,6 +93,8 @@ public class OrderService {
 		}
 		Order order= repository.findById(request.getId()).get();
 		order.setOrder_status(request.getOrder_status());
+		System.out.println("order: ");
+		System.out.println(order);
 		repository.save(order);
 		BeanUtils.copyProperties(order, orderDTO);
 		
@@ -143,7 +146,40 @@ public class OrderService {
 			amount+=order_detail.getUnit_price();
 		}
 		dto.setAmount(amount);
+		User user=new User();
+		user.setId(order.getUser().getId());
+		dto.setUser(user);
+		
 		// TODO Auto-generated method stub
 		return dto;
+	}
+
+	public List<Order> getOrdersByStore(Store store) throws Exception {
+		// TODO Auto-generated method stub
+		List<Order> orders=repository.findByStore(store);
+		LocalDateTime currentDateTime = LocalDateTime.now();
+		for(Order order :orders  ) {
+//			System.out.println(order.getOrder_details().size());
+			LocalDateTime time = order.getOrder_date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+			if( order.getOrder_status().equals("Unpaid")) {
+				int zaloOrderStatus=GetZaloOrderStatus.main(order);
+				if(ChronoUnit.MINUTES.between(time, currentDateTime) >= 15) {
+					order.setOrder_status("Cancelled");
+					changeQuantityProductOrder(order);
+					
+				}
+				else if(zaloOrderStatus==1){
+					order.setOrder_status("Order Placed");
+					order.setPaid_date(new Date());
+				}
+				else if(zaloOrderStatus==2){
+					order.setOrder_status("Cancelled");
+					changeQuantityProductOrder(order);
+					
+				}
+				repository.save(order);
+			}
+		}
+		return orders;
 	}
 }

@@ -59,13 +59,7 @@ export default {
             cart: null,
             defaultAvatar: defaultAvatar,
             menus: {
-                loggedIn: [
-                    { title: "Profile", icon: "mdi-account", link: "/profile" },
-                    { title: "Change Password", icon: "mdi-key", link: "/security" },
-                    { title: "My Purchase", icon: "mdi-shopping", link: "/myPurchase"},
-                    { title: "My Store", icon: "mdi-store", link: "/myStore"},
-                    { title: "Logout", icon: "mdi-logout", click: this.logout },
-                ],
+                loggedIn: [],
                 notLogIn: [
                     { title: "Login", icon: "mdi-account", link: "/login" },
                     { title: "Register", icon: "mdi-key", link: "/register" },
@@ -78,7 +72,7 @@ export default {
             this.user = new User();
             await this.mxLogout();
             // this.$router.push('/');
-            window.location.href="/";
+            window.location.href = "/";
         },
     },
     async created() {
@@ -88,6 +82,30 @@ export default {
             await this.applyImages();
         }
         // await console.log(this.avatarString);
+    },
+    mounted() {
+        if (this.$route.path.includes("seller")) {
+            this.menus.loggedIn = [
+                { title: "Profile", icon: "mdi-account", link: "/seller/profile" },
+                { title: "Change Password", icon: "mdi-key", link: "/seller/security" },
+                { title: "Continue Shopping", icon: "mdi mdi-shopping", link: "/" },
+                { title: "Logout", icon: "mdi-logout", click: this.logout },
+            ];
+        } else if (this.$route.path.includes("admin")) {
+            this.menus.loggedIn = [
+                { title: "Profile", icon: "mdi-account", link: "/admin/profile" },
+                { title: "Change Password", icon: "mdi-key", link: "/admin/security" },
+                { title: "Logout", icon: "mdi-logout", click: this.logout },
+            ];
+        } else {
+            this.menus.loggedIn = [
+                { title: "Profile", icon: "mdi-account", link: "/profile" },
+                { title: "Change Password", icon: "mdi-key", link: "/security" },
+                { title: "My Purchase", icon: "mdi-shopping", link: "/myPurchase" },
+                { title: "My Store", icon: "mdi-store", link: "/myStore" },
+                { title: "Logout", icon: "mdi-logout", click: this.logout },
+            ];
+        }
     },
 };
 </script>

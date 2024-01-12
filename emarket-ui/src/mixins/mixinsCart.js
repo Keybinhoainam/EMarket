@@ -100,14 +100,20 @@ export default {
             }
         },
         loadProductCartDetail(productCartDetail,product){
+            console.log("loadProductCartDetail");
+            console.log(product);
             productCartDetail.id=product.id;
             productCartDetail.product_name=product.product_name;
             productCartDetail.price=product.price;
 
             productCartDetail.stock=product.stock;
             productCartDetail.product_images=product.product_images;
+            productCartDetail.store.id=product.store.id;
+            productCartDetail.store.store_name=product.store.store_name
         },
         addToCart(product, quantity) {
+            console.log("addToCart");
+            console.log(product);
             if (quantity <= 0 || quantity == "") {
                 this.alertFail("Please re-fill quantity");
                 return;

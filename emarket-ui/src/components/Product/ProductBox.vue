@@ -40,7 +40,7 @@
             </v-img>
             <v-card-text class="text-primary text-left">
                 <div>
-                    <a @click="$router.push('/product')" style="text-decoration: none">{{
+                    <a @click="$router.push('/product/show/' + product.id)" style="text-decoration: none" class="text-subtitle-1 text-black">{{
                         product.product_name
                     }}</a>
                 </div>
@@ -52,7 +52,7 @@
                 </div>
                 <div>
                     <v-rating
-                        v-if="product.rating=4"
+                        v-if="product.rating"
                         readonly
                         :model-value="product.rating"
                         class=""

@@ -13,14 +13,26 @@ export default {
             saveOrderUrl: `http://localhost:8080/api/order/saveOrder`,
             changeStatusUrl: "http://localhost:8080/api/order/changeStatus",
             getOrdersByUserUrl: `http://localhost:8080/api/order/getOrdersByUser`,
+            getOrdersByStoreUrl: `http://localhost:8080/api/order/getOrdersByStore`,
             cart: new Cart(),
             zaloPayOrder: new ZaloPayOrder(),
         };
     },
     methods: {
+        saveStatus(){
+            console.log(this.order);
+            orderService.saveOrder(
+                this.saveOrderUrl,
+                this.order,
+                this.$store.state.data.config
+            );
+        },
         async getOrder() {
+            
             let url = `${this.baseURL}/order/getOrder/${this.$route.params.id}`;
             this.order = await orderService.getOrder(url, this.config);
+            console.log("getOrder");
+            console.log(this.order);
         },
         async checkOut() {
             try {
@@ -122,8 +134,9 @@ export default {
                 //     // window.location.href = await response.order_url;
                 // }
             } else {
-                this.$router.push("/myPurchase");
                 await this.saveOrder();
+                this.$router.push("/myPurchase");
+                
             }
         },
         async changeStatus(status) {
@@ -152,6 +165,16 @@ export default {
                 this.$store.state.data.user,
                 this.$store.state.data.config
             );
+
+        },
+        async getOrdersByStore() {
+            console.log(this.$store.state.data.user.store);
+            this.orders = await orderService.getOrdersByStore(
+                this.getOrdersByStoreUrl,
+                this.$store.state.data.user.store,
+                this.$store.state.data.config
+            );
+            console.log(this.orders.slice());
         },
         proceedToPayment() {
             window.location.href = this.order.paymentLink;

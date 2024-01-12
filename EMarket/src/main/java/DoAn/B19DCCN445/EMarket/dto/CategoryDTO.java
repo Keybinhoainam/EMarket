@@ -36,7 +36,6 @@ public class CategoryDTO {
 	private String category_name;
 	private String description;
 	private String image;
-	private Store store;
 	private Timestamp create_at;
 	private Timestamp update_at;
 }

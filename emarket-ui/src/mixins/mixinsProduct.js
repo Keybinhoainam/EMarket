@@ -1,4 +1,5 @@
 import Product from "@/models/product";
+import Product_review from "@/models/product_review";
 import productService from "@/services/product.service";
 import { nextTick } from "vue";
 import { useRoute } from "vue-router";
@@ -14,10 +15,24 @@ export default {
             getAllProductsUrl:`${this.baseURL}/data/product/getallproducts`,
             getAllCategoriesUrl:`${this.baseURL}/data/category/getAllCategories`,
             getAllProductsStoreUrl:`${this.baseURL}/data/product/getAllProductsStore`,
+            saveReviewUrl:`${this.baseURL}/product/saveReivew`
             
         };
     },
     methods: {
+        async submitReview(orderDetail){
+            if(this.review.rating&&this.review.title&&this.review.subtitle){
+                this.review.user=this.$store.state.data.user
+                this.review.product.id=orderDetail.product.id
+                this.review.order_detail.id=orderDetail.id
+                // console.log(this.review);
+                await productService.saveReivew(this.saveReviewUrl,this.review,this.config),
+                this.showReviewDialog = false;
+                this.review=new Product_review();
+                orderDetail.isReviewed=true
+
+            }
+        },
         getImageURL(filename) {
             return `${this.baseGetImageUrl}${filename}`;
         },
@@ -49,6 +64,7 @@ export default {
                         `${this.getProductUrl}${id}`,
                         this.config
                     );
+                    this.categoryProductId = this.product.category.id;
                     let length = this.product.product_images.length;
                     for (let i = 0; i < length; i++) {
                         let fileName = this.product.product_images[i].image;
@@ -72,6 +88,7 @@ export default {
                         `${this.getProductUrl}${id}`,
                         this.config
                     );
+                    console.log(this.product);
                     this.indexShowImage=0;
                 } catch (error) {
                     this.alertFail("Failed to edit an product !", "product not exists");
@@ -92,7 +109,7 @@ export default {
             }
         },
         validateCategoryProduct() {
-            if (this.product.category&&!this.product.category.id) {
+            if (this.categoryProductId==-1) {
                 this.errors.category.id = "Category is required";
                 this.isValid = false;
             }
@@ -110,7 +127,7 @@ export default {
             }
         },
         validateStockProduct() {
-            if (!this.product.stock) {
+            if (this.product.stock<0) {
                 this.errors.stock = "Stock is required";
                 this.isValid = false;
             }

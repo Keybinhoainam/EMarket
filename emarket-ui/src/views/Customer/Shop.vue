@@ -140,9 +140,10 @@ import mixinsProduct from "@/mixins/mixinsProduct";
 import sweetAlert from "@/mixins/sweetAlert";
 import { nextTick, shallowRef } from "vue";
 import ProductBox from "@/components/Product/ProductBox";
+import mixinsData from "@/mixins/mixinsData";
 export default {
-    props: ["categories", "products", "baseURL", "textSearch"],
-    mixins: [mixinsProduct, sweetAlert],
+    props: [ "baseURL", "textSearch"],
+    mixins: [mixinsProduct, sweetAlert,mixinsData],
     components: { ProductBox },
     data: () => ({
         ratings: [
@@ -192,6 +193,8 @@ export default {
         },
         itemsPerPage: 12,
         currentPage: 1,
+        products:[],
+        categories:[]
     }),
     computed: {
         totalPages() {
@@ -204,8 +207,8 @@ export default {
         },
         filteredProducts() {
             let filterProducts = this.products.slice();
-            if(this.textSearch!="")filterProducts=filterProducts.filter(product => product.product_name.toLowerCase().includes(this.textSearch));
-            if (this.filters.category != 0)
+            if(this.textSearch&&this.textSearch!="")filterProducts=filterProducts.filter(product => product.product_name.toLowerCase().includes(this.textSearch));
+            if (this.filters.category && this.filters.category != 0)
                 filterProducts = filterProducts.filter(
                     (product) => product.category.id == this.filters.category
                 );
@@ -246,5 +249,20 @@ export default {
         //     await this.findProductsLikeName(textSearch);
         // }
     },
+    mounted(){
+        let findByQuery=this.$route.query.findBy
+        if(findByQuery){
+            if(findByQuery=='category'){
+                this.filters.category=this.$route.query.category
+                // console.log(this.filters.category);
+            }
+            else{
+                this.filters.select=findByQuery
+            }
+        }
+        this.fetchData();
+        // console.log(this.products);
+        // console.log(this.$route.query.findBy);
+    }
 };
 </script>

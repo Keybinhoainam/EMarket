@@ -40,11 +40,12 @@ public class AccountService {
 		return list;
 	}
 	public UserDTO saveAccount(UserDTO uDto) {
+		System.out.println(uDto);
 		User u=accountRepository.findById(uDto.getId()).get();
 		uDto.setPassword(u.getPassword());
 		uDto.setAvatar(u.getAvatar());
 		List<Role> roles=new ArrayList<>(u.getRoles());
-		if(u.getStore().getId()!=null&&roles.get(0).getName().equals("CUSTOMER")) {
+		if(uDto.getStore().getId()!=null&&roles.get(0).getName().equals("CUSTOMER")) {
 			Role role= roleRepository.findById((long) 2).get();
 			roles.add(0,role);
 		}

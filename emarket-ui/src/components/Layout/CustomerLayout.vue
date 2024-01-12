@@ -7,22 +7,11 @@
                     <span>Home</span>
                 </v-btn>
                 <v-btn @click="$router.push('/shop')">
-                    <span>Shop</span>
+                    <span>Shopping</span>
                 </v-btn>
-                <v-menu open-on-hover offset-y>
-                    <template v-slot:activator="{ props }">
-                        <v-btn v-bind="props"> Product </v-btn>
-                    </template>
-                    <v-list class="mx-auto" max-width="344px">
-                        <v-list-item
-                            v-for="(product, index) in products"
-                            :key="index"
-                            @click="$router.push('/product/show/' + product.id)"
-                        >
-                            <v-list-item-title>{{ product.product_name }}</v-list-item-title>
-                        </v-list-item>
-                    </v-list>
-                </v-menu>
+                <v-btn @click="$router.push('/cart')">
+                    <span>Cart</span>
+                </v-btn>
 
                 <!-- <v-btn href="/blog">
                     <span>Blog</span>

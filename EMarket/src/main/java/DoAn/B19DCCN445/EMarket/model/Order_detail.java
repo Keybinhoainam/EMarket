@@ -36,6 +36,7 @@ public class Order_detail {
 	private Double unit_price;
 	private Double discount_percentage;
 	private Double discount_amount;
+	private Boolean isReviewed;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "order_id")

@@ -40,9 +40,9 @@ public class OrderDTO {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String id;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd HH:mm:ss",timezone = "GMT+7")
 	private Date order_date;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd HH:mm:ss",timezone = "GMT+7")
 	private Date shipped_date;
 	private String note;
 	private String ship_address;
@@ -53,9 +53,10 @@ public class OrderDTO {
 	private Date create_at;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date update_at;
-//	private User user;
+	private User user;
 	private String payment_type;
 	private Collection<Order_detail>order_details;
 	private Double amount;
 	private String paymentLink;
+	
 }

@@ -38,6 +38,78 @@
                                     {{ orderDetail.quantity }}
                                 </td>
                                 <td>${{ orderDetail.product.price * orderDetail.quantity }}</td>
+
+                                <v-dialog v-model="showReviewDialog" width="auto" :disabled="orderDetail.isReviewed">
+                                    <template v-slot:activator="{ props }" v-if="order.order_status=='Completed'">
+                                        <v-btn :color="orderDetail.isReviewed?'grey':'error'" v-bind="props"> Rate </v-btn>
+                                    </template>
+                                    <v-card>
+                                        <v-card-title class="text-h5"> Rate Product </v-card-title>
+                                        <v-card-text>
+                                            <v-list-item
+                                                :title="orderDetail.product.product_name"
+                                                :prepend-avatar="
+                                                    orderDetail.product.product_images.length > 0 &&
+                                                    orderDetail.product.product_images[0].image !=
+                                                        null
+                                                        ? getImageURL(
+                                                              orderDetail.product.product_images[0]
+                                                                  .image
+                                                          )
+                                                        : require('@/assets/images/noImage.png')
+                                                "
+                                            >
+                                            </v-list-item>
+                                        </v-card-text>
+
+                                        <v-card-actions>
+                                            Product Quanlity:
+
+                                            <v-spacer></v-spacer>
+
+                                            <v-rating
+                                                v-model="review.rating"
+                                                class=""
+                                                background-color="warning lighten-3"
+                                                color="warning"
+                                            >
+                                            </v-rating>
+                                        </v-card-actions>
+                                        <v-card-actions>
+                                            <v-text-field
+                                                v-model="review.title"
+                                                label=""
+                                                placeholder="Title Review"
+                                                :rules="required"
+                                            />
+                                        </v-card-actions>
+                                        <v-card-actions>
+                                            <v-text-field
+                                                v-model="review.subtitle"
+                                                label="Subtitle Review"
+                                                placeholder="Subtitle Review"
+                                                :rules="required"
+                                            />
+                                        </v-card-actions>
+                                        <v-card-actions>
+                                            <v-spacer></v-spacer>
+                                            <v-btn
+                                                color="gray-darken-1"
+                                                variant="text"
+                                                @click="showReviewDialog = false"
+                                            >
+                                                Cancel
+                                            </v-btn>
+                                            <v-btn
+                                                color="green-darken-1"
+                                                variant="text"
+                                                @click="submitReview(orderDetail)"
+                                            >
+                                                Submit
+                                            </v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </v-dialog>
                             </tr>
                         </tbody>
                         <!-- </template> -->
@@ -80,7 +152,7 @@
                     </v-table>
                 </v-col>
                 <v-col :cols="12" md="8" sm="12"></v-col>
-                <v-col :cols="12" md="4" sm="12">
+                <v-col :cols="12" md="4" sm="12" >
                     <v-btn
                         v-if="order.order_status == 'Unpaid'"
                         class="m-2"
@@ -89,7 +161,9 @@
                         >Continue payment</v-btn
                     >
                     <v-btn
-                        v-if="order.order_status == 'Unpaid' || order.order_status=='Order Placed'"
+                        v-if="
+                            order.order_status == 'Unpaid' || order.order_status == 'Order Placed'
+                        "
                         class="m-0"
                         color="red"
                         @click="changeStatus('Cancelled')"
@@ -106,15 +180,19 @@ import mixinsProduct from "@/mixins/mixinsProduct";
 import sweetAlert from "@/mixins/sweetAlert";
 import Order from "@/models/order";
 import mixinsOrder from "@/mixins/mixinsOrder";
+import mixinsValidation from "@/mixins/mixinsValidation";
+import Product_review from '@/models/product_review';
 export default {
     data() {
         return {
             noImageUrl: "@/assets/images/noImage.png",
             order: new Order(),
+            showReviewDialog: false,
+            review:new Product_review(),
         };
     },
     props: ["baseURL", "config", "products"],
-    mixins: [mixinsProduct, sweetAlert, mixinsOrder],
+    mixins: [mixinsProduct, sweetAlert, mixinsOrder, mixinsValidation],
     methods: {
         checkout() {
             this.$router.push("/checkout");

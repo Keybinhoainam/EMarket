@@ -65,7 +65,7 @@
             ></v-btn>
             <v-app-bar-nav-icon @click="$emit('drawerEvent')" v-else></v-app-bar-nav-icon>
             <v-spacer />
-            <v-col lg="6" cols="12">
+            <!-- <v-col lg="6" cols="12">
                 <v-form>
                     <v-text-field
                         class="p-0 m-0 mt-6"
@@ -76,7 +76,7 @@
                         placeholder="Search"
                     />
                 </v-form>
-            </v-col>
+            </v-col> -->
             <v-spacer />
             <Notification />
             <AccountMenu />

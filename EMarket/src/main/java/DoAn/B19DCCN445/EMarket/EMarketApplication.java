@@ -57,53 +57,134 @@ public class EMarketApplication implements CommandLineRunner {
 //		em.persist(role3);
 //		List<Role> roles = new ArrayList<>();
 //		roles.add(role1);
-//		User user1 = User.builder().username("admin").password(encoder.encode("123")).fullname("Bùi Hoài Nam")
+//		User userAdmin1 = User.builder().username("admin").password(encoder.encode("123")).fullname("Bùi Hoài Nam")
 //				.birthday(faker.date().birthday()).phone(faker.phoneNumber().cellPhone()).roles(roles).gender("Male")
 //				.email(faker.internet().emailAddress()).build();
-//		em.persist(user1);
+//		em.persist(userAdmin1);
 //
+//		
+//		List<User> users=new ArrayList<User>();
+//		// add seller
+//		Store store;
+//		User userSeller;
 //		roles = new ArrayList<>();
 //		roles.add(role2);
 //		roles.add(role3);
-//		Store store = Store.builder().store_name("BHN Store").description("Description").image(null).build();
+//		
+//		store = Store.builder().store_name("BHN Store").description("Description").image(null).build();
 //		em.persist(store);
-//		User user2 = User.builder().username("bhn").password(encoder.encode("123"))
+//		userSeller = User.builder().username("bhn").password(encoder.encode("123"))
 //				.email(faker.internet().emailAddress()).fullname("Bùi Hoài Ninh").gender("Male")
 //				.phone(faker.phoneNumber().cellPhone()).roles(roles).birthday(faker.date().birthday()).store(store)
 //				.build();
-//		em.persist(user2);
+//		users.add(userSeller);
+//		em.persist(userSeller);
+//		
+//		store = Store.builder().store_name("NTL Store").description("Description").image(null).build();
+//		em.persist(store);
+//		userSeller = User.builder().username("ntl").password(encoder.encode("123"))
+//				.email(faker.internet().emailAddress()).fullname("Nguyễn Thị Linh").gender("Female")
+//				.phone(faker.phoneNumber().cellPhone()).roles(roles).birthday(faker.date().birthday()).store(store)
+//				.build();
+//		users.add(userSeller);
+//		em.persist(userSeller);
+//		
+//		store = Store.builder().store_name("BVT Store").description("Description").image(null).build();
+//		em.persist(store);
+//		userSeller = User.builder().username("bvt").password(encoder.encode("123"))
+//				.email(faker.internet().emailAddress()).fullname("Bùi Văn Tùng").gender("Male")
+//				.phone(faker.phoneNumber().cellPhone()).roles(roles).birthday(faker.date().birthday()).store(store)
+//				.build();
+//		users.add(userSeller);
+//		em.persist(userSeller);
+//		
+//		store = Store.builder().store_name("NTQ Store").description("Description").image(null).build();
+//		em.persist(store);
+//		userSeller = User.builder().username("ntq").password(encoder.encode("123"))
+//				.email(faker.internet().emailAddress()).fullname("Nguyễn Tú Quyên").gender("Female")
+//				.phone(faker.phoneNumber().cellPhone()).roles(roles).birthday(faker.date().birthday()).store(store)
+//				.build();
+//		users.add(userSeller);
+//		em.persist(userSeller);
+//		
+//		store = Store.builder().store_name("NMT Store").description("Description").image(null).build();
+//		em.persist(store);
+//		userSeller = User.builder().username("nmt").password(encoder.encode("123"))
+//				.email(faker.internet().emailAddress()).fullname("Nguyễn Mạnh Thắng").gender("Male")
+//				.phone(faker.phoneNumber().cellPhone()).roles(roles).birthday(faker.date().birthday()).store(store)
+//				.build();
+//		users.add(userSeller);
+//		em.persist(userSeller);
+//		
+//		
+//		//add khách hàng
 //		roles = new ArrayList<>();
 //		roles.add(role3);
-//		User user3 = User.builder().username("btk").password(encoder.encode("123"))
+//		User userCustomer = User.builder().username("btk").password(encoder.encode("123"))
 //				.email(faker.internet().emailAddress()).fullname("Bùi Tuấn Kiệt").gender("Male")
 //				.phone(faker.phoneNumber().cellPhone()).roles(roles).birthday(faker.date().birthday())
 //				.build();
-//		em.persist(user3);
+//		users.add(userCustomer);
+//		em.persist(userCustomer);
 //		
-//		Category category = Category.builder().category_name("Laptop").id(null).description("description")
-//				.build();
-//		em.persist(category);
-//		Category category2 = Category.builder().category_name("Smart Phone").id(null).description("description")
-//				.build();
-//		em.persist(category2);
-//
-//		Category category3 = Category.builder().category_name("Test").id(null).description("description")
-//				.build();
-//		em.persist(category3);
+//		
+//////	add loại
+////		Category category = Category.builder().category_name("Laptop").id(null).description("description")
+////				.build();
+////		em.persist(category);
+////		Category category2 = Category.builder().category_name("Smart Phone").id(null).description("description")
+////				.build();
+////		em.persist(category2);
+////
+////		Category category3 = Category.builder().category_name("Test").id(null).description("description")
+////				.build();
+////		em.persist(category3);
+//		
+//		int categoryQuantity=6;
+//		List<Category> categories=new ArrayList<Category>();
+//		for(int i=0;i<categoryQuantity;i++) {
+//			Category c=Category.builder().category_name(faker.commerce().department()).description(faker.lorem().sentence()).build();
+//			categories.add(c);
+//			em.persist(c);
+//		}
+//		
 //		for (int i = 0; i < 30; i++) {
-//			Double cost = Double.parseDouble(faker.commerce().price(1, 5));
+//			
+//			Double cost = Double.parseDouble(faker.commerce().price(1, 30));
 //			String description = faker.lorem().paragraphs(10).stream().reduce("", (s1, s2) -> s1 + "\n" + s2);
-//			Product p = Product.builder().product_name(faker.commerce().productName()).description(description)
-//					.standard_cost(cost).price(Double.parseDouble(faker.commerce().price(1, cost))).stock(100)
-//					.product_status("featured").category(category3).store(store).build();
+//			Product p = Product.builder()
+//								.product_name(faker.commerce()
+//								.productName())
+//								.description(description)
+//								.standard_cost(cost)
+//								.price(Double.parseDouble(faker.commerce().price(1, cost)))
+//								.stock(100)
+//								.product_status("featured")
+//								.category(categories.get(faker.number().numberBetween(0, categoryQuantity)))
+//								.store(store)
+//								.build();
 //			em.persist(p);
-//			Product_review pr1 = Product_review.builder().rating(faker.number().numberBetween(1, 6))
-//					.title(faker.lorem().sentence()).subtitle(faker.lorem().sentence()).product(p).user(user1).build();
-//			Product_review pr2 = Product_review.builder().rating(faker.number().numberBetween(1, 6))
-//					.title(faker.lorem().sentence()).subtitle(faker.lorem().sentence()).product(p).user(user2).build();
+//			
+//			
+//			Product_review pr1 = Product_review.builder()
+//										.rating(faker.number().numberBetween(1, 6))
+//										.title(faker.lorem().sentence())
+//										.subtitle(faker.lorem().sentence())
+//										.product(p)
+//										.user(users.get(faker.number().numberBetween(0, 5)))
+//										.build();
+//			Product_review pr2 = Product_review.builder()
+//										.rating(faker.number().numberBetween(1, 6))
+//										.title(faker.lorem().sentence())
+//										.subtitle(faker.lorem().sentence())
+//										.product(p)
+//										.user(users.get(faker.number().numberBetween(0, 5))).build();
 //			em.persist(pr1);
 //			em.persist(pr2);
 //		}
+//		Category category = Category.builder().category_name("Other").id(null).description("")
+//				.build();
+//		em.persist(category);
 
 	}
 

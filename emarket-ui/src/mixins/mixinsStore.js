@@ -17,8 +17,9 @@ export default {
                 let tmp=await storeService.saveStore(saveStoreUrl,this.store, this.config );
                 this.store.id=tmp.id;
                 if(this.isChangeImage&&this.store.imageFile) await this.saveImageStore();
-                
+                console.log(this.user);
                 this.user.store=this.store;
+                console.log(this.user);
                 let saveAccountUrl = `${this.baseURL}/account/saveAccount`;
                 this.user=await accountService.saveAccount(saveAccountUrl, this.user, this.config);
                 

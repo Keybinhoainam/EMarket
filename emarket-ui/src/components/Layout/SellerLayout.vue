@@ -1,7 +1,7 @@
 <template>
     <v-app id="inspire">
         <v-layout>
-            <Sidebar :drawer="drawer" />
+            <Sidebar :drawer="drawer" :role="role"/>
             <TopBar @drawerEvent="drawerEvent" :role="role"/>
             <v-main style="background: #f5f5f540">
                 <v-container class="py-8 px-6" fluid>

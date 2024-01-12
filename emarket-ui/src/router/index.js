@@ -8,15 +8,19 @@ import PageNotFound from "@/views/PageNotFound.vue";
 import Cookies from "js-cookie";
 import ShowDetails from "@/views/Customer/ShowDetails.vue";
 import Shop from "@/views/Customer/Shop.vue";
-import ProductsCategory from "@/views/Product/ProductsCategory.vue";
 import Cart from "@/views/Customer/Cart.vue";
 import WishList from "@/views/Customer/Wishlist.vue";
 import CustomerLayout from "@/components/Layout/CustomerLayout.vue";
 import SellerLayout from "@/components/Layout/SellerLayout.vue";
-import AccountSetting from "@/views/Common/AccountSetting.vue";
 import MyStore from "@/components/AccountSetting/MyStore.vue";
 import CheckOut from "@/views/Customer/CheckOut.vue";
 import ShowOrderDetailVue from "@/views/Customer/ShowOrderDetail.vue";
+import SellerShowOrderDetailVue from "@/views/Seller/ShowOrderDetail.vue";
+import OrdersVue from "@/views/Seller/Orders.vue";
+import SellerDashBoardVue from "@/views/Seller/SellerDashBoard.vue";
+import AdminAccountSettingVue from "@/views/Common/AccountSetting.vue";
+import SellerAccountSettingVue from "@/views/Common/AccountSetting.vue";
+import CustomerAccountSettingVue from "@/views/Common/AccountSetting.vue";
 
 const routes = [
     // {
@@ -56,11 +60,6 @@ const routes = [
                 component: ShowDetails,
             },
             {
-                path: "/category/products/:id",
-                name: "ShowProductsCategory",
-                component: ProductsCategory,
-            },
-            {
                 path: "/cart",
                 name: "Cart",
                 component: Cart,
@@ -85,7 +84,7 @@ const routes = [
                     requiresAuth: true,
                 },
                 props: { tab: "profile" },
-                component: AccountSetting,
+                component: CustomerAccountSettingVue,
             },
             {
                 path: "/security",
@@ -94,7 +93,7 @@ const routes = [
                     requiresAuth: true,
                 },
                 props: { tab: "security" },
-                component: AccountSetting,
+                component: CustomerAccountSettingVue,
             },
             {
                 path: "/myPurchase",
@@ -103,7 +102,7 @@ const routes = [
                     requiresAuth: true,
                 },
                 props: { tab: "myPurchase" },
-                component: AccountSetting,
+                component: CustomerAccountSettingVue,
             },
             {
                 path: "/showOrderDetail/:id",
@@ -120,7 +119,7 @@ const routes = [
                     requiresAuth: true,
                 },
                 props: { tab: "myStore" },
-                component: AccountSetting,
+                component: CustomerAccountSettingVue,
             },
         ],
     },
@@ -133,7 +132,33 @@ const routes = [
             // requireSellerAuth: true,
         },
         children: [
-            
+            {
+                path: "/seller/profile",
+                name: "Profile",
+                props: { tab: "profile" },
+                component: SellerAccountSettingVue,
+            },
+            {
+                path: "/seller/security",
+                name: "Security",
+                props: { tab: "security" },
+                component: SellerAccountSettingVue,
+            },
+            {
+                path: "/seller/dashBoard",
+                name: "DashBoard",
+                component: SellerDashBoardVue,
+            },
+            {
+                path: "/seller/showOrderDetail/:id",
+                name: "SellerShowOrderDetail",
+                component: SellerShowOrderDetailVue,
+            },
+            {
+                path: "/seller/orders",
+                name: "Orders",
+                component: OrdersVue,
+            },
             {
                 path: "/seller/product/add",
                 name: "AddProduct",
@@ -165,6 +190,18 @@ const routes = [
             // requireSellerAuth: true,
         },
         children: [
+            {
+                path: "/admin/profile",
+                name: "Profile",
+                props: { tab: "profile" },
+                component: AdminAccountSettingVue,
+            },
+            {
+                path: "/admin/security",
+                name: "Security",
+                props: { tab: "security" },
+                component: AdminAccountSettingVue,
+            },
             {
                 path: "/admin/category/add",
                 name: "AddCategory",

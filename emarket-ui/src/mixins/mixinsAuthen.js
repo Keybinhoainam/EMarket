@@ -29,7 +29,7 @@ export default {
                 this.alertSuccess("Login success !");
                 let redirect=this.$route.query.redirect;
                 if(this.user.roles[0].name=="ADMIN"){
-                    this.$router.push('/admin')
+                    this.$router.push('/admin/category')
                 }
                 else if(redirect&&redirect.startsWith('/admin')&&this.user.roles[0].name!="ADMIN"){
                     this.alertFail(

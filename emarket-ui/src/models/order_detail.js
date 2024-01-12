@@ -11,7 +11,8 @@ export default class Order_detail {
         order_detail_status,
         date_allocated,
         order = new Order(),
-        product = new Product()
+        product = new Product(),
+        isReviewed
     ) {
         Object.assign(this, {
             id,
@@ -23,6 +24,7 @@ export default class Order_detail {
             date_allocated,
             order,
             product,
+            isReviewed
         });
     }
 }

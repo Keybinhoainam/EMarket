@@ -16,11 +16,10 @@
                 </v-row>
             </v-carousel-item>
         </v-carousel>
-        <div class="pl-4 pr-4 row">
+        <div class="mt-3 row">
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <v-card>
                     <v-img
-                        
                         :src="require('@/assets/images/dowload/backGround/onsale.png')"
                         class="text-white align-center"
                         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
@@ -77,7 +76,10 @@
                         <v-card-title class="text-h4">Categories</v-card-title>
                         <v-divider></v-divider>
                         <div class="row">
-                            <div
+                            <!-- <v-carousel cycle >
+                                <v-carousel-item
+                                >
+                                <div
                                 class="col-12 col-md-3 col-sm-6 text-center"
                                 v-for="category in categories"
                                 :key="category.id"
@@ -115,6 +117,35 @@
                                     </v-card>
                                 </v-hover>
                             </div>
+                                </v-carousel-item>
+                            </v-carousel> -->
+                            <div
+                                class="col-12 col-md-2 col-sm-3 text-center mb-3"
+                                v-for="category in categories"
+                                :key="category.id"
+                                @click="showProductsCategory(category.id)"
+                            >
+                                <v-hover v-slot="{ isHovering, props }" open-delay="200">
+                                    <v-card :elevation="isHovering ? 16 : 2" v-bind="props"  >
+                                        <v-avatar
+                                            cover
+                                            :image="
+                                                category.image != null
+                                                    ? fileService(category.image)
+                                                    : require('@/assets/images/category.png')
+                                            "
+                                            
+                                            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                                            
+                                            size="100"
+                                        >
+                                        </v-avatar>
+                                        <h1 class="text-center text-subtitle-1 text-black">
+                                            {{ category.category_name }}
+                                        </h1>
+                                    </v-card>
+                                </v-hover>
+                            </div>
                         </div>
                     </v-card-text>
                 </v-col>
@@ -129,7 +160,7 @@
                         <div class="row">
                             <div
                                 class="col-12 col-md-3 col-sm-6 text-center mb-10"
-                                v-for="product in products"
+                                v-for="product in paginatedProducts"
                                 :key="product.id"
                             >
                                 <v-hover v-slot="{ isHovering, props }" open-delay="200">
@@ -139,6 +170,13 @@
                                     </v-card>
                                 </v-hover>
                             </div>
+                        </div>
+                        <div class="text-center mt-12">
+                            <v-pagination
+                                v-model="currentPage"
+                                :length="totalPages"
+                                rounded="circle"
+                            ></v-pagination>
                         </div>
                     </v-card-text>
                 </v-col>
@@ -162,17 +200,32 @@ export default {
                 { image: require("@/assets/img/home/slider3.jpg") },
                 { image: require("@/assets/img/home/slider1.jpg") },
             ],
+            itemsPerPage: 12,
+            currentPage: 1,
         };
+    },
+    computed: {
+        totalPages() {
+            return Math.ceil(this.products.length / this.itemsPerPage);
+        },
+        paginatedProducts() {
+            const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+            const endIndex = startIndex + this.itemsPerPage;
+            return this.products.slice(startIndex, endIndex);
+        },
     },
     methods: {
         showProductsCategory(id) {
             this.$router.push({ path: "/shop", query: { findBy: "category", category: id } });
         },
         showNewProducts() {
-            this.$router.push("/shop", (query = { findBy: "newArrivals" }));
+            this.$router.push("/shop", (query = { findBy: "New Arrivals" }));
         },
         showFlashSaleProducts() {
-            this.$router.push({ path: "/shop", query: { findBy: "flashSale" } });
+            this.$router.push({ path: "/shop", query: { findBy: "On Sale" } });
+        },
+        changePage(page) {
+            this.currentPage = page;
         },
     },
 };

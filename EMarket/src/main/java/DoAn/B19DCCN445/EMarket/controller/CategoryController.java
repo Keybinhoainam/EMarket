@@ -29,12 +29,13 @@ public class CategoryController {
 	private ResponseEntity<CategoryDTO> getCategory(@PathVariable Long id) {
 		return ResponseEntity.ok(categoryService.getCategory(id));
 	}
-	@PostMapping("/seller/category/save")
+	@PostMapping("/admin/category/save")
 	private ResponseEntity<ApiResponse> saveCategory(@RequestBody CategoryDTO category) {
 		return ResponseEntity.ok(categoryService.saveCategory(category));
 	}
 	@GetMapping("/data/category/getAllCategories")
 	private ResponseEntity<List<CategoryDTO>> getAllCategories() {
+//		System.out.println("get all category");
 		return ResponseEntity.ok(categoryService.getAllCategories());
 	}
 	@DeleteMapping("/seller/category/delete/{id}")
