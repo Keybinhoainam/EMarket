@@ -79,7 +79,7 @@ const routes = [
             },
             {
                 path: "/profile",
-                name: "Profile",
+                name: "CustomerProfile",
                 meta: {
                     requiresAuth: true,
                 },
@@ -134,7 +134,7 @@ const routes = [
         children: [
             {
                 path: "/seller/profile",
-                name: "Profile",
+                name: "SellerProfile",
                 props: { tab: "profile" },
                 component: SellerAccountSettingVue,
             },
@@ -192,7 +192,7 @@ const routes = [
         children: [
             {
                 path: "/admin/profile",
-                name: "Profile",
+                name: "AdminProfile",
                 props: { tab: "profile" },
                 component: AdminAccountSettingVue,
             },

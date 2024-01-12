@@ -153,7 +153,7 @@ export default {
                             </v-col>
                             <v-col cols="12" md="6">
                                 <v-select
-                                    label="Payment Type"
+                                    label="Gender"
                                     v-model="user.gender"
                                     :rules="required"
                                     :items="['Male', 'Female', 'Other']"
