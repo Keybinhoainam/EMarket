@@ -107,6 +107,9 @@ export default {
                 this.order.payment_type == "Online Payment Methods" ? "Unpaid" : "Order Placed";
             this.order.user = this.$store.state.data.user;
             if (this.order.amount >= 300) this.order.ship_fee = 0;
+            // console.log(this.order);
+            // console.log(this.$store.state.data.config);
+            // console.log(this.config);
             await orderService.saveOrder(
                 this.saveOrderUrl,
                 this.order,

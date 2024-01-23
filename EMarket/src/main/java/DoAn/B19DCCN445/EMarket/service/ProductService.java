@@ -70,6 +70,7 @@ public class ProductService {
 //		p.setProduct_images(images);
 		ProductDTO pdto = new ProductDTO();
 		BeanUtils.copyProperties(p, pdto);
+//		System.out.println(p.getStore());
 		pdto.setStore(p.getStore());
 		List<Product_review> product_reviews = new ArrayList<>(p.getProduct_reviews());
 //		List<Product_reviewDTO> product_reviewDTOs=new ArrayList<>();

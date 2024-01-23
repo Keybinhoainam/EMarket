@@ -45,7 +45,7 @@ public class AccountService {
 		uDto.setPassword(u.getPassword());
 		uDto.setAvatar(u.getAvatar());
 		List<Role> roles=new ArrayList<>(u.getRoles());
-		if(uDto.getStore().getId()!=null&&roles.get(0).getName().equals("CUSTOMER")) {
+		if(uDto.getStore()!=null&&uDto.getStore().getId()!=null&&roles.get(0).getName().equals("CUSTOMER")) {
 			Role role= roleRepository.findById((long) 2).get();
 			roles.add(0,role);
 		}

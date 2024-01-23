@@ -4,6 +4,7 @@ import defaultAvatar from "@/assets/images/defaultAvatar.png";
 import Order from "@/models/order";
 import mixinsValidation from "@/mixins/mixinsValidation";
 import mixinsOrder from "@/mixins/mixinsOrder";
+import authHeader from "@/services/authHeader";
 export default {
     mixins: [sweetAlert, mixinsValidation, mixinsOrder],
     data() {
@@ -30,7 +31,10 @@ export default {
             }
         },
     },
-    async created() {},
+    async created() {
+        this.config = await authHeader();
+        await this.$store.dispatch("data/changeConfig", this.config);
+    },
 };
 </script>
 
